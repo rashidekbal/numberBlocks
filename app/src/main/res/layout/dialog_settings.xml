@@ -125,6 +125,23 @@
                 app:cornerRadius="@dimen/dp_10"
                 app:strokeColor="#D9D7CE" />
 
+            <!-- Setting 4: Game Information & Legal -->
+            <Button
+                android:id="@+id/btn_settings_info"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_44"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="@string/info_title"
+                android:textColor="#1E2024"
+                android:textSize="@dimen/sp_13"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_info"
+                app:iconTint="#1E2024"
+                app:iconGravity="textStart"
+                app:cornerRadius="@dimen/dp_10"
+                app:strokeColor="#D9D7CE" />
+
             <Button
                 android:id="@+id/btn_close_settings"
                 style="@style/Widget.MaterialComponents.Button.TextButton"

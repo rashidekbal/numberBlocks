@@ -124,4 +124,29 @@
     <string name="cd_tutorial_arrow">Tutorial direction arrow</string>
     <string name="cd_app_logo">Game Logo</string>
     <string name="cd_milestone_badge">Milestone celebration badge</string>
+    <string name="cd_info">Game information icon</string>
+
+    <!-- Game Information & Legal Screen -->
+    <string name="info_title">About &amp; Legal</string>
+    <string name="info_app_title">Number Blocks 2048</string>
+    <string name="info_app_subtitle">Architectural Edition • v1.0.0 (API 37)</string>
+    <string name="info_rules_title">How to Play &amp; Endless Mode</string>
+    <string name="info_rules_desc">Swipe anywhere across the screen to slide tiles. When two tiles with the same number touch, they merge into one. The puzzle is endless—reach 2048 and keep merging to 4096, 8192, 16384, and beyond!</string>
+    <string name="info_undo_desc">Every session begins with 5 complimentary undos. When you run out, optional rewarded ads allow you to restore undos and continue your run.</string>
+    <string name="info_privacy_title">Privacy &amp; Security</string>
+    <string name="info_privacy_desc">Number Blocks operates with a strict on-device architecture. Your high scores, active run snapshots, and preferences are stored strictly on your local device.</string>
+    <string name="btn_privacy_policy">Privacy Policy</string>
+    <string name="btn_terms_service">Terms of Service</string>
+    <string name="info_support_title">Support &amp; Help Center</string>
+    <string name="info_support_desc">Encountered an issue, need gameplay assistance, or have an idea for improvement? Reach out directly.</string>
+    <string name="btn_support_center">Help &amp; Support Center</string>
+    <string name="btn_email_developer">Email Developer</string>
+    <string name="info_developer_title">Credits &amp; Engineering</string>
+    <string name="info_developer">Designed &amp; Engineered by Rasid Ekbal</string>
+    <string name="btn_portfolio">Developer Portfolio</string>
+    <string name="privacy_policy_url" translatable="false">https://rasid.vercel.app/apps/number-blocks/privacy</string>
+    <string name="terms_url" translatable="false">https://rasid.vercel.app/apps/number-blocks/terms</string>
+    <string name="support_url" translatable="false">https://rasid.vercel.app/apps/number-blocks/support</string>
+    <string name="portfolio_url" translatable="false">https://rasid.vercel.app</string>
+    <string name="developer_email" translatable="false">dev.rasid.ekbal@gmail.com</string>
 </resources>

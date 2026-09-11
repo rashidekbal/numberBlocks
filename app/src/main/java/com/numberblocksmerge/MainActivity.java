@@ -1,5 +1,6 @@
 package com.numberblocksmerge;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -365,6 +366,19 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
                     @Override
                     public void onChangeThemeRequested() {
                         showThemeDialog();
+                    }
+
+                    @Override
+                    public void onInfoClicked() {
+                        hapticManager.click();
+                        Intent intent = new Intent(MainActivity.this, InfoActivity.class);
+                        startActivity(intent);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                            overrideActivityTransition(Activity.OVERRIDE_TRANSITION_OPEN,
+                                    android.R.anim.fade_in, android.R.anim.fade_out);
+                        } else {
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        }
                     }
                 });
     }

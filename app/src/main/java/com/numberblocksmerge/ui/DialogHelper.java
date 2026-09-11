@@ -39,6 +39,7 @@ public class DialogHelper {
         void onSoundToggled(boolean enabled);
         void onHapticsToggled(boolean enabled);
         void onChangeThemeRequested();
+        void onInfoClicked();
     }
 
     private static Dialog createBaseDialog(Activity activity, View contentView, boolean cancelable) {
@@ -155,6 +156,11 @@ public class DialogHelper {
         binding.btnSettingsChangeTheme.setOnClickListener(view -> {
             dialog.dismiss();
             if (listener != null) listener.onChangeThemeRequested();
+        });
+
+        binding.btnSettingsInfo.setOnClickListener(view -> {
+            dialog.dismiss();
+            if (listener != null) listener.onInfoClicked();
         });
 
         binding.btnCloseSettings.setOnClickListener(view -> dialog.dismiss());

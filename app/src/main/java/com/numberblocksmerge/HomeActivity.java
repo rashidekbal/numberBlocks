@@ -174,6 +174,19 @@ public class HomeActivity extends AppCompatActivity {
                     public void onChangeThemeRequested() {
                         showThemeDialog();
                     }
+
+                    @Override
+                    public void onInfoClicked() {
+                        hapticManager.click();
+                        Intent intent = new Intent(HomeActivity.this, InfoActivity.class);
+                        startActivity(intent);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                            overrideActivityTransition(Activity.OVERRIDE_TRANSITION_OPEN,
+                                    android.R.anim.fade_in, android.R.anim.fade_out);
+                        } else {
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        }
+                    }
                 });
     }
 
