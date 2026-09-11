@@ -8,11 +8,11 @@
 
     <!-- Board Illustration Card matching first time instruction.jpeg -->
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="220dp"
-        android:layout_height="220dp"
+        android:layout_width="@dimen/dp_220"
+        android:layout_height="@dimen/dp_220"
         app:cardBackgroundColor="#BBADA0"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="2dp"
+        app:cardCornerRadius="@dimen/dp_12"
+        app:cardElevation="@dimen/dp_2"
         app:strokeWidth="0dp">
 
         <GridLayout
@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:columnCount="4"
             android:rowCount="4"
-            android:padding="6dp">
+            android:padding="@dimen/dp_6">
 
             <!-- Row 0 -->
             <TextView style="@style/MiniTileStyle" android:background="#EEE4DA" android:text="2" android:textColor="#776E65" />
@@ -37,12 +37,12 @@
             <!-- Row 2 -->
             <TextView style="@style/MiniTileStyle" android:background="#EEE4DA" android:text="2" android:textColor="#776E65" />
             <TextView style="@style/MiniTileStyle" android:background="#F2B179" android:text="8" android:textColor="#FFFFFF" />
-            <TextView style="@style/MiniTileStyle" android:background="#EDC22E" android:text="2048" android:textColor="#FFFFFF" android:textSize="11sp" />
+            <TextView style="@style/MiniTileStyle" android:background="#EDC22E" android:text="2048" android:textColor="#FFFFFF" android:textSize="@dimen/sp_11" />
             <TextView style="@style/MiniTileStyle" android:background="#F2B179" android:text="8" android:textColor="#FFFFFF" />
 
             <!-- Row 3 -->
-            <TextView style="@style/MiniTileStyle" android:background="#EDCF72" android:text="128" android:textColor="#FFFFFF" android:textSize="12sp" />
-            <TextView style="@style/MiniTileStyle" android:background="#EDC850" android:text="512" android:textColor="#FFFFFF" android:textSize="12sp" />
+            <TextView style="@style/MiniTileStyle" android:background="#EDCF72" android:text="128" android:textColor="#FFFFFF" android:textSize="@dimen/sp_12" />
+            <TextView style="@style/MiniTileStyle" android:background="#EDC850" android:text="512" android:textColor="#FFFFFF" android:textSize="@dimen/sp_12" />
             <TextView style="@style/MiniTileStyle" android:background="#F65E3B" android:text="64" android:textColor="#FFFFFF" />
             <TextView style="@style/MiniTileStyle" android:background="#F67C5F" android:text="32" android:textColor="#FFFFFF" />
         </GridLayout>
@@ -52,13 +52,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/dp_16"
         android:gravity="center"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12"
         android:text="Reach the 2048 tile and keep merging to unlock higher numbers!"
         android:textColor="#1A1A1A"
-        android:textSize="15sp"
+        android:textSize="@dimen/sp_15"
         android:textStyle="bold" />
 
 </LinearLayout>

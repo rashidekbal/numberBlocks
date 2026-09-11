@@ -31,7 +31,6 @@ public class HomeDashboardFragment extends Fragment {
     private View cardResume;
     private TextView tvResumeBadge, tvResumeScore;
     private TextView tvBest4, tvBest5, tvBest6;
-    private ImageButton btnSound;
 
     @Nullable
     @Override
@@ -50,7 +49,6 @@ public class HomeDashboardFragment extends Fragment {
 
         // Views
         ImageButton btnBack = view.findViewById(R.id.btn_dashboard_back);
-        btnSound = view.findViewById(R.id.btn_dashboard_sound);
         ImageButton btnSettings = view.findViewById(R.id.btn_dashboard_settings);
 
         cardResume = view.findViewById(R.id.card_dashboard_resume);
@@ -88,7 +86,6 @@ public class HomeDashboardFragment extends Fragment {
         });
 
         // Quick Controls
-        btnSound.setOnClickListener(v -> toggleSound());
         btnSettings.setOnClickListener(v -> showSettingsDialog());
         btnStats.setOnClickListener(v -> showStatsDialog());
         btnThemes.setOnClickListener(v -> showThemeDialog());

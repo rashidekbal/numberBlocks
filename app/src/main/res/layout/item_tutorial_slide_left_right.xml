@@ -8,11 +8,11 @@
 
     <!-- Board Illustration Card matching left right.jpeg -->
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="220dp"
-        android:layout_height="220dp"
+        android:layout_width="@dimen/dp_220"
+        android:layout_height="@dimen/dp_220"
         app:cardBackgroundColor="#BBADA0"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="2dp"
+        app:cardCornerRadius="@dimen/dp_12"
+        app:cardElevation="@dimen/dp_2"
         app:strokeWidth="0dp">
 
         <FrameLayout
@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:columnCount="4"
                 android:rowCount="4"
-                android:padding="6dp">
+                android:padding="@dimen/dp_6">
 
                 <!-- Row 0 -->
                 <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
@@ -59,62 +59,62 @@
 
                 <!-- Row 1: Horizontal Arrow pointing right -->
                 <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="62dp"
-                    android:layout_marginTop="56dp"
+                    android:layout_width="@dimen/dp_140"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_62"
+                    android:layout_marginTop="@dimen/dp_56"
                     android:src="@drawable/ic_arrow_right_guide" />
 
                 <!-- Row 1: '+' operator -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="100dp"
-                    android:layout_marginTop="72dp"
+                    android:layout_marginStart="@dimen/dp_100"
+                    android:layout_marginTop="@dimen/dp_72"
                     android:text="+"
                     android:textColor="#F5A623"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
 
                 <!-- Row 1: '=' operator -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="150dp"
-                    android:layout_marginTop="72dp"
+                    android:layout_marginStart="@dimen/dp_150"
+                    android:layout_marginTop="@dimen/dp_72"
                     android:text="="
                     android:textColor="#F5A623"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
 
                 <!-- Row 3: Horizontal Arrow pointing right -->
                 <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="62dp"
-                    android:layout_marginTop="160dp"
+                    android:layout_width="@dimen/dp_140"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_62"
+                    android:layout_marginTop="@dimen/dp_160"
                     android:src="@drawable/ic_arrow_right_guide" />
 
                 <!-- Row 3: '+' operator -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="100dp"
-                    android:layout_marginTop="176dp"
+                    android:layout_marginStart="@dimen/dp_100"
+                    android:layout_marginTop="@dimen/dp_176"
                     android:text="+"
                     android:textColor="#F5A623"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
 
                 <!-- Row 3: '=' operator -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="150dp"
-                    android:layout_marginTop="176dp"
+                    android:layout_marginStart="@dimen/dp_150"
+                    android:layout_marginTop="@dimen/dp_176"
                     android:text="="
                     android:textColor="#F5A623"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </RelativeLayout>
         </FrameLayout>
@@ -124,13 +124,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/dp_16"
         android:gravity="center"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12"
         android:text="Combine two tiles with the same number to create a higher one."
         android:textColor="#1A1A1A"
-        android:textSize="15sp"
+        android:textSize="@dimen/sp_15"
         android:textStyle="bold" />
 
 </LinearLayout>

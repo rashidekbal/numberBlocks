@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="@dimen/dp_24">
 
     <!-- Hero Branding Card -->
 
@@ -17,13 +17,13 @@
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="@dimen/dp_220"
         android:layout_height="@dimen/dp_80"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="@dimen/dp_38"
         android:backgroundTint="#00C853"
-        android:elevation="6dp"
+        android:elevation="@dimen/dp_6"
         android:text="▶  PLAY"
         android:textColor="#FFFFFF"
-        android:textSize="@dimen/dp_24"
+        android:textSize="@dimen/sp_24"
         android:textStyle="bold"
-        app:cornerRadius="28dp" />
+        app:cornerRadius="@dimen/dp_28" />
 
 </LinearLayout>

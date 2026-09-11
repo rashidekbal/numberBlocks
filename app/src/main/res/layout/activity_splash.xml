@@ -19,11 +19,11 @@
         <!-- Animated Hero Tile -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/splash_tile"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="@dimen/dp_110"
+            android:layout_height="@dimen/dp_110"
             app:cardBackgroundColor="#2C2B28"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="6dp"
+            app:cardCornerRadius="@dimen/dp_24"
+            app:cardElevation="@dimen/dp_6"
             app:strokeWidth="0dp">
 
             <FrameLayout
@@ -36,7 +36,7 @@
                     android:layout_gravity="center"
                     android:text="2048"
                     android:textColor="#FAF9F6"
-                    android:textSize="30sp"
+                    android:textSize="@dimen/sp_30"
                     android:textStyle="bold" />
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -46,11 +46,11 @@
             android:id="@+id/splash_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/dp_24"
             android:letterSpacing="0.04"
             android:text="NUMBER BLOCKS"
             android:textColor="#1E2024"
-            android:textSize="22sp"
+            android:textSize="@dimen/sp_22"
             android:textStyle="bold" />
 
         <!-- Subtitle -->
@@ -58,11 +58,11 @@
             android:id="@+id/splash_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/dp_4"
             android:letterSpacing="0.18"
             android:text="ARCHITECTURAL EDITION"
             android:textColor="#737680"
-            android:textSize="11sp"
+            android:textSize="@dimen/sp_11"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -72,10 +72,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="@dimen/dp_32"
         android:letterSpacing="0.05"
         android:text="REVISION 3.0"
         android:textColor="#8C909A"
-        android:textSize="11sp" />
+        android:textSize="@dimen/sp_11" />
 
 </RelativeLayout>
