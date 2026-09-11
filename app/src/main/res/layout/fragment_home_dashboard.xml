@@ -215,7 +215,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Target Threshold: 2,048"
+                            android:text="Endless • Reach 2,048 &amp; beyond"
                             android:textColor="#737680"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -286,7 +286,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Target Threshold: 8,192"
+                            android:text="Endless • Reach 8,192 &amp; beyond"
                             android:textColor="#737680"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -357,7 +357,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Target Threshold: 16,384"
+                            android:text="Endless • Reach 16,384 &amp; beyond"
                             android:textColor="#737680"
                             android:textSize="12sp" />
                     </LinearLayout>

@@ -56,7 +56,7 @@
         android:gravity="center"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:text="Create a tile with the number 2048 to win the game!"
+        android:text="Reach the 2048 tile and keep merging to unlock higher numbers!"
         android:textColor="#1A1A1A"
         android:textSize="15sp"
         android:textStyle="bold" />

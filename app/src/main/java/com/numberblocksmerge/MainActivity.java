@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             tvCombo.setText(String.format("Combo: %dx", gameEngine.getCombo()));
             tvCombo.setTextColor(0xFF1E2024);
         } else {
-            tvCombo.setText("Join the numbers and get to the 2048 tile!");
+            tvCombo.setText("Join numbers and merge to 2048 & beyond!");
             tvCombo.setTextColor(0xFF737680);
         }
 
@@ -467,10 +467,19 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         milestoneHandler.removeCallbacksAndMessages(null);
 
         tvCelebrationTile.setText(String.valueOf(milestone));
-        tvCelebrationTile.setTextSize(milestone >= 1024 ? 11 : 13);
+        int len = String.valueOf(milestone).length();
+        if (len >= 6) {
+            tvCelebrationTile.setTextSize(9);
+        } else if (len >= 5) {
+            tvCelebrationTile.setTextSize(10);
+        } else if (len >= 4) {
+            tvCelebrationTile.setTextSize(11);
+        } else {
+            tvCelebrationTile.setTextSize(13);
+        }
         tvCelebrationTile.setBackgroundTintList(ColorStateList.valueOf(getMilestoneColor(milestone)));
 
-        tvCelebrationTitle.setText(milestone == 2048 ? "2048 Tile! You Win!" : "Tile " + milestone + " Unlocked!");
+        tvCelebrationTitle.setText(milestone >= 2048 ? milestone + " Reached! Keep Going!" : "Tile " + milestone + " Unlocked!");
 
         cardMilestoneCelebration.setVisibility(View.VISIBLE);
         cardMilestoneCelebration.setScaleX(0.4f);
@@ -516,7 +525,13 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             case 512: return 0xFFEDC850;
             case 1024: return 0xFFEDC53F;
             case 2048: return 0xFFEDC22E;
-            default: return 0xFF3C3A32;
+            case 4096: return 0xFFE67E22;
+            case 8192: return 0xFFE74C3C;
+            case 16384: return 0xFF9B59B6;
+            case 32768: return 0xFF2980B9;
+            case 65536: return 0xFF1ABC9C;
+            case 131072: return 0xFF16A085;
+            default: return 0xFF1E2024;
         }
     }
 

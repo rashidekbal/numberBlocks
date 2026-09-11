@@ -126,4 +126,45 @@ public class GameEngineTest {
             }
         }
     }
+
+    @Test
+    public void testMergeBeyond2048ToArbitraryHighValues() {
+        GameEngine engine = new GameEngine(4);
+        engine.startNewGame();
+        Tile[][] grid = engine.getGrid();
+        for (int r = 0; r < 4; r++) {
+            for (int c = 0; c < 4; c++) grid[r][c] = null;
+        }
+
+        // Place two 2048 tiles
+        grid[0][0] = new Tile(0, 0, 2048);
+        grid[0][1] = new Tile(0, 1, 2048);
+
+        final boolean[] milestone4096Triggered = {false};
+        engine.setListener(new GameEngine.Listener() {
+            @Override
+            public void onScoreChanged(int score, int bestScore, int combo) {}
+            @Override
+            public void onGameOver(int score, int bestScore, int highestTile) {}
+            @Override
+            public void onMilestoneReached(int milestone) {
+                if (milestone == 4096) {
+                    milestone4096Triggered[0] = true;
+                }
+            }
+        });
+
+        MoveResult res = engine.move(Direction.LEFT);
+        assertTrue(res.isMoved());
+        assertEquals("Merged value should be 4096", 4096, engine.getHighestTile());
+        assertTrue("Milestone 4096 must trigger", milestone4096Triggered[0]);
+        assertFalse("Game must continue and not be over after reaching 4096", engine.isOver());
+
+        // Now place another 4096 and merge to 8192
+        grid[0][1] = new Tile(0, 1, 4096);
+        MoveResult res2 = engine.move(Direction.LEFT);
+        assertTrue(res2.isMoved());
+        assertEquals("Merged value should be 8192", 8192, engine.getHighestTile());
+        assertFalse("Game must continue and not be over after reaching 8192", engine.isOver());
+    }
 }

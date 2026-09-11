@@ -38,6 +38,9 @@ public class ThemeManager {
         alabasterTiles.put(4096, Color.parseColor("#1C1B18"));
         alabasterTiles.put(8192, Color.parseColor("#12110E"));
         alabasterTiles.put(16384, Color.parseColor("#080807"));
+        alabasterTiles.put(32768, Color.parseColor("#1A237E"));
+        alabasterTiles.put(65536, Color.parseColor("#311B92"));
+        alabasterTiles.put(131072, Color.parseColor("#880E4F"));
         themes.put("alabaster", new Theme("alabaster", "Alabaster Minimal",
                 Color.parseColor("#FAF9F6"), Color.parseColor("#E8E6E0"),
                 Color.parseColor("#DDDBCF"), Color.parseColor("#F0EFEA"),
@@ -59,6 +62,9 @@ public class ThemeManager {
         titaniumTiles.put(4096, Color.parseColor("#121620"));
         titaniumTiles.put(8192, Color.parseColor("#0C0E14"));
         titaniumTiles.put(16384, Color.parseColor("#06070A"));
+        titaniumTiles.put(32768, Color.parseColor("#0A192F"));
+        titaniumTiles.put(65536, Color.parseColor("#1B1A3A"));
+        titaniumTiles.put(131072, Color.parseColor("#2A1224"));
         themes.put("titanium", new Theme("titanium", "Titanium Slate",
                 Color.parseColor("#F2F3F5"), Color.parseColor("#DFE2E8"),
                 Color.parseColor("#CFD3DB"), Color.parseColor("#E7E9ED"),
@@ -80,6 +86,9 @@ public class ThemeManager {
         nordicTiles.put(4096, Color.parseColor("#1A1208"));
         nordicTiles.put(8192, Color.parseColor("#100A04"));
         nordicTiles.put(16384, Color.parseColor("#050301"));
+        nordicTiles.put(32768, Color.parseColor("#1C1608"));
+        nordicTiles.put(65536, Color.parseColor("#2E1C0C"));
+        nordicTiles.put(131072, Color.parseColor("#3B1812"));
         themes.put("nordic", new Theme("nordic", "Nordic Clay",
                 Color.parseColor("#F8F6F2"), Color.parseColor("#E4DDD2"),
                 Color.parseColor("#D6CDBD"), Color.parseColor("#ECE7DF"),
@@ -101,6 +110,9 @@ public class ThemeManager {
         graphiteTiles.put(4096, Color.parseColor("#CFCFD6"));
         graphiteTiles.put(8192, Color.parseColor("#9E9EA8"));
         graphiteTiles.put(16384, Color.parseColor("#72727D"));
+        graphiteTiles.put(32768, Color.parseColor("#535461"));
+        graphiteTiles.put(65536, Color.parseColor("#3B3D4A"));
+        graphiteTiles.put(131072, Color.parseColor("#252733"));
         themes.put("graphite", new Theme("graphite", "Charcoal Slate",
                 Color.parseColor("#1C1E22"), Color.parseColor("#23252A"),
                 Color.parseColor("#2D3037"), Color.parseColor("#25282E"),

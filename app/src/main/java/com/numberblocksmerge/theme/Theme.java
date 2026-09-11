@@ -30,7 +30,16 @@ public class Theme {
     public int getTileColor(int value) {
         Integer c = tileColors.get(value);
         if (c != null) return c;
-        return Color.parseColor("#2C2B28");
+        int exponent = (int) (Math.log(Math.max(2, value)) / Math.log(2));
+        int[] fallbackPalette = new int[] {
+            Color.parseColor("#1C1B18"), // Obsidian Charcoal
+            Color.parseColor("#0D1B2A"), // Midnight Navy
+            Color.parseColor("#1B263B"), // Slate Indigo
+            Color.parseColor("#2C1820"), // Imperial Blackberry
+            Color.parseColor("#1B382B"), // Deep Forest Emerald
+            Color.parseColor("#3D2612")  // Smoked Bronze
+        };
+        return fallbackPalette[Math.abs(exponent) % fallbackPalette.length];
     }
 
     public int getTextColor(int value) {

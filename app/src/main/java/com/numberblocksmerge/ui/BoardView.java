@@ -318,9 +318,13 @@ public class BoardView extends View {
                 } else if (text.length() == 3) {
                     paint.setTextSize(cellSize * 0.36f);
                 } else if (text.length() == 4) {
-                    paint.setTextSize(cellSize * 0.30f);
+                    paint.setTextSize(cellSize * 0.28f);
+                } else if (text.length() == 5) {
+                    paint.setTextSize(cellSize * 0.22f);
+                } else if (text.length() == 6) {
+                    paint.setTextSize(cellSize * 0.18f);
                 } else {
-                    paint.setTextSize(cellSize * 0.23f);
+                    paint.setTextSize(cellSize * 0.15f);
                 }
 
                 paint.getTextBounds(text, 0, text.length(), textBounds);
