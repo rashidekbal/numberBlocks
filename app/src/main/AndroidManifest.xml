@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NumberBlocks">
 
-        <!-- Google AdMob Sample App ID -->
+        <!-- Google AdMob App ID / Publisher ID -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="@string/admob_app_id"/>
 
         <!-- 1. Animated Splash Entry -->
         <activity
