@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = 'com.numberblocksmerge'
+    namespace = 'com.redcodersgroup.numberblocks'
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.numberblocksmerge"
+        applicationId = "com.redcodersgroup.numberblocks"
         minSdk = 24
         targetSdk = 37
         versionCode = 1

@@ -4,12 +4,12 @@
 -keepclassmembers class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
--keep class com.numberblocksmerge.engine.GameSnapshot { *; }
--keep class com.numberblocksmerge.engine.BoardState { *; }
--keep class com.numberblocksmerge.engine.Tile { *; }
--keep class com.numberblocksmerge.engine.Position { *; }
--keep class com.numberblocksmerge.engine.Direction { *; }
--keep class com.numberblocksmerge.engine.MoveResult { *; }
+-keep class com.redcodersgroup.numberblocks.engine.GameSnapshot { *; }
+-keep class com.redcodersgroup.numberblocks.engine.BoardState { *; }
+-keep class com.redcodersgroup.numberblocks.engine.Tile { *; }
+-keep class com.redcodersgroup.numberblocks.engine.Position { *; }
+-keep class com.redcodersgroup.numberblocks.engine.Direction { *; }
+-keep class com.redcodersgroup.numberblocks.engine.MoveResult { *; }
 
 # 2. Google Mobile Ads (AdMob) Rules
 -keep class com.google.android.gms.ads.** { *; }
