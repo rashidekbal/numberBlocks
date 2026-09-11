@@ -12,4 +12,6 @@ public class GameSnapshot {
     public boolean isWon;
     public boolean isOver;
     public List<BoardState> undoHistory = new ArrayList<>();
+    public int freeUndos = 5;
+    public int rewardedUndos = 0;
 }

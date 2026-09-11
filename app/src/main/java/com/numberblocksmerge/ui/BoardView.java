@@ -135,7 +135,13 @@ public class BoardView extends View {
         this.moveListener = listener;
     }
 
-    private void handleMove(Direction direction) {
+    private long lastMoveTimestamp = 0;
+
+    public void handleMove(Direction direction) {
+        long now = System.currentTimeMillis();
+        if (now - lastMoveTimestamp < 60) return; // Prevent dual-trigger from overlapping detectors
+        lastMoveTimestamp = now;
+
         if (gameEngine == null) return;
         MoveResult result = gameEngine.move(direction);
         if (result.isMoved()) {

@@ -6,6 +6,8 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -21,6 +23,7 @@ import com.google.gson.Gson;
 import com.numberblocksmerge.ads.AdsManager;
 import com.numberblocksmerge.audio.HapticManager;
 import com.numberblocksmerge.audio.SoundManager;
+import com.numberblocksmerge.engine.Direction;
 import com.numberblocksmerge.engine.GameEngine;
 import com.numberblocksmerge.engine.GameSnapshot;
 import com.numberblocksmerge.storage.PreferencesManager;
@@ -48,6 +51,12 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     private TextView tvCelebrationTile;
     private TextView tvCelebrationTitle;
     private final Handler milestoneHandler = new Handler(Looper.getMainLooper());
+
+    private ImageButton btnPause;
+    private ImageButton btnThemeToggle;
+    private GestureDetector screenGestureDetector;
+    private int freeUndosRemaining = 5;
+    private int rewardedUndos = 0;
 
     private PreferencesManager prefs;
     private SoundManager soundManager;
@@ -95,9 +104,8 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         tvCelebrationTile = findViewById(R.id.tv_celebration_tile);
         tvCelebrationTitle = findViewById(R.id.tv_celebration_title);
 
-        ImageButton btnPause = findViewById(R.id.btn_pause);
-        ImageButton btnThemeToggle = findViewById(R.id.btn_theme_toggle);
-        Button btnReset = findViewById(R.id.btn_reset);
+        btnPause = findViewById(R.id.btn_pause);
+        btnThemeToggle = findViewById(R.id.btn_theme_toggle);
 
         // Set Mode Badge
         if (boardSize == 5) {
@@ -120,15 +128,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             saveCurrentGame();
         });
 
-        btnUndo.setOnClickListener(v -> {
-            if (gameEngine.undo()) {
-                soundManager.playMove();
-                hapticManager.click();
-                boardView.invalidate();
-                updateUI();
-                saveCurrentGame();
-            }
-        });
+        btnUndo.setOnClickListener(v -> handleUndoClick());
 
         if (btnPause != null) {
             btnPause.setOnClickListener(v -> showPauseMenuDialog());
@@ -136,9 +136,37 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         if (btnThemeToggle != null) {
             btnThemeToggle.setOnClickListener(v -> showThemeDialog());
         }
-        if (btnReset != null) {
-            btnReset.setOnClickListener(v -> confirmRestart());
-        }
+
+        // Screen-wide swipe gesture detector (active everywhere outside option buttons)
+        screenGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            private static final int SWIPE_THRESHOLD = 45;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 90;
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (e1 == null || e2 == null || boardView == null) return false;
+                float diffX = e2.getX() - e1.getX();
+                float diffY = e2.getY() - e1.getY();
+
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        boardView.handleMove(diffX > 0 ? Direction.RIGHT : Direction.LEFT);
+                        return true;
+                    }
+                } else {
+                    if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        boardView.handleMove(diffY > 0 ? Direction.DOWN : Direction.UP);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
         // Back button opens pause menu
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -169,6 +197,8 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
                     GameSnapshot snapshot = gson.fromJson(savedState, GameSnapshot.class);
                     if (snapshot != null && !snapshot.isOver) {
                         gameEngine.restoreFromSnapshot(snapshot);
+                        this.freeUndosRemaining = snapshot.freeUndos;
+                        this.rewardedUndos = snapshot.rewardedUndos;
                     } else {
                         startFreshGame();
                     }
@@ -207,6 +237,8 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
     private void startFreshGame() {
         prefs.incrementGamesPlayed();
+        freeUndosRemaining = 5;
+        rewardedUndos = 0;
         gameEngine.startNewGame();
         saveCurrentGame();
     }
@@ -214,6 +246,8 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     private void saveCurrentGame() {
         if (!gameEngine.isOver()) {
             GameSnapshot snapshot = gameEngine.createSnapshot();
+            snapshot.freeUndos = this.freeUndosRemaining;
+            snapshot.rewardedUndos = this.rewardedUndos;
             prefs.saveActiveGame(boardSize, gson.toJson(snapshot));
         } else {
             prefs.clearActiveGame(boardSize);
@@ -229,7 +263,13 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     private void updateUI() {
         tvScore.setText(String.format("%,d", gameEngine.getScore()));
         tvBest.setText(String.format("%,d", gameEngine.getBestScore()));
-        btnUndo.setText("Revert (" + gameEngine.getUndoCount() + ")");
+
+        int totalUndos = freeUndosRemaining + rewardedUndos;
+        if (totalUndos > 0) {
+            btnUndo.setText("Undo (" + totalUndos + ")");
+        } else {
+            btnUndo.setText("Undo (+Ad)");
+        }
         btnUndo.setEnabled(gameEngine.canUndo());
 
         if (gameEngine.getCombo() > 1) {
@@ -242,6 +282,37 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
         prefs.setBestScore(boardSize, gameEngine.getBestScore());
         prefs.recordHighestTile(gameEngine.getHighestTile());
+    }
+
+    private void handleUndoClick() {
+        if (!gameEngine.canUndo()) {
+            Toast.makeText(this, "No moves to undo!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int totalUndos = freeUndosRemaining + rewardedUndos;
+        if (totalUndos > 0) {
+            if (freeUndosRemaining > 0) {
+                freeUndosRemaining--;
+            } else {
+                rewardedUndos--;
+            }
+            performUndo();
+        } else {
+            Toast.makeText(this, "Watch an ad for more undos!", Toast.LENGTH_SHORT).show();
+            adsManager.showRewarded(this, reward -> {
+                performUndo();
+            });
+        }
+    }
+
+    private void performUndo() {
+        hapticManager.click();
+        soundManager.playMove();
+        gameEngine.undo();
+        boardView.invalidate();
+        updateUI();
+        saveCurrentGame();
     }
 
     private void applyTheme() {
@@ -447,5 +518,37 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             case 2048: return 0xFFEDC22E;
             default: return 0xFF3C3A32;
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (currentDialog != null && currentDialog.isShowing()) {
+            return super.dispatchTouchEvent(ev);
+        }
+
+        float rawX = ev.getRawX();
+        float rawY = ev.getRawY();
+
+        boolean overButtons = isTouchOverView(btnPause, rawX, rawY)
+                || isTouchOverView(btnThemeToggle, rawX, rawY)
+                || isTouchOverView(btnUndo, rawX, rawY)
+                || isTouchOverView(bannerContainer, rawX, rawY);
+
+        if (!overButtons && screenGestureDetector != null) {
+            screenGestureDetector.onTouchEvent(ev);
+        }
+
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private boolean isTouchOverView(View view, float rawX, float rawY) {
+        if (view == null || view.getVisibility() != View.VISIBLE) return false;
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        int w = view.getWidth();
+        int h = view.getHeight();
+        return rawX >= x && rawX <= (x + w) && rawY >= y && rawY <= (y + h);
     }
 }
