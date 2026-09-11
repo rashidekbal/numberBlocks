@@ -2,21 +2,31 @@ package com.numberblocksmerge.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.TextView;
-import android.content.res.ColorStateList;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
-import com.google.android.material.card.MaterialCardView;
 import com.numberblocksmerge.R;
+import com.numberblocksmerge.databinding.DialogCareerStatsBinding;
+import com.numberblocksmerge.databinding.DialogConfirmExitBinding;
+import com.numberblocksmerge.databinding.DialogFirstTimeInstructionBinding;
+import com.numberblocksmerge.databinding.DialogGameOverBinding;
+import com.numberblocksmerge.databinding.DialogMilestoneBinding;
+import com.numberblocksmerge.databinding.DialogModeResumeBinding;
+import com.numberblocksmerge.databinding.DialogPauseMenuBinding;
+import com.numberblocksmerge.databinding.DialogRestartBinding;
+import com.numberblocksmerge.databinding.DialogSettingsBinding;
+import com.numberblocksmerge.databinding.DialogThemeSelectorBinding;
+import com.numberblocksmerge.databinding.DialogTutorialBinding;
+import com.numberblocksmerge.databinding.ItemTutorialSlideGoalBinding;
+import com.numberblocksmerge.databinding.ItemTutorialSlideLeftRightBinding;
+import com.numberblocksmerge.databinding.ItemTutorialSlideTopDownBinding;
 import java.util.Locale;
 
 public class DialogHelper {
@@ -44,15 +54,15 @@ public class DialogHelper {
     }
 
     public static Dialog showConfirmExit(Activity activity, Runnable onExit) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_confirm_exit, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
+        DialogConfirmExitBinding binding = DialogConfirmExitBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        v.findViewById(R.id.btn_dialog_save_exit).setOnClickListener(view -> {
+        binding.btnDialogSaveExit.setOnClickListener(view -> {
             dialog.dismiss();
             if (onExit != null) onExit.run();
         });
 
-        v.findViewById(R.id.btn_dialog_stay).setOnClickListener(view -> dialog.dismiss());
+        binding.btnDialogStay.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
@@ -60,33 +70,28 @@ public class DialogHelper {
 
     public static Dialog showGameOver(Activity activity, int boardSize, int score, int bestScore,
                                       int highestTile, Runnable onRetry, Runnable onRevive, Runnable onHome) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_game_over, null);
-        Dialog dialog = createBaseDialog(activity, v, false);
-
-        TextView tvMode = v.findViewById(R.id.tv_gameover_mode);
-        TextView tvScore = v.findViewById(R.id.tv_gameover_score);
-        TextView tvBest = v.findViewById(R.id.tv_gameover_best);
-        TextView tvTile = v.findViewById(R.id.tv_gameover_highest_tile);
+        DialogGameOverBinding binding = DialogGameOverBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), false);
 
         String suffix = boardSize == 4 ? activity.getString(R.string.mode_4x4_badge)
                 : boardSize == 5 ? activity.getString(R.string.mode_5x5_badge)
                 : activity.getString(R.string.mode_6x6_badge);
-        tvMode.setText(suffix);
-        tvScore.setText(String.format(Locale.getDefault(), "%,d", score));
-        tvBest.setText(String.format(Locale.getDefault(), "%,d", bestScore));
-        tvTile.setText(activity.getString(R.string.best_block_format, String.format(Locale.getDefault(), "%,d", highestTile)));
+        binding.tvGameoverMode.setText(suffix);
+        binding.tvGameoverScore.setText(String.format(Locale.getDefault(), "%,d", score));
+        binding.tvGameoverBest.setText(String.format(Locale.getDefault(), "%,d", bestScore));
+        binding.tvGameoverHighestTile.setText(activity.getString(R.string.best_block_format, String.format(Locale.getDefault(), "%,d", highestTile)));
 
-        v.findViewById(R.id.btn_gameover_retry).setOnClickListener(view -> {
+        binding.btnGameoverRetry.setOnClickListener(view -> {
             dialog.dismiss();
             if (onRetry != null) onRetry.run();
         });
 
-        v.findViewById(R.id.btn_gameover_revive).setOnClickListener(view -> {
+        binding.btnGameoverRevive.setOnClickListener(view -> {
             dialog.dismiss();
             if (onRevive != null) onRevive.run();
         });
 
-        v.findViewById(R.id.btn_gameover_home).setOnClickListener(view -> {
+        binding.btnGameoverHome.setOnClickListener(view -> {
             dialog.dismiss();
             if (onHome != null) onHome.run();
         });
@@ -96,157 +101,138 @@ public class DialogHelper {
     }
 
     public static Dialog showThemePicker(Activity activity, String currentTheme, ThemeSelectListener listener) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_theme_selector, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
-
-        MaterialCardView cardAlabaster = v.findViewById(R.id.card_theme_dark);
-        MaterialCardView cardTitanium = v.findViewById(R.id.card_theme_light);
-        MaterialCardView cardNordic = v.findViewById(R.id.card_theme_neon);
-        MaterialCardView cardGraphite = v.findViewById(R.id.card_theme_pastel);
+        DialogThemeSelectorBinding binding = DialogThemeSelectorBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
         boolean isAlabaster = "alabaster".equals(currentTheme) || "light".equals(currentTheme);
         boolean isTitanium = "titanium".equals(currentTheme) || "neon".equals(currentTheme);
         boolean isNordic = "nordic".equals(currentTheme) || "pastel".equals(currentTheme);
         boolean isGraphite = "graphite".equals(currentTheme) || "dark".equals(currentTheme);
 
-        cardAlabaster.setStrokeColor(isAlabaster ? Color.parseColor("#1E2024") : Color.parseColor("#D9D7CE"));
-        cardTitanium.setStrokeColor(isTitanium ? Color.parseColor("#1E2024") : Color.parseColor("#D9D7CE"));
-        cardNordic.setStrokeColor(isNordic ? Color.parseColor("#1E2024") : Color.parseColor("#D9D7CE"));
-        cardGraphite.setStrokeColor(isGraphite ? Color.parseColor("#EDEDF0") : Color.parseColor("#353942"));
+        binding.cardThemeDark.setStrokeColor(isAlabaster ? Color.parseColor("#1E2024") : Color.parseColor("#D9D7CE"));
+        binding.cardThemeLight.setStrokeColor(isTitanium ? Color.parseColor("#1E2024") : Color.parseColor("#D9D7CE"));
+        binding.cardThemeNeon.setStrokeColor(isNordic ? Color.parseColor("#1E2024") : Color.parseColor("#D9D7CE"));
+        binding.cardThemePastel.setStrokeColor(isGraphite ? Color.parseColor("#EDEDF0") : Color.parseColor("#353942"));
 
-        cardAlabaster.setOnClickListener(view -> {
+        binding.cardThemeDark.setOnClickListener(view -> {
             dialog.dismiss();
             if (listener != null) listener.onThemeSelected("alabaster");
         });
-        cardTitanium.setOnClickListener(view -> {
+        binding.cardThemeLight.setOnClickListener(view -> {
             dialog.dismiss();
             if (listener != null) listener.onThemeSelected("titanium");
         });
-        cardNordic.setOnClickListener(view -> {
+        binding.cardThemeNeon.setOnClickListener(view -> {
             dialog.dismiss();
             if (listener != null) listener.onThemeSelected("nordic");
         });
-        cardGraphite.setOnClickListener(view -> {
+        binding.cardThemePastel.setOnClickListener(view -> {
             dialog.dismiss();
             if (listener != null) listener.onThemeSelected("graphite");
         });
 
-        v.findViewById(R.id.btn_close_theme).setOnClickListener(view -> dialog.dismiss());
+        binding.btnCloseTheme.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
     }
 
     public static Dialog showSettings(Activity activity, boolean soundEnabled, boolean hapticsEnabled, SettingsListener listener) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_settings, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
+        DialogSettingsBinding binding = DialogSettingsBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        SwitchCompat switchSound = v.findViewById(R.id.switch_sound);
-        SwitchCompat switchHaptics = v.findViewById(R.id.switch_haptics);
+        binding.switchSound.setChecked(soundEnabled);
+        binding.switchHaptics.setChecked(hapticsEnabled);
 
-        switchSound.setChecked(soundEnabled);
-        switchHaptics.setChecked(hapticsEnabled);
-
-        switchSound.setOnCheckedChangeListener((btn, isChecked) -> {
+        binding.switchSound.setOnCheckedChangeListener((btn, isChecked) -> {
             if (listener != null) listener.onSoundToggled(isChecked);
         });
 
-        switchHaptics.setOnCheckedChangeListener((btn, isChecked) -> {
+        binding.switchHaptics.setOnCheckedChangeListener((btn, isChecked) -> {
             if (listener != null) listener.onHapticsToggled(isChecked);
         });
 
-        v.findViewById(R.id.btn_settings_change_theme).setOnClickListener(view -> {
+        binding.btnSettingsChangeTheme.setOnClickListener(view -> {
             dialog.dismiss();
             if (listener != null) listener.onChangeThemeRequested();
         });
 
-        v.findViewById(R.id.btn_close_settings).setOnClickListener(view -> dialog.dismiss());
+        binding.btnCloseSettings.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
     }
 
     public static Dialog showCareerStats(Activity activity, int gamesPlayed, int highestTile, int best4, int best5, int best6) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_career_stats, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
+        DialogCareerStatsBinding binding = DialogCareerStatsBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        TextView tvGames = v.findViewById(R.id.tv_stats_games_played);
-        TextView tvHighest = v.findViewById(R.id.tv_stats_highest_tile);
-        TextView tvBest4 = v.findViewById(R.id.tv_stats_best_4);
-        TextView tvBest5 = v.findViewById(R.id.tv_stats_best_5);
-        TextView tvBest6 = v.findViewById(R.id.tv_stats_best_6);
+        binding.tvStatsGamesPlayed.setText(String.format(Locale.getDefault(), "%,d", gamesPlayed));
+        binding.tvStatsHighestTile.setText(String.format(Locale.getDefault(), "%,d", highestTile));
+        binding.tvStatsBest4.setText(String.format(Locale.getDefault(), "%,d", best4));
+        binding.tvStatsBest5.setText(String.format(Locale.getDefault(), "%,d", best5));
+        binding.tvStatsBest6.setText(String.format(Locale.getDefault(), "%,d", best6));
 
-        tvGames.setText(String.format(Locale.getDefault(), "%,d", gamesPlayed));
-        tvHighest.setText(String.format(Locale.getDefault(), "%,d", highestTile));
-        tvBest4.setText(String.format(Locale.getDefault(), "%,d", best4));
-        tvBest5.setText(String.format(Locale.getDefault(), "%,d", best5));
-        tvBest6.setText(String.format(Locale.getDefault(), "%,d", best6));
-
-        v.findViewById(R.id.btn_close_stats).setOnClickListener(view -> dialog.dismiss());
+        binding.btnCloseStats.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
     }
 
     public static Dialog showMilestone(Activity activity, int milestone) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_milestone, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
+        DialogMilestoneBinding binding = DialogMilestoneBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        TextView tvValue = v.findViewById(R.id.tv_milestone_value);
-        tvValue.setText(String.valueOf(milestone));
-
-        v.findViewById(R.id.btn_milestone_continue).setOnClickListener(view -> dialog.dismiss());
+        binding.tvMilestoneValue.setText(String.valueOf(milestone));
+        binding.btnMilestoneContinue.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
     }
 
     public static Dialog showTutorial(Activity activity) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_tutorial, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
+        DialogTutorialBinding binding = DialogTutorialBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        v.findViewById(R.id.btn_close_tutorial).setOnClickListener(view -> dialog.dismiss());
+        binding.btnCloseTutorial.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
     }
 
     public static Dialog showResumePrompt(Activity activity, int size, int score, Runnable onResume, Runnable onNewGame) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_mode_resume, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
+        DialogModeResumeBinding binding = DialogModeResumeBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        TextView tvTitle = v.findViewById(R.id.tv_resume_mode_title);
-        TextView tvScore = v.findViewById(R.id.tv_resume_mode_score);
+        binding.tvResumeModeTitle.setText(activity.getString(R.string.resume_mode_format, size, size));
+        binding.tvResumeModeScore.setText(activity.getString(R.string.score_format, String.format(Locale.getDefault(), "%,d", score)));
 
-        tvTitle.setText(activity.getString(R.string.resume_mode_format, size, size));
-        tvScore.setText(activity.getString(R.string.score_format, String.format(Locale.getDefault(), "%,d", score)));
-
-        v.findViewById(R.id.btn_dialog_resume_confirm).setOnClickListener(view -> {
+        binding.btnDialogResumeConfirm.setOnClickListener(view -> {
             dialog.dismiss();
             if (onResume != null) onResume.run();
         });
 
-        v.findViewById(R.id.btn_dialog_new_game).setOnClickListener(view -> {
+        binding.btnDialogNewGame.setOnClickListener(view -> {
             dialog.dismiss();
             if (onNewGame != null) onNewGame.run();
         });
 
-        v.findViewById(R.id.btn_dialog_cancel).setOnClickListener(view -> dialog.dismiss());
+        binding.btnDialogCancel.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
     }
 
     public static Dialog showRestartConfirm(Activity activity, Runnable onRestart) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_restart, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
+        DialogRestartBinding binding = DialogRestartBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        v.findViewById(R.id.btn_dialog_restart_confirm).setOnClickListener(view -> {
+        binding.btnDialogRestartConfirm.setOnClickListener(view -> {
             dialog.dismiss();
             if (onRestart != null) onRestart.run();
         });
 
-        v.findViewById(R.id.btn_dialog_restart_cancel).setOnClickListener(view -> dialog.dismiss());
+        binding.btnDialogRestartCancel.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
@@ -261,37 +247,34 @@ public class DialogHelper {
     }
 
     public static Dialog showPauseMenu(Activity activity, boolean soundEnabled, boolean vibrationEnabled, PauseMenuListener listener) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_pause_menu, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
+        DialogPauseMenuBinding binding = DialogPauseMenuBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        SwitchCompat switchSound = v.findViewById(R.id.switch_pause_sound);
-        SwitchCompat switchVibrate = v.findViewById(R.id.switch_pause_vibration);
+        binding.switchPauseSound.setChecked(soundEnabled);
+        binding.switchPauseVibration.setChecked(vibrationEnabled);
 
-        switchSound.setChecked(soundEnabled);
-        switchVibrate.setChecked(vibrationEnabled);
-
-        switchSound.setOnCheckedChangeListener((btn, isChecked) -> {
+        binding.switchPauseSound.setOnCheckedChangeListener((btn, isChecked) -> {
             if (listener != null) listener.onSoundToggled(isChecked);
         });
 
-        switchVibrate.setOnCheckedChangeListener((btn, isChecked) -> {
+        binding.switchPauseVibration.setOnCheckedChangeListener((btn, isChecked) -> {
             if (listener != null) listener.onVibrationToggled(isChecked);
         });
 
-        v.findViewById(R.id.row_pause_how_to_play).setOnClickListener(view -> {
+        binding.rowPauseHowToPlay.setOnClickListener(view -> {
             dialog.dismiss();
             if (listener != null) listener.onHowToPlayClicked();
         });
 
-        v.findViewById(R.id.btn_pause_close).setOnClickListener(view -> dialog.dismiss());
-        v.findViewById(R.id.btn_pause_continue).setOnClickListener(view -> dialog.dismiss());
+        binding.btnPauseClose.setOnClickListener(view -> dialog.dismiss());
+        binding.btnPauseContinue.setOnClickListener(view -> dialog.dismiss());
 
-        v.findViewById(R.id.btn_pause_restart).setOnClickListener(view -> {
+        binding.btnPauseRestart.setOnClickListener(view -> {
             dialog.dismiss();
             if (listener != null) listener.onRestartClicked();
         });
 
-        v.findViewById(R.id.btn_pause_home).setOnClickListener(view -> {
+        binding.btnPauseHome.setOnClickListener(view -> {
             dialog.dismiss();
             if (listener != null) listener.onHomeClicked();
         });
@@ -301,14 +284,13 @@ public class DialogHelper {
     }
 
     public static Dialog showFirstTimeInstruction(Activity activity, Runnable onLetsPlay) {
-        View v = LayoutInflater.from(activity).inflate(R.layout.dialog_first_time_instruction, null);
-        Dialog dialog = createBaseDialog(activity, v, true);
+        DialogFirstTimeInstructionBinding binding = DialogFirstTimeInstructionBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        ViewPager2 vpTutorial = v.findViewById(R.id.vp_tutorial);
-        View dot1 = v.findViewById(R.id.dot_1);
-        View dot2 = v.findViewById(R.id.dot_2);
-        View dot3 = v.findViewById(R.id.dot_3);
-        Button btnAction = v.findViewById(R.id.btn_tutorial_action);
+        ViewPager2 vpTutorial = binding.vpTutorial;
+        View dot1 = binding.dot1;
+        View dot2 = binding.dot2;
+        View dot3 = binding.dot3;
 
         TutorialPagerAdapter adapter = new TutorialPagerAdapter(activity);
         vpTutorial.setAdapter(adapter);
@@ -323,9 +305,9 @@ public class DialogHelper {
             dot3.setBackgroundTintList(ColorStateList.valueOf(current == 2 ? activeColor : inactiveColor));
 
             if (current == 2) {
-                btnAction.setText("Let's play!");
+                binding.btnTutorialAction.setText("Let's play!");
             } else {
-                btnAction.setText("Next");
+                binding.btnTutorialAction.setText("Next");
             }
         };
 
@@ -341,7 +323,7 @@ public class DialogHelper {
         dot2.setOnClickListener(view -> vpTutorial.setCurrentItem(1, true));
         dot3.setOnClickListener(view -> vpTutorial.setCurrentItem(2, true));
 
-        btnAction.setOnClickListener(view -> {
+        binding.btnTutorialAction.setOnClickListener(view -> {
             int current = vpTutorial.getCurrentItem();
             if (current < 2) {
                 vpTutorial.setCurrentItem(current + 1, true);
@@ -351,7 +333,7 @@ public class DialogHelper {
             }
         });
 
-        v.findViewById(R.id.btn_tutorial_close).setOnClickListener(view -> dialog.dismiss());
+        binding.btnTutorialClose.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
@@ -377,15 +359,14 @@ public class DialogHelper {
         @NonNull
         @Override
         public TutorialViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            int layoutId;
+            View view;
             if (viewType == 0) {
-                layoutId = R.layout.item_tutorial_slide_top_down;
+                view = ItemTutorialSlideTopDownBinding.inflate(inflater, parent, false).getRoot();
             } else if (viewType == 1) {
-                layoutId = R.layout.item_tutorial_slide_left_right;
+                view = ItemTutorialSlideLeftRightBinding.inflate(inflater, parent, false).getRoot();
             } else {
-                layoutId = R.layout.item_tutorial_slide_goal;
+                view = ItemTutorialSlideGoalBinding.inflate(inflater, parent, false).getRoot();
             }
-            View view = inflater.inflate(layoutId, parent, false);
             return new TutorialViewHolder(view);
         }
 

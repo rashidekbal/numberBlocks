@@ -1,40 +1,45 @@
 package com.numberblocksmerge;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.numberblocksmerge.databinding.ActivitySplashBinding;
 import com.numberblocksmerge.storage.PreferencesManager;
+import com.numberblocksmerge.ui.StatusBarHelper;
 
 public class SplashActivity extends AppCompatActivity {
+
+    private ActivitySplashBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        final View tile = findViewById(R.id.splash_tile);
-        final View title = findViewById(R.id.splash_title);
-        final View subtitle = findViewById(R.id.splash_subtitle);
+        StatusBarHelper.applySystemBarInsets(binding.getRoot());
+        StatusBarHelper.updateSystemBars(this, 0xFFFAF9F6);
 
         // Initial invisible & scaled down
-        tile.setScaleX(0.3f);
-        tile.setScaleY(0.3f);
-        tile.setAlpha(0.0f);
+        binding.splashTile.setScaleX(0.3f);
+        binding.splashTile.setScaleY(0.3f);
+        binding.splashTile.setAlpha(0.0f);
 
-        title.setAlpha(0.0f);
-        title.setTranslationY(30f);
+        binding.splashTitle.setAlpha(0.0f);
+        binding.splashTitle.setTranslationY(30f);
 
-        subtitle.setAlpha(0.0f);
-        subtitle.setTranslationY(20f);
+        binding.splashSubtitle.setAlpha(0.0f);
+        binding.splashSubtitle.setTranslationY(20f);
 
         // 1. Pop tile
-        tile.animate()
+        binding.splashTile.animate()
                 .scaleX(1.0f)
                 .scaleY(1.0f)
                 .alpha(1.0f)
@@ -43,7 +48,7 @@ public class SplashActivity extends AppCompatActivity {
                 .start();
 
         // 2. Fade in title
-        title.animate()
+        binding.splashTitle.animate()
                 .alpha(1.0f)
                 .translationY(0f)
                 .setStartDelay(180)
@@ -52,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
                 .start();
 
         // 3. Fade in subtitle
-        subtitle.animate()
+        binding.splashSubtitle.animate()
                 .alpha(1.0f)
                 .translationY(0f)
                 .setStartDelay(280)
@@ -72,8 +77,9 @@ public class SplashActivity extends AppCompatActivity {
                 intent = new Intent(SplashActivity.this, HomeActivity.class);
             }
             startActivity(intent);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, android.R.anim.fade_in, android.R.anim.fade_out);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                overrideActivityTransition(Activity.OVERRIDE_TRANSITION_OPEN,
+                        android.R.anim.fade_in, android.R.anim.fade_out);
             } else {
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }

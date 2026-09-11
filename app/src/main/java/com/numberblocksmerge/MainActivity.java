@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.numberblocksmerge.ads.AdsManager;
 import com.numberblocksmerge.audio.HapticManager;
 import com.numberblocksmerge.audio.SoundManager;
+import com.numberblocksmerge.databinding.ActivityMainBinding;
 import com.numberblocksmerge.engine.Direction;
 import com.numberblocksmerge.engine.GameEngine;
 import com.numberblocksmerge.engine.GameSnapshot;
@@ -33,12 +34,14 @@ import com.numberblocksmerge.theme.Theme;
 import com.numberblocksmerge.theme.ThemeManager;
 import com.numberblocksmerge.ui.BoardView;
 import com.numberblocksmerge.ui.DialogHelper;
+import com.numberblocksmerge.ui.StatusBarHelper;
 
 public class MainActivity extends AppCompatActivity implements GameEngine.Listener {
     public static final String EXTRA_BOARD_SIZE = "EXTRA_BOARD_SIZE";
     public static final String EXTRA_RESUME = "EXTRA_RESUME";
     public static final String EXTRA_FIRST_LAUNCH = "EXTRA_FIRST_LAUNCH";
 
+    private ActivityMainBinding binding;
     private GameEngine gameEngine;
     private BoardView boardView;
     private TextView tvScore;
@@ -91,23 +94,26 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         adsManager = AdsManager.getInstance();
         adsManager.init(this);
 
-        // Views
-        rootLayout = findViewById(R.id.root_layout);
-        boardView = findViewById(R.id.board_view);
-        tvScore = findViewById(R.id.tv_score);
-        tvBest = findViewById(R.id.tv_best);
-        tvCombo = findViewById(R.id.tv_combo);
-        tvModeBadge = findViewById(R.id.tv_mode_badge);
-        btnUndo = findViewById(R.id.btn_undo);
-        bannerContainer = findViewById(R.id.banner_container);
-        cardScore = findViewById(R.id.card_score);
-        cardBest = findViewById(R.id.card_best);
-        cardMilestoneCelebration = findViewById(R.id.card_milestone_celebration);
-        tvCelebrationTile = findViewById(R.id.tv_celebration_tile);
-        tvCelebrationTitle = findViewById(R.id.tv_celebration_title);
+        // View Binding
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        btnPause = findViewById(R.id.btn_pause);
-        btnThemeToggle = findViewById(R.id.btn_theme_toggle);
+        rootLayout = binding.getRoot();
+        StatusBarHelper.applySystemBarInsets(rootLayout);
+        boardView = binding.boardView;
+        tvScore = binding.tvScore;
+        tvBest = binding.tvBest;
+        tvCombo = binding.tvCombo;
+        tvModeBadge = binding.tvModeBadge;
+        btnUndo = binding.btnUndo;
+        bannerContainer = binding.bannerContainer;
+        cardScore = binding.cardScore;
+        cardBest = binding.cardBest;
+        cardMilestoneCelebration = binding.cardMilestoneCelebration;
+        tvCelebrationTile = binding.tvCelebrationTile;
+        tvCelebrationTitle = binding.tvCelebrationTitle;
+        btnPause = binding.btnPause;
+        btnThemeToggle = binding.btnThemeToggle;
 
         // Set Mode Badge
         if (boardSize == 5) {
@@ -327,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         cardScore.setCardBackgroundColor(theme.hudCardColor);
         cardBest.setCardBackgroundColor(theme.hudCardColor);
         boardView.invalidate();
+        StatusBarHelper.updateSystemBars(this, theme.backgroundColor);
     }
 
     private void confirmRestart() {
