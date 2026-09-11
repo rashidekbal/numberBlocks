@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = 'com.numberblocksmerge'
-    compileSdk = 34
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.numberblocksmerge"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0.0"
 
@@ -35,8 +35,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.google.android.gms:play-services-ads:23.0.0'
     implementation 'com.google.code.gson:gson:2.10.1'
 
