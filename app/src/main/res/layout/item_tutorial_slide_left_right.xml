@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <!-- Board Illustration Card matching left right.jpeg -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        app:cardBackgroundColor="#BBADA0"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:strokeWidth="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- 4x4 Base Grid -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnCount="4"
+                android:rowCount="4"
+                android:padding="6dp">
+
+                <!-- Row 0 -->
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+
+                <!-- Row 1: 2 + 2 = 4 -->
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+                <TextView style="@style/MiniTileStyle" android:background="#EEE4DA" android:text="2" android:textColor="#776E65" />
+                <TextView style="@style/MiniTileStyle" android:background="#EEE4DA" android:text="2" android:textColor="#776E65" />
+                <TextView style="@style/MiniTileStyle" android:background="#EDE0C8" android:text="4" android:textColor="#776E65" />
+
+                <!-- Row 2 -->
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+
+                <!-- Row 3: 16 + 16 = 32 -->
+                <View style="@style/MiniTileStyle" android:background="#CDC1B4" />
+                <TextView style="@style/MiniTileStyle" android:background="#F59563" android:text="16" android:textColor="#FFFFFF" />
+                <TextView style="@style/MiniTileStyle" android:background="#F59563" android:text="16" android:textColor="#FFFFFF" />
+                <TextView style="@style/MiniTileStyle" android:background="#F67C5F" android:text="32" android:textColor="#FFFFFF" />
+            </GridLayout>
+
+            <!-- Guide Overlays: Math operators & Rightward arrows -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Row 1: Horizontal Arrow pointing right -->
+                <ImageView
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginTop="56dp"
+                    android:src="@drawable/ic_arrow_right_guide" />
+
+                <!-- Row 1: '+' operator -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="72dp"
+                    android:text="+"
+                    android:textColor="#F5A623"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!-- Row 1: '=' operator -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="150dp"
+                    android:layout_marginTop="72dp"
+                    android:text="="
+                    android:textColor="#F5A623"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!-- Row 3: Horizontal Arrow pointing right -->
+                <ImageView
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginTop="160dp"
+                    android:src="@drawable/ic_arrow_right_guide" />
+
+                <!-- Row 3: '+' operator -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="176dp"
+                    android:text="+"
+                    android:textColor="#F5A623"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!-- Row 3: '=' operator -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="150dp"
+                    android:layout_marginTop="176dp"
+                    android:text="="
+                    android:textColor="#F5A623"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Instruction Text matching left right.jpeg -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="Combine two tiles with the same number to create a higher one."
+        android:textColor="#1A1A1A"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

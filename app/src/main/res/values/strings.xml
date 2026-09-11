@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Number Blocks Merge</string>
+    <string name="score">SCORE</string>
+    <string name="best">BEST</string>
+    <string name="undo">UNDO</string>
+    <string name="reset">RESET</string>
+    <string name="paused">GAME PAUSED</string>
+    <string name="resume">RESUME</string>
+    <string name="restart">RESTART</string>
+    <string name="settings">SETTINGS</string>
+    <string name="statistics">STATISTICS</string>
+    <string name="how_to_play">HOW TO PLAY</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="revive">REVIVE (WATCH AD)</string>
+    <string name="play_again">PLAY AGAIN</string>
+    <string name="theme">Theme</string>
+    <string name="sound">Sound Effects</string>
+    <string name="haptics">Haptic Feedback</string>
+    <string name="tutorial_text">Swipe in any direction (Up, Down, Left, Right) to move all number blocks. When two blocks with the same number touch, they merge into one!\n\nReach 2048 to win, and keep merging for higher milestones (4096, 8192, 16384)!</string>
+</resources>
