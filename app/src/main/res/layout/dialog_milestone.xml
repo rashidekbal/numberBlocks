@@ -65,7 +65,7 @@
                 android:layout_height="@dimen/dp_44"
                 android:layout_marginTop="@dimen/dp_18"
                 android:backgroundTint="#1E2024"
-                android:text="Continue"
+                android:text="@string/continue_label"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/sp_13"
                 android:textStyle="bold"

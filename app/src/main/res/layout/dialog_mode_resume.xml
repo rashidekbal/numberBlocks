@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_44"
                     android:backgroundTint="#1E2024"
-                    android:text="Resume"
+                    android:text="@string/resume"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/sp_13"
                     android:textStyle="bold"
@@ -66,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_44"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:text="New Game"
+                    android:text="@string/new_game"
                     android:textColor="#A63A2F"
                     android:textSize="@dimen/sp_13"
                     android:textStyle="bold"
@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
                     android:layout_marginTop="@dimen/dp_4"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     android:textColor="#737680"
                     android:textSize="@dimen/sp_13" />
             </LinearLayout>

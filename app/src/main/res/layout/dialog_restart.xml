@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_44"
                     android:backgroundTint="#A63A2F"
-                    android:text="Restart"
+                    android:text="@string/confirm_restart"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/sp_13"
                     android:textStyle="bold"
@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
                     android:layout_marginTop="@dimen/dp_4"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     android:textColor="#737680"
                     android:textSize="@dimen/sp_13" />
             </LinearLayout>

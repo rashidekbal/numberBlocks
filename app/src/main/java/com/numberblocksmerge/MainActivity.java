@@ -3,9 +3,11 @@ package com.numberblocksmerge;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import java.util.Locale;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -109,11 +111,11 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
         // Set Mode Badge
         if (boardSize == 5) {
-            tvModeBadge.setText("5×5 EXTENDED");
+            tvModeBadge.setText(R.string.mode_5x5_badge);
         } else if (boardSize == 6) {
-            tvModeBadge.setText("6×6 EXPANDED");
+            tvModeBadge.setText(R.string.mode_6x6_badge);
         } else {
-            tvModeBadge.setText("4×4 STANDARD");
+            tvModeBadge.setText(R.string.mode_4x4_badge);
         }
         tvModeBadge.setTextColor(0xFF737680);
 
@@ -232,7 +234,11 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
         finish();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, android.R.anim.fade_in, android.R.anim.fade_out);
+        } else {
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 
     private void startFreshGame() {
@@ -261,22 +267,22 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     }
 
     private void updateUI() {
-        tvScore.setText(String.format("%,d", gameEngine.getScore()));
-        tvBest.setText(String.format("%,d", gameEngine.getBestScore()));
+        tvScore.setText(String.format(Locale.getDefault(), "%,d", gameEngine.getScore()));
+        tvBest.setText(String.format(Locale.getDefault(), "%,d", gameEngine.getBestScore()));
 
         int totalUndos = freeUndosRemaining + rewardedUndos;
         if (totalUndos > 0) {
-            btnUndo.setText("Undo (" + totalUndos + ")");
+            btnUndo.setText(getString(R.string.undo_format, totalUndos));
         } else {
-            btnUndo.setText("Undo (+Ad)");
+            btnUndo.setText(R.string.undo_ad);
         }
         btnUndo.setEnabled(gameEngine.canUndo());
 
         if (gameEngine.getCombo() > 1) {
-            tvCombo.setText(String.format("Combo: %dx", gameEngine.getCombo()));
+            tvCombo.setText(getString(R.string.combo_format, gameEngine.getCombo()));
             tvCombo.setTextColor(0xFF1E2024);
         } else {
-            tvCombo.setText("Join numbers and merge to 2048 & beyond!");
+            tvCombo.setText(R.string.default_combo_message);
             tvCombo.setTextColor(0xFF737680);
         }
 
@@ -286,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
     private void handleUndoClick() {
         if (!gameEngine.canUndo()) {
-            Toast.makeText(this, "No moves to undo!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_moves_undo, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -299,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             }
             performUndo();
         } else {
-            Toast.makeText(this, "Watch an ad for more undos!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.watch_ad_undo, Toast.LENGTH_SHORT).show();
             adsManager.showRewarded(this, reward -> {
                 performUndo();
             });
@@ -479,7 +485,9 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         }
         tvCelebrationTile.setBackgroundTintList(ColorStateList.valueOf(getMilestoneColor(milestone)));
 
-        tvCelebrationTitle.setText(milestone >= 2048 ? milestone + " Reached! Keep Going!" : "Tile " + milestone + " Unlocked!");
+        tvCelebrationTitle.setText(milestone >= 2048
+                ? getString(R.string.tile_reached_format, milestone)
+                : getString(R.string.tile_unlocked_format, milestone));
 
         cardMilestoneCelebration.setVisibility(View.VISIBLE);
         cardMilestoneCelebration.setScaleX(0.4f);

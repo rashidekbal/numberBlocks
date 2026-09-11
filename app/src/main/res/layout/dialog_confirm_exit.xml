@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_44"
                     android:backgroundTint="#1E2024"
-                    android:text="Save &amp; Exit"
+                    android:text="@string/save_exit"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/sp_13"
                     android:textStyle="bold"

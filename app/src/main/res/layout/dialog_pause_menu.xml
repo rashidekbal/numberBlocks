@@ -29,6 +29,7 @@
 
                 <ImageButton
                     android:id="@+id/btn_pause_close"
+                    android:contentDescription="@string/cd_close"
                     android:layout_width="@dimen/dp_36"
                     android:layout_height="@dimen/dp_36"
                     android:layout_alignParentStart="true"
@@ -41,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Paused"
+                    android:text="@string/paused"
                     android:textColor="#1A1A1A"
                     android:textSize="@dimen/sp_22"
                     android:textStyle="bold" />
@@ -59,6 +60,7 @@
                     android:layout_width="@dimen/dp_24"
                     android:layout_height="@dimen/dp_24"
                     android:src="@drawable/ic_speaker"
+                    android:contentDescription="@string/cd_sound_icon"
                     app:tint="#6E6E6E" />
 
                 <TextView
@@ -66,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_14"
                     android:layout_weight="1"
-                    android:text="Sound"
+                    android:text="@string/sound"
                     android:textColor="#1A1A1A"
                     android:textSize="@dimen/sp_16"
                     android:textStyle="bold" />
@@ -97,6 +99,7 @@
                     android:layout_width="@dimen/dp_24"
                     android:layout_height="@dimen/dp_24"
                     android:src="@drawable/ic_vibrate"
+                    android:contentDescription="@string/cd_vibrate_icon"
                     app:tint="#6E6E6E" />
 
                 <TextView
@@ -104,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_14"
                     android:layout_weight="1"
-                    android:text="Vibration"
+                    android:text="@string/vibration"
                     android:textColor="#1A1A1A"
                     android:textSize="@dimen/sp_16"
                     android:textStyle="bold" />
@@ -139,6 +142,7 @@
                     android:layout_width="@dimen/dp_24"
                     android:layout_height="@dimen/dp_24"
                     android:src="@drawable/ic_lightbulb"
+                    android:contentDescription="@string/cd_help_icon"
                     app:tint="#6E6E6E" />
 
                 <TextView
@@ -146,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_14"
                     android:layout_weight="1"
-                    android:text="How to play"
+                    android:text="@string/how_to_play"
                     android:textColor="#1A1A1A"
                     android:textSize="@dimen/sp_16"
                     android:textStyle="bold" />
@@ -155,6 +159,7 @@
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
                     android:src="@drawable/ic_chevron_right"
+                    android:contentDescription="@string/cd_chevron"
                     app:tint="#6E6E6E" />
             </LinearLayout>
 
@@ -172,7 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
                 android:backgroundTint="#00C853"
-                android:text="Continue"
+                android:text="@string/continue_label"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/sp_15"
                 android:textStyle="bold"

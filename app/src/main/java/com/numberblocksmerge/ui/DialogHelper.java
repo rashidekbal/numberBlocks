@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.card.MaterialCardView;
 import com.numberblocksmerge.R;
+import java.util.Locale;
 
 public class DialogHelper {
 
@@ -67,10 +68,13 @@ public class DialogHelper {
         TextView tvBest = v.findViewById(R.id.tv_gameover_best);
         TextView tvTile = v.findViewById(R.id.tv_gameover_highest_tile);
 
-        tvMode.setText(boardSize + "×" + boardSize + (boardSize == 4 ? " STANDARD" : boardSize == 5 ? " EXTENDED" : " EXPANDED"));
-        tvScore.setText(String.format("%,d", score));
-        tvBest.setText(String.format("%,d", bestScore));
-        tvTile.setText("Best Block: " + highestTile);
+        String suffix = boardSize == 4 ? activity.getString(R.string.mode_4x4_badge)
+                : boardSize == 5 ? activity.getString(R.string.mode_5x5_badge)
+                : activity.getString(R.string.mode_6x6_badge);
+        tvMode.setText(suffix);
+        tvScore.setText(String.format(Locale.getDefault(), "%,d", score));
+        tvBest.setText(String.format(Locale.getDefault(), "%,d", bestScore));
+        tvTile.setText(activity.getString(R.string.best_block_format, String.format(Locale.getDefault(), "%,d", highestTile)));
 
         v.findViewById(R.id.btn_gameover_retry).setOnClickListener(view -> {
             dialog.dismiss();
@@ -172,11 +176,11 @@ public class DialogHelper {
         TextView tvBest5 = v.findViewById(R.id.tv_stats_best_5);
         TextView tvBest6 = v.findViewById(R.id.tv_stats_best_6);
 
-        tvGames.setText(String.valueOf(gamesPlayed));
-        tvHighest.setText(String.valueOf(highestTile));
-        tvBest4.setText(String.format("%,d", best4));
-        tvBest5.setText(String.format("%,d", best5));
-        tvBest6.setText(String.format("%,d", best6));
+        tvGames.setText(String.format(Locale.getDefault(), "%,d", gamesPlayed));
+        tvHighest.setText(String.format(Locale.getDefault(), "%,d", highestTile));
+        tvBest4.setText(String.format(Locale.getDefault(), "%,d", best4));
+        tvBest5.setText(String.format(Locale.getDefault(), "%,d", best5));
+        tvBest6.setText(String.format(Locale.getDefault(), "%,d", best6));
 
         v.findViewById(R.id.btn_close_stats).setOnClickListener(view -> dialog.dismiss());
 
@@ -214,8 +218,8 @@ public class DialogHelper {
         TextView tvTitle = v.findViewById(R.id.tv_resume_mode_title);
         TextView tvScore = v.findViewById(R.id.tv_resume_mode_score);
 
-        tvTitle.setText("Resume " + size + "×" + size + "?");
-        tvScore.setText("Score: " + String.format("%,d", score));
+        tvTitle.setText(activity.getString(R.string.resume_mode_format, size, size));
+        tvScore.setText(activity.getString(R.string.score_format, String.format(Locale.getDefault(), "%,d", score)));
 
         v.findViewById(R.id.btn_dialog_resume_confirm).setOnClickListener(view -> {
             dialog.dismiss();

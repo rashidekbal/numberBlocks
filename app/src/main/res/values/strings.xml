@@ -6,21 +6,122 @@
     <string name="admob_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="admob_interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="admob_rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+
+    <!-- Navigation & Common Actions -->
+    <string name="play_btn">▶  PLAY</string>
+    <string name="back">Back</string>
+    <string name="close">Close</string>
+    <string name="done">Done</string>
+    <string name="stay">Stay</string>
+    <string name="save_exit">Save &amp; Exit</string>
+    <string name="retry">Retry</string>
+    <string name="play_again">PLAY AGAIN</string>
+    <string name="home">Home</string>
+    <string name="lets_play">Let\'s Play!</string>
+    <string name="next">Next</string>
+    <string name="continue_label">Continue</string>
+    <string name="confirm_restart">Restart Game</string>
+    <string name="cancel">Cancel</string>
+    <string name="new_game">New Game</string>
+    <string name="revive">REVIVE (WATCH AD)</string>
+    <string name="revive_watch_ad">Revive (Watch Ad)</string>
+    <string name="select_theme">Select Theme</string>
+
+    <!-- Screen Headers & Mode Labels -->
+    <string name="title_2048">2048</string>
+    <string name="tagline_subtitle">Minimal Tactile Number Puzzle</string>
+    <string name="choose_grid_size">Choose Grid Size</string>
+    <string name="select_board_dimension">Select your board dimension</string>
+    <string name="mode_4x4">4×4</string>
+    <string name="mode_4x4_standard">4×4 Standard</string>
+    <string name="mode_4x4_desc">Endless • Reach 2,048 &amp; beyond</string>
+    <string name="mode_4x4_badge">4×4 STANDARD</string>
+    <string name="mode_5x5">5×5</string>
+    <string name="mode_5x5_extended">5×5 Extended</string>
+    <string name="mode_5x5_desc">Endless • Reach 8,192 &amp; beyond</string>
+    <string name="mode_5x5_badge">5×5 EXTENDED</string>
+    <string name="mode_6x6">6×6</string>
+    <string name="mode_6x6_expanded">6×6 Expanded</string>
+    <string name="mode_6x6_desc">Endless • Reach 16,384 &amp; beyond</string>
+    <string name="mode_6x6_badge">6×6 EXPANDED</string>
+    <string name="nav_records">Records</string>
+    <string name="nav_palette">Palette</string>
+    <string name="nav_guide">Guide</string>
+    <string name="active_run">ACTIVE RUN</string>
+    <string name="resume">Resume</string>
     <string name="score">SCORE</string>
-    <string name="best">BEST</string>
+    <string name="best">RECORD</string>
     <string name="undo">UNDO</string>
     <string name="reset">RESET</string>
-    <string name="paused">GAME PAUSED</string>
-    <string name="resume">RESUME</string>
-    <string name="restart">RESTART</string>
-    <string name="settings">SETTINGS</string>
-    <string name="statistics">STATISTICS</string>
-    <string name="how_to_play">HOW TO PLAY</string>
-    <string name="game_over">GAME OVER</string>
-    <string name="revive">REVIVE (WATCH AD)</string>
-    <string name="play_again">PLAY AGAIN</string>
-    <string name="theme">Theme</string>
-    <string name="sound">Sound Effects</string>
+    <string name="games_label">GAMES</string>
+    <string name="best_tile_label">BEST TILE</string>
+    <string name="sound">Sound</string>
+    <string name="sound_effects">Sound Effects</string>
+    <string name="vibration">Vibration</string>
     <string name="haptics">Haptic Feedback</string>
+    <string name="how_to_play">How to play</string>
+    <string name="paused">Paused</string>
+    <string name="settings">Settings</string>
+    <string name="statistics">Statistics</string>
+    <string name="game_over">Game Over</string>
+    <string name="exit_game_title">Exit Game?</string>
+    <string name="exit_game_message">Your active progress is saved automatically.</string>
+    <string name="restart_game_title">Restart Game?</string>
+    <string name="restart_game_message">Current game progress will be lost. Are you sure?</string>
+    <string name="milestone_unlocked">Milestone Unlocked!</string>
+    <string name="default_combo_message">Join numbers and merge to 2048 &amp; beyond!</string>
+    <string name="theme">Theme</string>
+
+    <!-- Format Strings -->
+    <string name="combo_format">Combo: %1$dx</string>
+    <string name="score_format">Score: %1$s</string>
+    <string name="best_format">Best: %1$s</string>
+    <string name="best_block_format">Best Block: %1$s</string>
+    <string name="undo_format">Undo (%1$d)</string>
+    <string name="undo_ad">Undo (+Ad)</string>
+    <string name="no_moves_undo">No moves to undo!</string>
+    <string name="watch_ad_undo">Watch a quick ad to undo!</string>
+    <string name="tile_unlocked_format">Tile %1$d Unlocked!</string>
+    <string name="tile_reached_format">%1$d Reached! Keep Going!</string>
+    <string name="resume_mode_format">Resume %1$d×%2$d?</string>
+    <string name="active_run_format">ACTIVE RUN • %1$s</string>
+
+    <!-- Themes -->
+    <string name="theme_alabaster_title">Alabaster Minimal</string>
+    <string name="theme_alabaster_desc">Warm limestone &amp; tactile stone</string>
+    <string name="theme_titanium_title">Titanium Slate</string>
+    <string name="theme_titanium_desc">Cool architectural neutral</string>
+    <string name="theme_nordic_title">Nordic Clay</string>
+    <string name="theme_nordic_desc">Warm organic sandstone</string>
+    <string name="theme_graphite_title">Charcoal Slate</string>
+    <string name="theme_graphite_desc">Architectural dark graphite</string>
+
+    <!-- Tutorial Dialog & Slides -->
+    <string name="tutorial_top_down_desc">Swipe down to combine tiles vertically into higher numbers.</string>
+    <string name="tutorial_left_right_desc">Combine two tiles with the same number to create a higher one.</string>
+    <string name="tutorial_goal_desc">Reach the 2048 tile and keep merging to unlock higher numbers!</string>
+    <string name="tutorial_swipe_to_move">Swipe to Move</string>
+    <string name="tutorial_swipe_desc">Slide in four directions to shift all blocks.</string>
+    <string name="tutorial_match_merge">Match to Merge</string>
+    <string name="tutorial_match_desc">Identical numbers double when they touch.</string>
+    <string name="tutorial_chain_mult">Chain Multipliers</string>
+    <string name="tutorial_chain_desc">Consecutive merges build score multipliers.</string>
+    <string name="tutorial_undo_anytime">Undo Anytime</string>
+    <string name="tutorial_undo_desc">Revert turns. Progress is saved automatically.</string>
+    <string name="tutorial_got_it">Got It</string>
     <string name="tutorial_text">Swipe in any direction (Up, Down, Left, Right) to move all number blocks. When two blocks with the same number touch, they merge into one!\n\nReach 2048 to win, and keep merging for higher milestones (4096, 8192, 16384)!</string>
+
+    <!-- Content Descriptions for Accessibility -->
+    <string name="cd_pause_menu">Pause Menu</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_close">Close</string>
+    <string name="cd_settings">Settings</string>
+    <string name="cd_theme_toggle">Toggle Theme</string>
+    <string name="cd_sound_icon">Sound icon</string>
+    <string name="cd_vibrate_icon">Vibration icon</string>
+    <string name="cd_help_icon">Help icon</string>
+    <string name="cd_chevron">Navigation arrow</string>
+    <string name="cd_tutorial_arrow">Tutorial direction arrow</string>
+    <string name="cd_app_logo">Game Logo</string>
+    <string name="cd_milestone_badge">Milestone celebration badge</string>
 </resources>

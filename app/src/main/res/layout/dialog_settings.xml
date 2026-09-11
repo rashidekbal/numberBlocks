@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
+                android:text="@string/settings"
                 android:textColor="#1E2024"
                 android:textSize="@dimen/sp_18"
                 android:textStyle="bold" />
@@ -42,6 +42,7 @@
                     android:layout_width="@dimen/dp_24"
                     android:layout_height="@dimen/dp_24"
                     android:src="@drawable/ic_speaker"
+                    android:contentDescription="@string/cd_sound_icon"
                     app:tint="#6E6E6E" />
 
                 <TextView
@@ -49,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_14"
                     android:layout_weight="1"
-                    android:text="Sound"
+                    android:text="@string/sound"
                     android:textColor="#1E2024"
                     android:textSize="@dimen/sp_15"
                     android:textStyle="bold" />
@@ -80,6 +81,7 @@
                     android:layout_width="@dimen/dp_24"
                     android:layout_height="@dimen/dp_24"
                     android:src="@drawable/ic_vibrate"
+                    android:contentDescription="@string/cd_vibrate_icon"
                     app:tint="#6E6E6E" />
 
                 <TextView
@@ -87,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_14"
                     android:layout_weight="1"
-                    android:text="Vibration"
+                    android:text="@string/vibration"
                     android:textColor="#1E2024"
                     android:textSize="@dimen/sp_15"
                     android:textStyle="bold" />
@@ -113,7 +115,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_44"
-                android:text="Select Theme"
+                android:text="@string/select_theme"
                 android:textColor="#1E2024"
                 android:textSize="@dimen/sp_13"
                 android:textStyle="bold"
@@ -129,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginTop="@dimen/dp_8"
-                android:text="Done"
+                android:text="@string/done"
                 android:textColor="#1E2024"
                 android:textSize="@dimen/sp_13"
                 android:textStyle="bold" />

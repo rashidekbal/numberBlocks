@@ -63,7 +63,8 @@
                     android:layout_height="@dimen/dp_140"
                     android:layout_marginStart="@dimen/dp_76"
                     android:layout_marginTop="@dimen/dp_56"
-                    android:src="@drawable/ic_arrow_down_guide" />
+                    android:src="@drawable/ic_arrow_down_guide"
+                    android:contentDescription="@string/cd_tutorial_arrow" />
 
                 <!-- Col 1: '+' operator -->
                 <TextView
@@ -93,7 +94,8 @@
                     android:layout_height="@dimen/dp_140"
                     android:layout_marginStart="@dimen/dp_178"
                     android:layout_marginTop="@dimen/dp_56"
-                    android:src="@drawable/ic_arrow_down_guide" />
+                    android:src="@drawable/ic_arrow_down_guide"
+                    android:contentDescription="@string/cd_tutorial_arrow" />
 
                 <!-- Col 3: '+' operator -->
                 <TextView
@@ -128,7 +130,7 @@
         android:gravity="center"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_12"
-        android:text="Swipe down to combine tiles vertically into higher numbers."
+        android:text="@string/tutorial_top_down_desc"
         android:textColor="#1A1A1A"
         android:textSize="@dimen/sp_15"
         android:textStyle="bold" />

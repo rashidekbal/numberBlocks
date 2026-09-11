@@ -56,7 +56,7 @@
         android:gravity="center"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_12"
-        android:text="Reach the 2048 tile and keep merging to unlock higher numbers!"
+        android:text="@string/tutorial_goal_desc"
         android:textColor="#1A1A1A"
         android:textSize="@dimen/sp_15"
         android:textStyle="bold" />

@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Statistics"
+                android:text="@string/statistics"
                 android:textColor="#1E2024"
                 android:textSize="@dimen/sp_18"
                 android:textStyle="bold" />
@@ -63,7 +63,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="GAMES"
+                                android:text="@string/games_label"
                                 android:textColor="#737680"
                                 android:textSize="@dimen/sp_10"
                                 android:textStyle="bold" />
@@ -100,7 +100,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="BEST TILE"
+                                android:text="@string/best_tile_label"
                                 android:textColor="#737680"
                                 android:textSize="@dimen/sp_10"
                                 android:textStyle="bold" />
@@ -234,7 +234,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginTop="@dimen/dp_8"
-                android:text="Close"
+                android:text="@string/close"
                 android:textColor="#1E2024"
                 android:textSize="@dimen/sp_13"
                 android:textStyle="bold" />

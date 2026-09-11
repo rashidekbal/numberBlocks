@@ -1,7 +1,10 @@
 package com.numberblocksmerge;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import java.util.Locale;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,9 +106,9 @@ public class HomeDashboardFragment extends Fragment {
     private void updateDashboard() {
         if (!isAdded()) return;
 
-        tvBest4.setText(String.format("Best: %,d", prefs.getBestScore(4)));
-        tvBest5.setText(String.format("Best: %,d", prefs.getBestScore(5)));
-        tvBest6.setText(String.format("Best: %,d", prefs.getBestScore(6)));
+        tvBest4.setText(getString(R.string.best_format, String.format(Locale.getDefault(), "%,d", prefs.getBestScore(4))));
+        tvBest5.setText(getString(R.string.best_format, String.format(Locale.getDefault(), "%,d", prefs.getBestScore(5))));
+        tvBest6.setText(getString(R.string.best_format, String.format(Locale.getDefault(), "%,d", prefs.getBestScore(6))));
 
         // Check for active in-progress game
         int lastSize = prefs.getLastPlayedSize();
@@ -115,9 +118,9 @@ public class HomeDashboardFragment extends Fragment {
                 GameSnapshot snapshot = gson.fromJson(activeState, GameSnapshot.class);
                 if (snapshot != null && !snapshot.isOver) {
                     cardResume.setVisibility(View.VISIBLE);
-                    String modeName = lastSize == 4 ? "4×4 STANDARD" : lastSize == 5 ? "5×5 EXTENDED" : "6×6 EXPANDED";
-                    tvResumeBadge.setText("ACTIVE RUN • " + modeName);
-                    tvResumeScore.setText(String.format("Score: %,d", snapshot.score));
+                    String modeName = lastSize == 4 ? getString(R.string.mode_4x4_badge) : lastSize == 5 ? getString(R.string.mode_5x5_badge) : getString(R.string.mode_6x6_badge);
+                    tvResumeBadge.setText(getString(R.string.active_run_format, modeName));
+                    tvResumeScore.setText(getString(R.string.score_format, String.format(Locale.getDefault(), "%,d", snapshot.score)));
                     return;
                 }
             } catch (Exception ignored) {}
@@ -152,14 +155,11 @@ public class HomeDashboardFragment extends Fragment {
         intent.putExtra(MainActivity.EXTRA_BOARD_SIZE, size);
         intent.putExtra(MainActivity.EXTRA_RESUME, resume);
         startActivity(intent);
-        requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-
-    private void toggleSound() {
-        boolean next = !soundManager.isEnabled();
-        soundManager.setEnabled(next);
-        prefs.setSoundEnabled(next);
-        Toast.makeText(requireContext(), "Sound: " + (next ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            requireActivity().overrideActivityTransition(Activity.OVERRIDE_TRANSITION_OPEN, android.R.anim.fade_in, android.R.anim.fade_out);
+        } else {
+            requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 
     private void showThemeDialog() {

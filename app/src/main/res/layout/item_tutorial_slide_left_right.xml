@@ -63,7 +63,8 @@
                     android:layout_height="@dimen/dp_20"
                     android:layout_marginStart="@dimen/dp_62"
                     android:layout_marginTop="@dimen/dp_56"
-                    android:src="@drawable/ic_arrow_right_guide" />
+                    android:src="@drawable/ic_arrow_right_guide"
+                    android:contentDescription="@string/cd_tutorial_arrow" />
 
                 <!-- Row 1: '+' operator -->
                 <TextView
@@ -93,7 +94,8 @@
                     android:layout_height="@dimen/dp_20"
                     android:layout_marginStart="@dimen/dp_62"
                     android:layout_marginTop="@dimen/dp_160"
-                    android:src="@drawable/ic_arrow_right_guide" />
+                    android:src="@drawable/ic_arrow_right_guide"
+                    android:contentDescription="@string/cd_tutorial_arrow" />
 
                 <!-- Row 3: '+' operator -->
                 <TextView
@@ -128,7 +130,7 @@
         android:gravity="center"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_12"
-        android:text="Combine two tiles with the same number to create a higher one."
+        android:text="@string/tutorial_left_right_desc"
         android:textColor="#1A1A1A"
         android:textSize="@dimen/sp_15"
         android:textStyle="bold" />
