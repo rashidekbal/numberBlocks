@@ -337,7 +337,8 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
                         .start();
             }
         } else {
-            tvCombo.setText(R.string.default_combo_message);
+            String targetFormatted = String.format(Locale.getDefault(), "%,d", gameEngine.getTargetTile());
+            tvCombo.setText(getString(R.string.default_combo_message, targetFormatted));
             tvCombo.setTextColor(themeManager.getCurrentTheme().textSecondaryColor);
         }
 

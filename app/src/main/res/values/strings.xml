@@ -72,7 +72,8 @@
     <string name="restart_game_title">Restart Game?</string>
     <string name="restart_game_message">Current game progress will be lost. Are you sure?</string>
     <string name="milestone_unlocked">Milestone Unlocked!</string>
-    <string name="default_combo_message">Join numbers and merge to 2048 &amp; beyond!</string>
+    <string name="default_combo_message">Join numbers and merge to %1$s &amp; beyond!</string>
+    <string name="default_instruction">Join numbers and merge to higher blocks!</string>
     <string name="theme">Theme</string>
 
     <!-- Format Strings -->
