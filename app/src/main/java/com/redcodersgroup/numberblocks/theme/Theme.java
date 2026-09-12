@@ -69,6 +69,6 @@ public class Theme {
     public int getTextColor(int value) {
         int tileColor = getTileColor(value);
         double luminance = (0.299 * Color.red(tileColor) + 0.587 * Color.green(tileColor) + 0.114 * Color.blue(tileColor)) / 255.0;
-        return luminance > 0.52 ? Color.parseColor("#181A1F") : Color.parseColor("#FFFFFF");
+        return luminance > 0.52 ? textPrimaryColor : Color.parseColor("#FFFFFF");
     }
 }

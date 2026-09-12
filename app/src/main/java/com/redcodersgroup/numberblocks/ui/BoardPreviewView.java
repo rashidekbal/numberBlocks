@@ -2,6 +2,7 @@ package com.redcodersgroup.numberblocks.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -118,11 +119,11 @@ public class BoardPreviewView extends View {
         if (matrixIdx < 0 || matrixIdx >= PREVIEW_MATRICES.length) matrixIdx = 0;
         int[][] matrix = PREVIEW_MATRICES[matrixIdx];
 
-        float padding = size * 0.04f;
-        float gap = size * (gridDim == 4 ? 0.032f : gridDim == 5 ? 0.024f : 0.018f);
+        float padding = size * (10f / 220f);
+        float gap = size * (gridDim == 4 ? (7f / 220f) : gridDim == 5 ? (5f / 220f) : (4f / 220f));
         float cellSize = (size - padding * 2 - gap * (gridDim - 1)) / gridDim;
-        float cornerRadius = cellSize * 0.18f;
-        float boardRadius = cornerRadius * 1.5f;
+        float cornerRadius = size * (6f / 220f);
+        float boardRadius = size * (20f / 220f);
 
         // 1. Board Well Base
         paint.setStyle(Paint.Style.FILL);
@@ -142,6 +143,7 @@ public class BoardPreviewView extends View {
         }
 
         // 3. Active Tactile Preview Tiles
+        float shadowOffsetY = size * (1.5f / 220f);
         for (int r = 0; r < gridDim; r++) {
             for (int c = 0; c < gridDim; c++) {
                 int val = matrix[r][c];
@@ -149,23 +151,28 @@ public class BoardPreviewView extends View {
 
                 float left = padding + c * (cellSize + gap);
                 float top = padding + r * (cellSize + gap);
-                rectF.set(left, top, left + cellSize, top + cellSize);
+
+                // Subtle Tile Shadow
+                paint.setColor(Color.argb(40, 0, 0, 0));
+                rectF.set(left, top + shadowOffsetY, left + cellSize, top + cellSize + shadowOffsetY);
+                canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
 
                 // Tile Background
                 paint.setColor(theme.getTileColor(val));
+                rectF.set(left, top, left + cellSize, top + cellSize);
                 canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
 
                 // Tile Text
                 String text = String.valueOf(val);
                 float textSize;
                 if (text.length() >= 5) {
-                    textSize = cellSize * 0.28f;
+                    textSize = cellSize * 0.22f;
                 } else if (text.length() >= 4) {
-                    textSize = cellSize * 0.34f;
+                    textSize = cellSize * 0.28f;
                 } else if (text.length() >= 3) {
-                    textSize = cellSize * 0.40f;
+                    textSize = cellSize * 0.36f;
                 } else {
-                    textSize = cellSize * 0.46f;
+                    textSize = cellSize * 0.44f;
                 }
                 textPaint.setTextSize(textSize);
                 textPaint.setColor(theme.getTextColor(val));

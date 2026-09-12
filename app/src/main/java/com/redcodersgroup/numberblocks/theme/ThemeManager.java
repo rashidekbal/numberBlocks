@@ -43,10 +43,10 @@ public class ThemeManager {
         alabasterTiles.put(131072, Color.parseColor("#8B5CF6"));
         Theme goldenTheme = new Theme("alabaster", "Golden Arcade", false,
                 Color.parseColor("#FAF8EF"), Color.parseColor("#BBADA0"),
-                Color.parseColor("#CDC1B4"), Color.parseColor("#FFFFFF"),
-                Color.parseColor("#FFFFFF"), Color.parseColor("#E4DFD7"),
-                Color.parseColor("#F0EFEA"), Color.parseColor("#E3E1D8"),
-                Color.parseColor("#1E2024"), Color.parseColor("#776E65"), alabasterTiles);
+                Color.parseColor("#CDC1B4"), Color.parseColor("#EDE0C8"),
+                Color.parseColor("#FFFFFF"), Color.parseColor("#E8E2D2"),
+                Color.parseColor("#EDE0C8"), Color.parseColor("#CDC1B4"),
+                Color.parseColor("#776E65"), Color.parseColor("#8F7A66"), alabasterTiles);
         themes.put("alabaster", goldenTheme);
         themes.put("golden", goldenTheme);
 

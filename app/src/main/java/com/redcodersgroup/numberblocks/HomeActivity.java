@@ -169,6 +169,10 @@ public class HomeActivity extends AppCompatActivity {
             binding.btnHomeSettings.setBackground(settingsCircle);
             binding.btnHomeSettings.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
 
+            // Top Tabs Container
+            binding.containerHeroTabs.setCardBackgroundColor(theme.hudCardColor);
+            binding.containerHeroTabs.setStrokeColor(theme.btnStrokeColor);
+
             // Hero Card & Preview
             binding.cardHeroBoard.setCardBackgroundColor(theme.cardBackgroundColor);
             binding.cardHeroBoard.setStrokeColor(theme.cardStrokeColor);
@@ -212,31 +216,31 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setTabState(MaterialCardView card, TextView tv, boolean isSelected, Theme theme) {
         if (isSelected) {
-            int activeBg = theme.isDark ? Color.parseColor("#323742") : Color.parseColor("#E5E1D8");
-            int activeStroke = theme.isDark ? Color.parseColor("#4B5363") : Color.parseColor("#C8C3B8");
-            card.setCardBackgroundColor(activeBg);
-            card.setStrokeColor(activeStroke);
+            card.setCardBackgroundColor(theme.cardBackgroundColor);
+            card.setStrokeColor(Color.TRANSPARENT);
+            card.setCardElevation(2 * getResources().getDisplayMetrics().density);
             tv.setTextColor(theme.textPrimaryColor);
         } else {
             card.setCardBackgroundColor(Color.TRANSPARENT);
             card.setStrokeColor(Color.TRANSPARENT);
+            card.setCardElevation(0);
             tv.setTextColor(theme.textSecondaryColor);
         }
     }
 
     private void setDotState(View dot, boolean isActive, Theme theme, float density) {
         ViewGroup.LayoutParams params = dot.getLayoutParams();
-        params.width = (int) ((isActive ? 20 : 6) * density);
-        params.height = (int) (6 * density);
+        params.width = (int) ((isActive ? 22 : 7) * density);
+        params.height = (int) (7 * density);
         dot.setLayoutParams(params);
 
         GradientDrawable pill = new GradientDrawable();
         pill.setShape(GradientDrawable.RECTANGLE);
-        pill.setCornerRadius(3 * density);
+        pill.setCornerRadius(3.5f * density);
         if (isActive) {
             pill.setColor(theme.textPrimaryColor);
         } else {
-            pill.setColor(theme.isDark ? Color.parseColor("#3F4450") : Color.parseColor("#D5D1C7"));
+            pill.setColor(theme.isDark ? Color.parseColor("#3F4450") : theme.btnStrokeColor);
         }
         dot.setBackground(pill);
     }
