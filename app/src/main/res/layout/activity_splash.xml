@@ -4,7 +4,7 @@
     android:id="@+id/splash_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAF9F6"
+    android:background="#FAF8EF"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:gravity="center">
@@ -15,72 +15,210 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <!-- Animated Hero Tile -->
+        <!-- 2x2 Mini Game Board Showcase -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/splash_tile"
-            android:layout_width="@dimen/dp_110"
-            android:layout_height="@dimen/dp_110"
-            app:cardBackgroundColor="#2C2B28"
-            app:cardCornerRadius="@dimen/dp_24"
-            app:cardElevation="@dimen/dp_6"
+            android:id="@+id/splash_board_well"
+            android:layout_width="168dp"
+            android:layout_height="168dp"
+            app:cardBackgroundColor="#BBADA0"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
             app:cardUseCompatPadding="true"
-            app:strokeWidth="0dp">
+            app:strokeColor="#15000000"
+            app:strokeWidth="1dp">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/title_2048"
-                    android:textColor="#FAF9F6"
-                    android:textSize="@dimen/sp_30"
-                    android:textStyle="bold" />
-            </FrameLayout>
+                <!-- Row 1: Tiles 2 and 4 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <!-- Tile 2 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/splash_tile_2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="4dp"
+                        app:cardBackgroundColor="#EEE4DA"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="3dp"
+                        app:strokeWidth="0dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="2"
+                            android:textColor="#776E65"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Tile 4 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/splash_tile_4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginBottom="4dp"
+                        app:cardBackgroundColor="#EDE0C8"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="3dp"
+                        app:strokeWidth="0dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="4"
+                            android:textColor="#776E65"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <!-- Row 2: Tiles 8 and 2048 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <!-- Tile 8 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/splash_tile_8"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginTop="4dp"
+                        app:cardBackgroundColor="#F2B179"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="3dp"
+                        app:strokeWidth="0dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="8"
+                            android:textColor="#FFFFFF"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Tile 2048 (Radiant Milestone) -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/splash_tile_2048"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        app:cardBackgroundColor="#F59E0B"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="5dp"
+                        app:strokeColor="#80FFFFFF"
+                        app:strokeWidth="1.5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="2048"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Title -->
+        <!-- Game Title -->
         <TextView
             android:id="@+id/splash_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_24"
+            android:layout_marginTop="20dp"
             android:letterSpacing="0.04"
             android:text="NUMBER BLOCKS"
-            android:textColor="#1E2024"
-            android:textSize="@dimen/sp_22"
+            android:textColor="#776E65"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
-        <!-- Subtitle -->
-        <TextView
-            android:id="@+id/splash_subtitle"
+        <!-- Tagline Capsule Badge -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/splash_tagline_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_4"
-            android:letterSpacing="0.18"
-            android:text="ARCHITECTURAL EDITION"
-            android:textColor="#737680"
-            android:textSize="@dimen/sp_11"
-            android:textStyle="bold" />
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="#EDE0C8"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#CDC1B4"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:id="@+id/splash_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.14"
+                android:paddingStart="14dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="5dp"
+                android:text="SLIDE • MERGE • 2048"
+                android:textColor="#8F7A66"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Arcade Progress Bar Track -->
+        <FrameLayout
+            android:id="@+id/splash_progress_track"
+            android:layout_width="140dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/pill_badge"
+            android:backgroundTint="#EDE0C8">
+
+            <View
+                android:id="@+id/splash_progress_fill"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/pill_badge"
+                android:backgroundTint="#F59E0B" />
+        </FrameLayout>
     </LinearLayout>
 
     <!-- Version / Studio Footer -->
     <TextView
+        android:id="@+id/splash_footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/dp_32"
-        android:letterSpacing="0.05"
-        android:text="REVISION 3.0"
-        android:textColor="#8C909A"
-        android:textSize="@dimen/sp_11" />
+        android:layout_marginBottom="32dp"
+        android:letterSpacing="0.12"
+        android:text="ARCHITECTURAL CASUAL PUZZLE"
+        android:textColor="#8F7A66"
+        android:textSize="11sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
