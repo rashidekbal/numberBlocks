@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:background="#FAF9F6"
     android:orientation="vertical"
-    android:clipChildren="false"
-    android:clipToPadding="false"
     android:paddingStart="@dimen/dp_22"
     android:paddingEnd="@dimen/dp_22"
     android:paddingTop="@dimen/dp_12"
@@ -64,15 +62,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true"
-        android:clipChildren="false"
-        android:clipToPadding="false"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:clipToPadding="false"
             android:gravity="center"
             android:orientation="vertical">
 
