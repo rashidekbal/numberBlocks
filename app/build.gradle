@@ -51,6 +51,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
 
+    testImplementation 'junit:junit:4.13.2'
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
