@@ -3,10 +3,18 @@ package com.redcodersgroup.numberblocks;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.redcodersgroup.numberblocks.audio.HapticManager;
 import com.redcodersgroup.numberblocks.audio.SoundManager;
 import com.redcodersgroup.numberblocks.databinding.ActivityInfoBinding;
@@ -92,8 +100,69 @@ public class InfoActivity extends AppCompatActivity {
         Theme theme = themeManager.getCurrentTheme();
         if (binding != null) {
             binding.getRoot().setBackgroundColor(theme.backgroundColor);
+
+            // Back button
+            android.graphics.drawable.GradientDrawable backCircle = new android.graphics.drawable.GradientDrawable();
+            backCircle.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+            backCircle.setColor(theme.btnSurfaceColor);
+            backCircle.setStroke((int) (1 * getResources().getDisplayMetrics().density), theme.btnStrokeColor);
+            binding.btnInfoBack.setBackground(backCircle);
+            binding.btnInfoBack.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
+
+            binding.tvInfoHeader.setTextColor(theme.textPrimaryColor);
+
+            applyThemeRecursive(binding.getRoot(), theme);
+
+            // Specific button overrides
+            styleOutlinedButton(binding.btnInfoPrivacy, theme);
+            styleOutlinedButton(binding.btnInfoTerms, theme);
+            styleOutlinedButton(binding.btnInfoSupport, theme);
+            styleOutlinedButton(binding.btnInfoEmail, theme);
+
+            if (theme.isDark) {
+                binding.btnInfoPortfolio.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F1F3F7")));
+                binding.btnInfoPortfolio.setTextColor(Color.parseColor("#181A1F"));
+            } else {
+                binding.btnInfoPortfolio.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1E2024")));
+                binding.btnInfoPortfolio.setTextColor(Color.parseColor("#FFFFFF"));
+            }
         }
         StatusBarHelper.updateSystemBars(this, theme.backgroundColor);
+    }
+
+    private void styleOutlinedButton(Button btn, Theme theme) {
+        if (btn instanceof MaterialButton) {
+            MaterialButton matBtn = (MaterialButton) btn;
+            matBtn.setBackgroundColor(theme.cardBackgroundColor);
+            matBtn.setTextColor(theme.textPrimaryColor);
+            matBtn.setStrokeColor(ColorStateList.valueOf(theme.btnStrokeColor));
+        }
+    }
+
+    private void applyThemeRecursive(View view, Theme theme) {
+        if (view instanceof MaterialCardView) {
+            MaterialCardView card = (MaterialCardView) view;
+            if (card.getLayoutParams() != null && card.getLayoutParams().width == ViewGroup.LayoutParams.MATCH_PARENT) {
+                card.setCardBackgroundColor(theme.cardBackgroundColor);
+                card.setStrokeColor(theme.cardStrokeColor);
+            }
+        } else if (view instanceof TextView && !(view instanceof Button)) {
+            TextView tv = (TextView) view;
+            if (tv.getId() != R.id.tv_info_header) {
+                if (tv.getTextSize() >= 14 * getResources().getDisplayMetrics().scaledDensity) {
+                    tv.setTextColor(theme.textPrimaryColor);
+                } else {
+                    tv.setTextColor(theme.textSecondaryColor);
+                }
+            }
+        }
+
+        if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                applyThemeRecursive(vg.getChildAt(i), theme);
+            }
+        }
     }
 
     private void openUrl(String url) {

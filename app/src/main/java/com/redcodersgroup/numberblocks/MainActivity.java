@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         } else {
             tvModeBadge.setText(R.string.mode_4x4_badge);
         }
-        tvModeBadge.setTextColor(0xFF737680);
+        tvModeBadge.setTextColor(themeManager.getCurrentTheme().textSecondaryColor);
 
         // Game Engine initialized with dynamic board size
         gameEngine = new GameEngine(boardSize);
@@ -287,10 +287,10 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
         if (gameEngine.getCombo() > 1) {
             tvCombo.setText(getString(R.string.combo_format, gameEngine.getCombo()));
-            tvCombo.setTextColor(0xFF1E2024);
+            tvCombo.setTextColor(themeManager.getCurrentTheme().textPrimaryColor);
         } else {
             tvCombo.setText(R.string.default_combo_message);
-            tvCombo.setTextColor(0xFF737680);
+            tvCombo.setTextColor(themeManager.getCurrentTheme().textSecondaryColor);
         }
 
         prefs.setBestScore(boardSize, gameEngine.getBestScore());
@@ -331,8 +331,43 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     private void applyTheme() {
         Theme theme = themeManager.getCurrentTheme();
         rootLayout.setBackgroundColor(theme.backgroundColor);
-        cardScore.setCardBackgroundColor(theme.hudCardColor);
-        cardBest.setCardBackgroundColor(theme.hudCardColor);
+
+        if (binding != null) {
+            binding.tvTitle.setTextColor(theme.textPrimaryColor);
+            tvScore.setTextColor(theme.textPrimaryColor);
+            tvBest.setTextColor(theme.textPrimaryColor);
+            binding.tvScoreLabel.setTextColor(theme.textSecondaryColor);
+            binding.tvBestLabel.setTextColor(theme.textSecondaryColor);
+            tvModeBadge.setTextColor(theme.textSecondaryColor);
+
+            cardScore.setCardBackgroundColor(theme.hudCardColor);
+            cardScore.setStrokeColor(theme.cardStrokeColor);
+            cardBest.setCardBackgroundColor(theme.hudCardColor);
+            cardBest.setStrokeColor(theme.cardStrokeColor);
+
+            // Circular header buttons (Pause & Theme toggle)
+            android.graphics.drawable.GradientDrawable circleBg = new android.graphics.drawable.GradientDrawable();
+            circleBg.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+            circleBg.setColor(theme.btnSurfaceColor);
+            circleBg.setStroke((int) (1 * getResources().getDisplayMetrics().density), theme.btnStrokeColor);
+            btnPause.setBackground(circleBg);
+            if (circleBg.getConstantState() != null) {
+                btnThemeToggle.setBackground(circleBg.getConstantState().newDrawable().mutate());
+            } else {
+                btnThemeToggle.setBackground(circleBg);
+            }
+            btnPause.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
+            btnThemeToggle.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
+
+            // Undo action button
+            btnUndo.setTextColor(theme.textPrimaryColor);
+            if (btnUndo instanceof com.google.android.material.button.MaterialButton) {
+                com.google.android.material.button.MaterialButton matBtn = (com.google.android.material.button.MaterialButton) btnUndo;
+                matBtn.setStrokeColor(ColorStateList.valueOf(theme.btnStrokeColor));
+                matBtn.setBackgroundColor(theme.btnSurfaceColor);
+            }
+        }
+
         boardView.invalidate();
         StatusBarHelper.updateSystemBars(this, theme.backgroundColor);
     }

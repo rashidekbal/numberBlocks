@@ -144,9 +144,9 @@
     <string name="info_developer_title">Credits &amp; Engineering</string>
     <string name="info_developer">Designed &amp; Engineered by Rasid Ekbal</string>
     <string name="btn_portfolio">Developer Portfolio</string>
-    <string name="privacy_policy_url" translatable="false">https://rasid.vercel.app/apps/number-blocks/privacy</string>
-    <string name="terms_url" translatable="false">https://rasid.vercel.app/apps/number-blocks/terms</string>
-    <string name="support_url" translatable="false">https://rasid.vercel.app/apps/number-blocks/support</string>
-    <string name="portfolio_url" translatable="false">https://rasid.vercel.app</string>
+    <string name="privacy_policy_url" translatable="false">https://rasidekbal.in/apps/number-blocks/privacy</string>
+    <string name="terms_url" translatable="false">https://rasidekbal.in/apps/number-blocks/terms</string>
+    <string name="support_url" translatable="false">https://rasidekbal.in/apps/number-blocks/support</string>
+    <string name="portfolio_url" translatable="false">https://rasidekbal.in</string>
     <string name="developer_email" translatable="false">dev.rasid.ekbal@gmail.com</string>
 </resources>

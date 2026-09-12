@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="#FAF9F6"
     android:orientation="vertical"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:paddingStart="@dimen/dp_22"
     android:paddingEnd="@dimen/dp_22"
     android:paddingTop="@dimen/dp_12"
@@ -34,6 +36,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_home_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_2"
@@ -44,13 +47,13 @@
 
         <ImageButton
             android:id="@+id/btn_home_settings"
-            android:layout_width="@dimen/dp_44"
-            android:layout_height="@dimen/dp_44"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@drawable/btn_circle_surface"
             android:contentDescription="@string/cd_settings"
-            android:padding="@dimen/dp_11"
+            android:padding="@dimen/dp_12"
             android:src="@drawable/ic_settings"
             app:tint="#1E2024" />
     </RelativeLayout>
@@ -61,11 +64,15 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:orientation="vertical">
 
             <!-- Resume Active Game Hero Card (Conditional) -->
@@ -76,9 +83,10 @@
                 android:layout_marginBottom="@dimen/dp_16"
                 android:visibility="gone"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="@dimen/dp_18"
-                app:cardElevation="@dimen/dp_2"
-                app:strokeColor="#D9D7CE"
+                app:cardCornerRadius="@dimen/dp_20"
+                app:cardElevation="@dimen/dp_4"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="#E3DDD3"
                 app:strokeWidth="@dimen/dp_1">
 
                 <LinearLayout
@@ -98,13 +106,13 @@
                             android:id="@+id/tv_home_resume_badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="#ECEBE5"
-                            android:paddingStart="@dimen/dp_8"
-                            android:paddingEnd="@dimen/dp_8"
-                            android:paddingTop="@dimen/dp_3"
-                            android:paddingBottom="@dimen/dp_3"
+                            android:background="#FEF3C7"
+                            android:paddingStart="@dimen/dp_10"
+                            android:paddingEnd="@dimen/dp_10"
+                            android:paddingTop="@dimen/dp_4"
+                            android:paddingBottom="@dimen/dp_4"
                             android:text="ACTIVE RUN • 4×4"
-                            android:textColor="#40434A"
+                            android:textColor="#B45309"
                             android:textSize="@dimen/sp_10"
                             android:textStyle="bold" />
 
@@ -112,10 +120,10 @@
                             android:id="@+id/tv_home_resume_score"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_4"
+                            android:layout_marginTop="@dimen/dp_6"
                             android:text="@string/score"
                             android:textColor="#1E2024"
-                            android:textSize="@dimen/sp_18"
+                            android:textSize="@dimen/sp_20"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -123,13 +131,15 @@
                         android:id="@+id/btn_home_resume_run"
                         style="@style/Widget.MaterialComponents.Button"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_50"
                         android:backgroundTint="#1E2024"
+                        android:paddingStart="@dimen/dp_20"
+                        android:paddingEnd="@dimen/dp_20"
                         android:text="@string/resume"
                         android:textColor="#FFFFFF"
-                        android:textSize="@dimen/sp_12"
+                        android:textSize="@dimen/sp_13"
                         android:textStyle="bold"
-                        app:cornerRadius="@dimen/dp_10" />
+                        app:cornerRadius="@dimen/dp_16" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -140,9 +150,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_14"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="@dimen/dp_18"
-                app:cardElevation="@dimen/dp_2"
-                app:strokeColor="#D9D7CE"
+                app:cardCornerRadius="@dimen/dp_20"
+                app:cardElevation="@dimen/dp_3"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="#E4DFD7"
                 app:strokeWidth="@dimen/dp_1">
 
                 <LinearLayout
@@ -153,18 +164,22 @@
                     android:padding="@dimen/dp_16">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:layout_width="@dimen/dp_52"
-                        android:layout_height="@dimen/dp_52"
-                        app:cardBackgroundColor="#ECEBE5"
-                        app:cardCornerRadius="@dimen/dp_14"
-                        app:strokeWidth="0dp">
+                        android:id="@+id/card_mode_4_badge"
+                        android:layout_width="@dimen/dp_54"
+                        android:layout_height="@dimen/dp_54"
+                        app:cardBackgroundColor="@color/game_mode_4_bg"
+                        app:cardCornerRadius="@dimen/dp_16"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#E3D8C8"
+                        app:strokeWidth="@dimen/dp_1">
 
                         <TextView
+                            android:id="@+id/tv_mode_4_badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="4×4"
-                            android:textColor="#1E2024"
+                            android:textColor="@color/game_mode_4_accent"
                             android:textSize="@dimen/sp_17"
                             android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
@@ -177,6 +192,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_mode_4_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/mode_4x4_standard"
@@ -185,6 +201,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_mode_4_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_2"
@@ -197,9 +214,14 @@
                         android:id="@+id/tv_best_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="#FAF6EB"
+                        android:paddingStart="@dimen/dp_8"
+                        android:paddingEnd="@dimen/dp_8"
+                        android:paddingTop="@dimen/dp_4"
+                        android:paddingBottom="@dimen/dp_4"
                         android:text="@string/best"
-                        android:textColor="#1E2024"
-                        android:textSize="@dimen/sp_13"
+                        android:textColor="#92400E"
+                        android:textSize="@dimen/sp_12"
                         android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -211,9 +233,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_14"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="@dimen/dp_18"
-                app:cardElevation="@dimen/dp_2"
-                app:strokeColor="#D9D7CE"
+                app:cardCornerRadius="@dimen/dp_20"
+                app:cardElevation="@dimen/dp_3"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="#E4DFD7"
                 app:strokeWidth="@dimen/dp_1">
 
                 <LinearLayout
@@ -224,18 +247,22 @@
                     android:padding="@dimen/dp_16">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:layout_width="@dimen/dp_52"
-                        android:layout_height="@dimen/dp_52"
-                        app:cardBackgroundColor="#ECEBE5"
-                        app:cardCornerRadius="@dimen/dp_14"
-                        app:strokeWidth="0dp">
+                        android:id="@+id/card_mode_5_badge"
+                        android:layout_width="@dimen/dp_54"
+                        android:layout_height="@dimen/dp_54"
+                        app:cardBackgroundColor="@color/game_mode_5_bg"
+                        app:cardCornerRadius="@dimen/dp_16"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#D1DFEE"
+                        app:strokeWidth="@dimen/dp_1">
 
                         <TextView
+                            android:id="@+id/tv_mode_5_badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="5×5"
-                            android:textColor="#1E2024"
+                            android:textColor="@color/game_mode_5_accent"
                             android:textSize="@dimen/sp_17"
                             android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
@@ -248,6 +275,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_mode_5_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/mode_5x5_extended"
@@ -256,6 +284,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_mode_5_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_2"
@@ -268,9 +297,14 @@
                         android:id="@+id/tv_best_5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="#FAF6EB"
+                        android:paddingStart="@dimen/dp_8"
+                        android:paddingEnd="@dimen/dp_8"
+                        android:paddingTop="@dimen/dp_4"
+                        android:paddingBottom="@dimen/dp_4"
                         android:text="@string/best"
-                        android:textColor="#1E2024"
-                        android:textSize="@dimen/sp_13"
+                        android:textColor="#92400E"
+                        android:textSize="@dimen/sp_12"
                         android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -282,9 +316,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_20"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="@dimen/dp_18"
-                app:cardElevation="@dimen/dp_2"
-                app:strokeColor="#D9D7CE"
+                app:cardCornerRadius="@dimen/dp_20"
+                app:cardElevation="@dimen/dp_3"
+                app:cardUseCompatPadding="true"
+                app:strokeColor="#E4DFD7"
                 app:strokeWidth="@dimen/dp_1">
 
                 <LinearLayout
@@ -295,18 +330,22 @@
                     android:padding="@dimen/dp_16">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:layout_width="@dimen/dp_52"
-                        android:layout_height="@dimen/dp_52"
-                        app:cardBackgroundColor="#ECEBE5"
-                        app:cardCornerRadius="@dimen/dp_14"
-                        app:strokeWidth="0dp">
+                        android:id="@+id/card_mode_6_badge"
+                        android:layout_width="@dimen/dp_54"
+                        android:layout_height="@dimen/dp_54"
+                        app:cardBackgroundColor="@color/game_mode_6_bg"
+                        app:cardCornerRadius="@dimen/dp_16"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#DFD3EB"
+                        app:strokeWidth="@dimen/dp_1">
 
                         <TextView
+                            android:id="@+id/tv_mode_6_badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="6×6"
-                            android:textColor="#1E2024"
+                            android:textColor="@color/game_mode_6_accent"
                             android:textSize="@dimen/sp_17"
                             android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
@@ -319,6 +358,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_mode_6_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/mode_6x6_expanded"
@@ -327,6 +367,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_mode_6_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_2"
@@ -339,9 +380,14 @@
                         android:id="@+id/tv_best_6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="#FAF6EB"
+                        android:paddingStart="@dimen/dp_8"
+                        android:paddingEnd="@dimen/dp_8"
+                        android:paddingTop="@dimen/dp_4"
+                        android:paddingBottom="@dimen/dp_4"
                         android:text="@string/best"
-                        android:textColor="#1E2024"
-                        android:textSize="@dimen/sp_13"
+                        android:textColor="#92400E"
+                        android:textSize="@dimen/sp_12"
                         android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -357,40 +403,43 @@
                     android:id="@+id/btn_home_stats"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_42"
+                    android:layout_height="@dimen/dp_50"
                     android:layout_marginEnd="@dimen/dp_5"
                     android:layout_weight="1"
                     android:text="@string/nav_records"
                     android:textColor="#1E2024"
-                    android:textSize="@dimen/sp_12"
-                    app:cornerRadius="@dimen/dp_12"
+                    android:textSize="@dimen/sp_13"
+                    android:textStyle="bold"
+                    app:cornerRadius="@dimen/dp_14"
                     app:strokeColor="#D9D7CE" />
 
                 <Button
                     android:id="@+id/btn_home_themes"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_42"
+                    android:layout_height="@dimen/dp_50"
                     android:layout_marginStart="@dimen/dp_3"
                     android:layout_marginEnd="@dimen/dp_3"
                     android:layout_weight="1"
                     android:text="@string/nav_palette"
                     android:textColor="#1E2024"
-                    android:textSize="@dimen/sp_12"
-                    app:cornerRadius="@dimen/dp_12"
+                    android:textSize="@dimen/sp_13"
+                    android:textStyle="bold"
+                    app:cornerRadius="@dimen/dp_14"
                     app:strokeColor="#D9D7CE" />
 
                 <Button
                     android:id="@+id/btn_home_help"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_42"
+                    android:layout_height="@dimen/dp_50"
                     android:layout_marginStart="@dimen/dp_5"
                     android:layout_weight="1"
                     android:text="@string/nav_guide"
                     android:textColor="#1E2024"
-                    android:textSize="@dimen/sp_12"
-                    app:cornerRadius="@dimen/dp_12"
+                    android:textSize="@dimen/sp_13"
+                    android:textStyle="bold"
+                    app:cornerRadius="@dimen/dp_14"
                     app:strokeColor="#D9D7CE" />
             </LinearLayout>
 

@@ -9,9 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.redcodersgroup.numberblocks.R;
 import com.redcodersgroup.numberblocks.databinding.DialogCareerStatsBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogConfirmExitBinding;
@@ -27,6 +32,8 @@ import com.redcodersgroup.numberblocks.databinding.DialogTutorialBinding;
 import com.redcodersgroup.numberblocks.databinding.ItemTutorialSlideGoalBinding;
 import com.redcodersgroup.numberblocks.databinding.ItemTutorialSlideLeftRightBinding;
 import com.redcodersgroup.numberblocks.databinding.ItemTutorialSlideTopDownBinding;
+import com.redcodersgroup.numberblocks.theme.Theme;
+import com.redcodersgroup.numberblocks.theme.ThemeManager;
 import java.util.Locale;
 
 public class DialogHelper {
@@ -51,7 +58,139 @@ public class DialogHelper {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
+        applyDialogTheme(activity, contentView);
         return dialog;
+    }
+
+    private static void applyDialogTheme(Activity activity, View contentView) {
+        Theme theme = ThemeManager.getInstance().getCurrentTheme();
+        if (!theme.isDark) return;
+
+        applyDarkDialogThemeRecursive(activity, contentView, theme);
+    }
+
+    private static boolean isInsideViewPager(View view) {
+        android.view.ViewParent parent = view.getParent();
+        while (parent instanceof View) {
+            if (parent instanceof ViewPager2) return true;
+            parent = parent.getParent();
+        }
+        return false;
+    }
+
+    private static void applyDarkDialogThemeRecursive(Activity activity, View view, Theme theme) {
+        if (view instanceof MaterialCardView) {
+            MaterialCardView card = (MaterialCardView) view;
+            int id = card.getId();
+            // Do not override theme selector preview cards or tutorial illustration cards
+            if (id == R.id.card_theme_dark || id == R.id.card_theme_light
+                    || id == R.id.card_theme_neon || id == R.id.card_theme_pastel
+                    || isInsideViewPager(card)) {
+                return;
+            }
+            if (card.getCardElevation() > 0 || card.getUseCompatPadding()) {
+                card.setCardBackgroundColor(theme.cardBackgroundColor);
+                card.setStrokeColor(theme.cardStrokeColor);
+            } else {
+                card.setCardBackgroundColor(theme.btnSurfaceColor);
+                card.setStrokeColor(theme.btnStrokeColor);
+            }
+        } else if (view instanceof MaterialButton) {
+            MaterialButton matBtn = (MaterialButton) view;
+            int strokeWidth = matBtn.getStrokeWidth();
+            ColorStateList bgTint = matBtn.getBackgroundTintList();
+            int bgColor = bgTint != null ? bgTint.getDefaultColor() : 0;
+            int textColor = matBtn.getCurrentTextColor();
+
+            // 1. Text buttons (GameButton.Text: transparent background, no stroke)
+            if (strokeWidth == 0 && (bgColor == 0 || Color.alpha(bgColor) == 0)) {
+                matBtn.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+                matBtn.setTextColor(theme.textPrimaryColor);
+            }
+            // 2. Outlined / Secondary buttons (has stroke)
+            else if (strokeWidth > 0) {
+                matBtn.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+                matBtn.setStrokeColor(ColorStateList.valueOf(theme.btnStrokeColor));
+                int r = Color.red(textColor);
+                int g = Color.green(textColor);
+                int b = Color.blue(textColor);
+                if (r > 180 && g < 100 && b < 100) {
+                    matBtn.setTextColor(Color.parseColor("#EF4444"));
+                    if (matBtn.getIcon() != null) {
+                        matBtn.setIconTint(ColorStateList.valueOf(Color.parseColor("#EF4444")));
+                    }
+                } else {
+                    matBtn.setTextColor(theme.textPrimaryColor);
+                    if (matBtn.getIcon() != null) {
+                        matBtn.setIconTint(ColorStateList.valueOf(theme.textPrimaryColor));
+                    }
+                }
+            }
+            // 3. Solid Primary Buttons
+            else {
+                int r = Color.red(bgColor);
+                int g = Color.green(bgColor);
+                int b = Color.blue(bgColor);
+
+                // Red confirm (e.g. Restart confirm)
+                if (r > 180 && g < 100 && b < 100) {
+                    matBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#EF4444")));
+                    matBtn.setTextColor(Color.WHITE);
+                }
+                // Green continue (e.g. Pause continue)
+                else if (g > 150 && r < 100 && b < 160) {
+                    matBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#10B981")));
+                    matBtn.setTextColor(Color.WHITE);
+                }
+                // Gray secondary pills (#5A5D66 in pause menu)
+                else if (bgColor == Color.parseColor("#5A5D66")) {
+                    matBtn.setBackgroundTintList(ColorStateList.valueOf(theme.btnSurfaceColor));
+                    matBtn.setStrokeColor(ColorStateList.valueOf(theme.btnStrokeColor));
+                    matBtn.setStrokeWidth((int) (1 * activity.getResources().getDisplayMetrics().density));
+                    matBtn.setTextColor(theme.textPrimaryColor);
+                }
+                // Primary action buttons (previously #1E2024) -> High contrast radiant amber gold
+                else {
+                    matBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F59E0B")));
+                    matBtn.setTextColor(Color.parseColor("#181A1F"));
+                }
+            }
+        } else if (view instanceof TextView && !(view instanceof Button)) {
+            TextView tv = (TextView) view;
+            if (isInsideViewPager(tv) && tv.getParent() instanceof android.widget.GridLayout) {
+                return;
+            }
+            int currentColor = tv.getCurrentTextColor();
+            double lum = (0.299 * Color.red(currentColor) + 0.587 * Color.green(currentColor) + 0.114 * Color.blue(currentColor)) / 255.0;
+            if (lum < 0.45) {
+                if (lum < 0.2) {
+                    tv.setTextColor(theme.textPrimaryColor);
+                } else {
+                    tv.setTextColor(theme.textSecondaryColor);
+                }
+            }
+        } else if (view instanceof ImageView) {
+            ImageView iv = (ImageView) view;
+            ColorStateList tint = iv.getImageTintList();
+            if (tint != null) {
+                int c = tint.getDefaultColor();
+                double lum = (0.299 * Color.red(c) + 0.587 * Color.green(c) + 0.114 * Color.blue(c)) / 255.0;
+                if (lum < 0.5) {
+                    iv.setImageTintList(ColorStateList.valueOf(theme.textSecondaryColor));
+                }
+            }
+        } else if (view != null && "View".equals(view.getClass().getSimpleName())) {
+            if (view.getLayoutParams() != null && view.getLayoutParams().height <= (int) (2 * activity.getResources().getDisplayMetrics().density)) {
+                view.setBackgroundColor(theme.cardStrokeColor);
+            }
+        }
+
+        if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                applyDarkDialogThemeRecursive(activity, vg.getChildAt(i), theme);
+            }
+        }
     }
 
     public static Dialog showConfirmExit(Activity activity, Runnable onExit) {
@@ -105,15 +244,30 @@ public class DialogHelper {
         DialogThemeSelectorBinding binding = DialogThemeSelectorBinding.inflate(activity.getLayoutInflater());
         Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        boolean isAlabaster = "alabaster".equals(currentTheme) || "light".equals(currentTheme);
-        boolean isTitanium = "titanium".equals(currentTheme) || "neon".equals(currentTheme);
-        boolean isNordic = "nordic".equals(currentTheme) || "pastel".equals(currentTheme);
-        boolean isGraphite = "graphite".equals(currentTheme) || "dark".equals(currentTheme);
+        boolean isAlabaster = "alabaster".equalsIgnoreCase(currentTheme) || "light".equalsIgnoreCase(currentTheme) || "golden".equalsIgnoreCase(currentTheme);
+        boolean isTitanium = "titanium".equalsIgnoreCase(currentTheme) || "neon".equalsIgnoreCase(currentTheme);
+        boolean isNordic = "nordic".equalsIgnoreCase(currentTheme) || "pastel".equalsIgnoreCase(currentTheme);
+        boolean isGraphite = "graphite".equalsIgnoreCase(currentTheme) || "dark".equalsIgnoreCase(currentTheme) || "charcoal".equalsIgnoreCase(currentTheme);
 
-        binding.cardThemeDark.setStrokeColor(isAlabaster ? Color.parseColor("#1E2024") : Color.parseColor("#D9D7CE"));
-        binding.cardThemeLight.setStrokeColor(isTitanium ? Color.parseColor("#1E2024") : Color.parseColor("#D9D7CE"));
-        binding.cardThemeNeon.setStrokeColor(isNordic ? Color.parseColor("#1E2024") : Color.parseColor("#D9D7CE"));
-        binding.cardThemePastel.setStrokeColor(isGraphite ? Color.parseColor("#EDEDF0") : Color.parseColor("#353942"));
+        Theme currentActiveTheme = ThemeManager.getInstance().getCurrentTheme();
+        int activeStrokeColor = Color.parseColor("#F59E0B");
+        int inactiveStrokeColor = currentActiveTheme.isDark ? Color.parseColor("#353942") : Color.parseColor("#D9D7CE");
+        int activeWidth = (int) (2 * activity.getResources().getDisplayMetrics().density);
+        int inactiveWidth = (int) (1 * activity.getResources().getDisplayMetrics().density);
+
+        binding.cardThemeDark.setStrokeColor(isAlabaster ? activeStrokeColor : inactiveStrokeColor);
+        binding.cardThemeDark.setStrokeWidth(isAlabaster ? activeWidth : inactiveWidth);
+
+        binding.cardThemeLight.setStrokeColor(isTitanium ? activeStrokeColor : inactiveStrokeColor);
+        binding.cardThemeLight.setStrokeWidth(isTitanium ? activeWidth : inactiveWidth);
+
+        binding.cardThemeNeon.setStrokeColor(isNordic ? activeStrokeColor : inactiveStrokeColor);
+        binding.cardThemeNeon.setStrokeWidth(isNordic ? activeWidth : inactiveWidth);
+
+        binding.cardThemePastel.setStrokeColor(isGraphite ? activeStrokeColor : inactiveStrokeColor);
+        binding.cardThemePastel.setStrokeWidth(isGraphite ? activeWidth : inactiveWidth);
+
+        binding.btnCloseTheme.setTextColor(currentActiveTheme.textPrimaryColor);
 
         binding.cardThemeDark.setOnClickListener(view -> {
             dialog.dismiss();

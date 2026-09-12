@@ -197,6 +197,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_8">
 
@@ -216,6 +218,7 @@
             app:cardBackgroundColor="#1E2024"
             app:cardCornerRadius="@dimen/dp_26"
             app:cardElevation="@dimen/dp_12"
+            app:cardUseCompatPadding="true"
             app:strokeColor="#FFD54F"
             app:strokeWidth="@dimen/dp_2">
 

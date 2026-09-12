@@ -10,6 +10,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.redcodersgroup.numberblocks.analytics.AnalyticsManager;
 import com.redcodersgroup.numberblocks.databinding.ActivitySplashBinding;
 import com.redcodersgroup.numberblocks.storage.PreferencesManager;
 import com.redcodersgroup.numberblocks.ui.StatusBarHelper;
@@ -21,6 +22,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AnalyticsManager.getInstance(this).logScreenView("Splash");
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

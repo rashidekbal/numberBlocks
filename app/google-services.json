@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "397181249333",
+    "project_id": "numberblocks-695b0",
+    "storage_bucket": "numberblocks-695b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397181249333:android:b6ec832ee8a1d481e34e7c",
+        "android_client_info": {
+          "package_name": "com.redcodersgroup.numberblocks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDf1NW85DitowHrvMTamGQZBK80ZkNCHEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

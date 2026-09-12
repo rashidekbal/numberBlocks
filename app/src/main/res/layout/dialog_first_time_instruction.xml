@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:orientation="vertical"
     android:padding="@dimen/dp_20">
 
@@ -13,6 +15,7 @@
         app:cardBackgroundColor="#FAF8F5"
         app:cardCornerRadius="@dimen/dp_28"
         app:cardElevation="@dimen/dp_6"
+        app:cardUseCompatPadding="true"
         app:strokeColor="#E6E3DB"
         app:strokeWidth="@dimen/dp_1">
 
@@ -93,14 +96,14 @@
                 android:id="@+id/btn_tutorial_action"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
+                android:layout_height="@dimen/dp_56"
                 android:layout_marginTop="@dimen/dp_18"
-                android:backgroundTint="#00C853"
+                android:backgroundTint="#10B981"
                 android:text="@string/next"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/sp_16"
                 android:textStyle="bold"
-                app:cornerRadius="@dimen/dp_25" />
+                app:cornerRadius="@dimen/dp_28" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

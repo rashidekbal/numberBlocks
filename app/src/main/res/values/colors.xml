@@ -7,8 +7,18 @@
     <color name="surface_card">#FFFFFF</color>
     <color name="text_primary">#1E2024</color>
     <color name="text_secondary">#737680</color>
-    <color name="accent_gold">#705E47</color>
-    <color name="accent_green">#4A554A</color>
-    <color name="accent_red">#A63A2F</color>
+    <color name="accent_gold">#F59E0B</color>
+    <color name="accent_green">#10B981</color>
+    <color name="accent_red">#EF4444</color>
     <color name="border_subtle">#D9D7CE</color>
+    <color name="game_amber">#F59E0B</color>
+    <color name="game_emerald">#10B981</color>
+    <color name="game_coral">#EF4444</color>
+    <color name="game_mode_4_bg">#F4EFE6</color>
+    <color name="game_mode_4_accent">#8F7A66</color>
+    <color name="game_mode_5_bg">#EBF1F8</color>
+    <color name="game_mode_5_accent">#3E6990</color>
+    <color name="game_mode_6_bg">#F2EDF8</color>
+    <color name="game_mode_6_accent">#684A88</color>
+    <color name="game_trophy_gold">#D97706</color>
 </resources>

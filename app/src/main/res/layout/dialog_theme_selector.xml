@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:orientation="vertical"
     android:padding="@dimen/dp_20">
 
@@ -13,6 +15,7 @@
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="@dimen/dp_20"
         app:cardElevation="@dimen/dp_3"
+        app:cardUseCompatPadding="true"
         app:strokeColor="#D9D7CE"
         app:strokeWidth="@dimen/dp_1">
 
@@ -44,6 +47,7 @@
                     android:layout_marginBottom="@dimen/dp_8"
                     app:cardBackgroundColor="#FAF9F6"
                     app:cardCornerRadius="@dimen/dp_12"
+                    app:cardElevation="0dp"
                     app:strokeColor="#1E2024"
                     app:strokeWidth="@dimen/dp_2">
 
@@ -58,13 +62,13 @@
                             android:layout_width="@dimen/dp_20"
                             android:layout_height="@dimen/dp_20"
                             android:background="@drawable/circle_badge"
-                            android:backgroundTint="#ECEBE5" />
+                            android:backgroundTint="#F59E0B" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_12"
-                            android:text="Alabaster"
+                            android:text="Golden Arcade (Classic)"
                             android:textColor="#1E2024"
                             android:textSize="@dimen/sp_14"
                             android:textStyle="bold" />
@@ -79,6 +83,7 @@
                     android:layout_marginBottom="@dimen/dp_8"
                     app:cardBackgroundColor="#F2F3F5"
                     app:cardCornerRadius="@dimen/dp_12"
+                    app:cardElevation="0dp"
                     app:strokeColor="#D9D7CE"
                     app:strokeWidth="@dimen/dp_1">
 
@@ -114,6 +119,7 @@
                     android:layout_marginBottom="@dimen/dp_8"
                     app:cardBackgroundColor="#F8F6F2"
                     app:cardCornerRadius="@dimen/dp_12"
+                    app:cardElevation="0dp"
                     app:strokeColor="#D9D7CE"
                     app:strokeWidth="@dimen/dp_1">
 
@@ -148,6 +154,7 @@
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="#222429"
                     app:cardCornerRadius="@dimen/dp_12"
+                    app:cardElevation="0dp"
                     app:strokeColor="#353942"
                     app:strokeWidth="@dimen/dp_1">
 
@@ -178,13 +185,13 @@
 
             <Button
                 android:id="@+id/btn_close_theme"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/GameButton.Text"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="@dimen/dp_48"
                 android:layout_marginTop="@dimen/dp_10"
                 android:text="Done"
                 android:textColor="#1E2024"
-                android:textSize="@dimen/sp_13"
+                android:textSize="@dimen/sp_14"
                 android:textStyle="bold" />
 
         </LinearLayout>

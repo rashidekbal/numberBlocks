@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAF9F6"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:gravity="center">
 
     <!-- Center Content -->
@@ -14,6 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical">
 
         <!-- Animated Hero Tile -->
@@ -24,6 +28,7 @@
             app:cardBackgroundColor="#2C2B28"
             app:cardCornerRadius="@dimen/dp_24"
             app:cardElevation="@dimen/dp_6"
+            app:cardUseCompatPadding="true"
             app:strokeWidth="0dp">
 
             <FrameLayout

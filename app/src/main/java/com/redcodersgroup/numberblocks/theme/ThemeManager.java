@@ -22,29 +22,33 @@ public class ThemeManager {
     }
 
     private void initThemes() {
-        // 1. Alabaster Minimal (Default - Warm Limestone & Tactile Stone)
+        // 1. Golden Arcade (Flagship Game Palette - Warm Cream, Coral & Radiant Gold)
         Map<Integer, Integer> alabasterTiles = new HashMap<>();
-        alabasterTiles.put(2, Color.parseColor("#EFECE6"));
-        alabasterTiles.put(4, Color.parseColor("#E4DFD5"));
-        alabasterTiles.put(8, Color.parseColor("#D9D0C1"));
-        alabasterTiles.put(16, Color.parseColor("#CFC3B0"));
-        alabasterTiles.put(32, Color.parseColor("#C2B49E"));
-        alabasterTiles.put(64, Color.parseColor("#B3A28B"));
-        alabasterTiles.put(128, Color.parseColor("#9E8B72"));
-        alabasterTiles.put(256, Color.parseColor("#87745B"));
-        alabasterTiles.put(512, Color.parseColor("#705E47"));
-        alabasterTiles.put(1024, Color.parseColor("#5A4A35"));
-        alabasterTiles.put(2048, Color.parseColor("#2C2B28"));
-        alabasterTiles.put(4096, Color.parseColor("#1C1B18"));
-        alabasterTiles.put(8192, Color.parseColor("#12110E"));
-        alabasterTiles.put(16384, Color.parseColor("#080807"));
-        alabasterTiles.put(32768, Color.parseColor("#1A237E"));
-        alabasterTiles.put(65536, Color.parseColor("#311B92"));
-        alabasterTiles.put(131072, Color.parseColor("#880E4F"));
-        themes.put("alabaster", new Theme("alabaster", "Alabaster Minimal",
-                Color.parseColor("#FAF9F6"), Color.parseColor("#E8E6E0"),
-                Color.parseColor("#DDDBCF"), Color.parseColor("#F0EFEA"),
-                Color.parseColor("#1E2024"), Color.parseColor("#737680"), alabasterTiles));
+        alabasterTiles.put(2, Color.parseColor("#EEE4DA"));
+        alabasterTiles.put(4, Color.parseColor("#EDE0C8"));
+        alabasterTiles.put(8, Color.parseColor("#F2B179"));
+        alabasterTiles.put(16, Color.parseColor("#F59563"));
+        alabasterTiles.put(32, Color.parseColor("#F67C5F"));
+        alabasterTiles.put(64, Color.parseColor("#F65E3B"));
+        alabasterTiles.put(128, Color.parseColor("#EDCF72"));
+        alabasterTiles.put(256, Color.parseColor("#EDCC61"));
+        alabasterTiles.put(512, Color.parseColor("#EDC850"));
+        alabasterTiles.put(1024, Color.parseColor("#EDC53F"));
+        alabasterTiles.put(2048, Color.parseColor("#EDC22E"));
+        alabasterTiles.put(4096, Color.parseColor("#3C3A32"));
+        alabasterTiles.put(8192, Color.parseColor("#242320"));
+        alabasterTiles.put(16384, Color.parseColor("#151412"));
+        alabasterTiles.put(32768, Color.parseColor("#F59E0B"));
+        alabasterTiles.put(65536, Color.parseColor("#EF4444"));
+        alabasterTiles.put(131072, Color.parseColor("#8B5CF6"));
+        Theme goldenTheme = new Theme("alabaster", "Golden Arcade", false,
+                Color.parseColor("#FAF8EF"), Color.parseColor("#BBADA0"),
+                Color.parseColor("#CDC1B4"), Color.parseColor("#FFFFFF"),
+                Color.parseColor("#FFFFFF"), Color.parseColor("#E4DFD7"),
+                Color.parseColor("#F0EFEA"), Color.parseColor("#E3E1D8"),
+                Color.parseColor("#1E2024"), Color.parseColor("#776E65"), alabasterTiles);
+        themes.put("alabaster", goldenTheme);
+        themes.put("golden", goldenTheme);
 
         // 2. Titanium Slate (Cool Architectural Neutral)
         Map<Integer, Integer> titaniumTiles = new HashMap<>();
@@ -65,10 +69,13 @@ public class ThemeManager {
         titaniumTiles.put(32768, Color.parseColor("#0A192F"));
         titaniumTiles.put(65536, Color.parseColor("#1B1A3A"));
         titaniumTiles.put(131072, Color.parseColor("#2A1224"));
-        themes.put("titanium", new Theme("titanium", "Titanium Slate",
+        Theme titaniumTheme = new Theme("titanium", "Titanium Slate", false,
                 Color.parseColor("#F2F3F5"), Color.parseColor("#DFE2E8"),
-                Color.parseColor("#CFD3DB"), Color.parseColor("#E7E9ED"),
-                Color.parseColor("#191B1F"), Color.parseColor("#717580"), titaniumTiles));
+                Color.parseColor("#CFD3DB"), Color.parseColor("#FFFFFF"),
+                Color.parseColor("#FFFFFF"), Color.parseColor("#E0E3EA"),
+                Color.parseColor("#E7E9ED"), Color.parseColor("#D6D9E0"),
+                Color.parseColor("#191B1F"), Color.parseColor("#717580"), titaniumTiles);
+        themes.put("titanium", titaniumTheme);
 
         // 3. Nordic Clay (Warm Organic Sandstone)
         Map<Integer, Integer> nordicTiles = new HashMap<>();
@@ -89,40 +96,72 @@ public class ThemeManager {
         nordicTiles.put(32768, Color.parseColor("#1C1608"));
         nordicTiles.put(65536, Color.parseColor("#2E1C0C"));
         nordicTiles.put(131072, Color.parseColor("#3B1812"));
-        themes.put("nordic", new Theme("nordic", "Nordic Clay",
+        Theme nordicTheme = new Theme("nordic", "Nordic Clay", false,
                 Color.parseColor("#F8F6F2"), Color.parseColor("#E4DDD2"),
-                Color.parseColor("#D6CDBD"), Color.parseColor("#ECE7DF"),
-                Color.parseColor("#242220"), Color.parseColor("#7A7570"), nordicTiles));
+                Color.parseColor("#D6CDBD"), Color.parseColor("#FFFFFF"),
+                Color.parseColor("#FFFFFF"), Color.parseColor("#E5DFD6"),
+                Color.parseColor("#ECE7DF"), Color.parseColor("#DDD7CE"),
+                Color.parseColor("#242220"), Color.parseColor("#7A7570"), nordicTiles);
+        themes.put("nordic", nordicTheme);
 
-        // 4. Charcoal Slate (Architectural Dark, Matte Graphite, Zero Purple)
+        // 4. Charcoal Slate (High-Contrast Architectural Dark with Luminous Gem Progression)
         Map<Integer, Integer> graphiteTiles = new HashMap<>();
-        graphiteTiles.put(2, Color.parseColor("#363942"));
-        graphiteTiles.put(4, Color.parseColor("#424652"));
-        graphiteTiles.put(8, Color.parseColor("#535866"));
-        graphiteTiles.put(16, Color.parseColor("#666C7D"));
-        graphiteTiles.put(32, Color.parseColor("#7B8296"));
-        graphiteTiles.put(64, Color.parseColor("#8F97AE"));
-        graphiteTiles.put(128, Color.parseColor("#A6ADC4"));
-        graphiteTiles.put(256, Color.parseColor("#BCC3DB"));
-        graphiteTiles.put(512, Color.parseColor("#D0D6EC"));
-        graphiteTiles.put(1024, Color.parseColor("#E2E6F5"));
-        graphiteTiles.put(2048, Color.parseColor("#FFFFFF"));
-        graphiteTiles.put(4096, Color.parseColor("#CFCFD6"));
-        graphiteTiles.put(8192, Color.parseColor("#9E9EA8"));
-        graphiteTiles.put(16384, Color.parseColor("#72727D"));
-        graphiteTiles.put(32768, Color.parseColor("#535461"));
-        graphiteTiles.put(65536, Color.parseColor("#3B3D4A"));
-        graphiteTiles.put(131072, Color.parseColor("#252733"));
-        themes.put("graphite", new Theme("graphite", "Charcoal Slate",
-                Color.parseColor("#1C1E22"), Color.parseColor("#23252A"),
-                Color.parseColor("#2D3037"), Color.parseColor("#25282E"),
-                Color.parseColor("#EDEDF0"), Color.parseColor("#8C909C"), graphiteTiles));
+        graphiteTiles.put(2, Color.parseColor("#3D4353"));      // Slate blue-grey (distinct from #2A2E39 empty slot)
+        graphiteTiles.put(4, Color.parseColor("#4E5669"));      // Cool steel grey
+        graphiteTiles.put(8, Color.parseColor("#D97706"));      // Luminous amber topaz
+        graphiteTiles.put(16, Color.parseColor("#EA580C"));     // Electric tangerine
+        graphiteTiles.put(32, Color.parseColor("#DC2626"));     // Radiant ruby
+        graphiteTiles.put(64, Color.parseColor("#9333EA"));     // Neon amethyst
+        graphiteTiles.put(128, Color.parseColor("#0284C7"));    // Electric sapphire
+        graphiteTiles.put(256, Color.parseColor("#059669"));    // Luminous emerald
+        graphiteTiles.put(512, Color.parseColor("#0891B2"));    // Vibrant cyan
+        graphiteTiles.put(1024, Color.parseColor("#C026D3"));   // Cyberpunk fuchsia
+        graphiteTiles.put(2048, Color.parseColor("#F59E0B"));   // Crown radiant gold
+        graphiteTiles.put(4096, Color.parseColor("#E11D48"));   // Mythic crimson rose
+        graphiteTiles.put(8192, Color.parseColor("#38BDF8"));   // Celestial cyan
+        graphiteTiles.put(16384, Color.parseColor("#A855F7"));  // Supernova purple
+        graphiteTiles.put(32768, Color.parseColor("#10B981"));  // Matrix green
+        graphiteTiles.put(65536, Color.parseColor("#F43F5E"));  // Hyper pink
+        graphiteTiles.put(131072, Color.parseColor("#FFFFFF")); // Pure starlight
+        Theme graphiteTheme = new Theme("graphite", "Charcoal Slate", true,
+                Color.parseColor("#181A1F"), Color.parseColor("#20232B"),
+                Color.parseColor("#2A2E39"), Color.parseColor("#242730"),
+                Color.parseColor("#23262F"), Color.parseColor("#343845"),
+                Color.parseColor("#2A2E38"), Color.parseColor("#3D4352"),
+                Color.parseColor("#F1F3F7"), Color.parseColor("#9DA3B4"), graphiteTiles);
+        themes.put("graphite", graphiteTheme);
+        themes.put("charcoal", graphiteTheme);
+        themes.put("dark", graphiteTheme);
+
+        // 5. Prism Pop (Ultra Colorful Spectrum)
+        Map<Integer, Integer> prismTiles = new HashMap<>();
+        prismTiles.put(2, Color.parseColor("#FEE140"));
+        prismTiles.put(4, Color.parseColor("#00E676"));
+        prismTiles.put(8, Color.parseColor("#FF9100"));
+        prismTiles.put(16, Color.parseColor("#FF3366"));
+        prismTiles.put(32, Color.parseColor("#FF007F"));
+        prismTiles.put(64, Color.parseColor("#9D4EDD"));
+        prismTiles.put(128, Color.parseColor("#3A86FF"));
+        prismTiles.put(256, Color.parseColor("#00F5D4"));
+        prismTiles.put(512, Color.parseColor("#7000FF"));
+        prismTiles.put(1024, Color.parseColor("#FF5400"));
+        prismTiles.put(2048, Color.parseColor("#FFBE0B"));
+        prismTiles.put(4096, Color.parseColor("#F72585"));
+        prismTiles.put(8192, Color.parseColor("#4CC9F0"));
+        prismTiles.put(16384, Color.parseColor("#7209B7"));
+        Theme prismTheme = new Theme("prism", "Prism Pop", true,
+                Color.parseColor("#0B0E17"), Color.parseColor("#171B2B"),
+                Color.parseColor("#252B42"), Color.parseColor("#171B2B"),
+                Color.parseColor("#171B2B"), Color.parseColor("#2B3250"),
+                Color.parseColor("#1E2337"), Color.parseColor("#323B5C"),
+                Color.parseColor("#FFFFFF"), Color.parseColor("#A5B4FC"), prismTiles);
+        themes.put("prism", prismTheme);
+        themes.put("colorful", prismTheme);
 
         // Aliases for backward compatibility
-        themes.put("light", themes.get("alabaster"));
-        themes.put("dark", themes.get("graphite"));
-        themes.put("neon", themes.get("titanium"));
-        themes.put("pastel", themes.get("nordic"));
+        themes.put("light", goldenTheme);
+        themes.put("neon", titaniumTheme);
+        themes.put("pastel", nordicTheme);
     }
 
     public Theme getCurrentTheme() { return currentTheme; }
