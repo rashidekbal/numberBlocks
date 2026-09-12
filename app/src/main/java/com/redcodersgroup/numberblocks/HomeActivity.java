@@ -8,9 +8,14 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.redcodersgroup.numberblocks.ads.AdsManager;
 import com.redcodersgroup.numberblocks.analytics.AnalyticsManager;
@@ -35,6 +40,8 @@ public class HomeActivity extends AppCompatActivity {
     private final Gson gson = new Gson();
 
     private Dialog currentDialog;
+    private int currentSelectedSize = 4;
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,20 +63,78 @@ public class HomeActivity extends AppCompatActivity {
 
         // Apply system bar insets to prevent status/navigation bar overlap
         StatusBarHelper.applySystemBarInsets(binding.getRoot());
+
+        int lastSize = prefs.getLastPlayedSize();
+        if (lastSize >= 4 && lastSize <= 6) {
+            currentSelectedSize = lastSize;
+        } else {
+            currentSelectedSize = 4;
+        }
+
         applyTheme();
 
         AnalyticsManager.getInstance(this).logScreenView("Home");
 
-        // Mode clicks
-        binding.cardMode4.setOnClickListener(v -> onSelectMode(4));
-        binding.cardMode5.setOnClickListener(v -> onSelectMode(5));
-        binding.cardMode6.setOnClickListener(v -> onSelectMode(6));
+        // Mode switch tabs
+        binding.tabHero4.setOnClickListener(v -> selectMode(4));
+        binding.tabHero5.setOnClickListener(v -> selectMode(5));
+        binding.tabHero6.setOnClickListener(v -> selectMode(6));
 
-        // Resume active game
-        binding.btnHomeResumeRun.setOnClickListener(v -> {
-            int lastSize = prefs.getLastPlayedSize();
-            launchGame(lastSize, true);
+        // Swipe & tap gesture detector for hero board
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            private static final int SWIPE_THRESHOLD = 80;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 80;
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                onSelectMode(currentSelectedSize);
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (e1 == null || e2 == null) return false;
+                float diffX = e2.getX() - e1.getX();
+                float diffY = e2.getY() - e1.getY();
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffX > 0) {
+                            // Swiped right -> go to smaller/previous grid
+                            if (currentSelectedSize > 4) {
+                                selectMode(currentSelectedSize - 1);
+                                hapticManager.click();
+                            }
+                        } else {
+                            // Swiped left -> go to larger/next grid
+                            if (currentSelectedSize < 6) {
+                                selectMode(currentSelectedSize + 1);
+                                hapticManager.click();
+                            }
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
         });
+
+        binding.cardHeroBoard.setOnClickListener(v -> onSelectMode(currentSelectedSize));
+        binding.cardHeroBoard.setOnTouchListener((v, event) -> {
+            if (gestureDetector.onTouchEvent(event)) {
+                return true;
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                v.performClick();
+            }
+            return true;
+        });
+
+        selectMode(currentSelectedSize);
 
         // Quick Controls
         binding.btnHomeSettings.setOnClickListener(v -> showSettingsDialog());
@@ -85,7 +150,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         applyTheme();
-        updateDashboard();
     }
 
     @Override
@@ -112,89 +176,14 @@ public class HomeActivity extends AppCompatActivity {
             binding.btnHomeSettings.setBackground(settingsCircle);
             binding.btnHomeSettings.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
 
-            // Resume Active Run Card
-            binding.cardHomeResume.setCardBackgroundColor(theme.cardBackgroundColor);
-            binding.cardHomeResume.setStrokeColor(theme.cardStrokeColor);
-            binding.tvHomeResumeScore.setTextColor(theme.textPrimaryColor);
-            if (theme.isDark) {
-                binding.tvHomeResumeBadge.setBackgroundColor(Color.parseColor("#3D2612"));
-                binding.tvHomeResumeBadge.setTextColor(Color.parseColor("#FBBF24"));
-                binding.btnHomeResumeRun.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F1F3F7")));
-                binding.btnHomeResumeRun.setTextColor(Color.parseColor("#181A1F"));
-            } else {
-                binding.tvHomeResumeBadge.setBackgroundColor(Color.parseColor("#FEF3C7"));
-                binding.tvHomeResumeBadge.setTextColor(Color.parseColor("#B45309"));
-                binding.btnHomeResumeRun.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1E2024")));
-                binding.btnHomeResumeRun.setTextColor(Color.parseColor("#FFFFFF"));
-            }
+            // Hero Card & Preview
+            binding.cardHeroBoard.setCardBackgroundColor(theme.cardBackgroundColor);
+            binding.cardHeroBoard.setStrokeColor(theme.cardStrokeColor);
+            binding.tvHeroGridSize.setTextColor(theme.textPrimaryColor);
+            binding.previewHeroBoard.setTheme(theme);
 
-            // Mode Cards (4x4, 5x5, 6x6)
-            binding.cardMode4.setCardBackgroundColor(theme.cardBackgroundColor);
-            binding.cardMode4.setStrokeColor(theme.cardStrokeColor);
-            binding.tvMode4Title.setTextColor(theme.textPrimaryColor);
-            binding.tvMode4Desc.setTextColor(theme.textSecondaryColor);
-
-            binding.cardMode5.setCardBackgroundColor(theme.cardBackgroundColor);
-            binding.cardMode5.setStrokeColor(theme.cardStrokeColor);
-            binding.tvMode5Title.setTextColor(theme.textPrimaryColor);
-            binding.tvMode5Desc.setTextColor(theme.textSecondaryColor);
-
-            binding.cardMode6.setCardBackgroundColor(theme.cardBackgroundColor);
-            binding.cardMode6.setStrokeColor(theme.cardStrokeColor);
-            binding.tvMode6Title.setTextColor(theme.textPrimaryColor);
-            binding.tvMode6Desc.setTextColor(theme.textSecondaryColor);
-
-            if (theme.isDark) {
-                // 4x4 badge dark
-                binding.cardMode4Badge.setCardBackgroundColor(Color.parseColor("#2E2822"));
-                binding.cardMode4Badge.setStrokeColor(Color.parseColor("#4D3A2A"));
-                binding.tvMode4Badge.setTextColor(Color.parseColor("#FDBA74"));
-
-                // 5x5 badge dark
-                binding.cardMode5Badge.setCardBackgroundColor(Color.parseColor("#212C3B"));
-                binding.cardMode5Badge.setStrokeColor(Color.parseColor("#2D4159"));
-                binding.tvMode5Badge.setTextColor(Color.parseColor("#60A5FA"));
-
-                // 6x6 badge dark
-                binding.cardMode6Badge.setCardBackgroundColor(Color.parseColor("#2E223B"));
-                binding.cardMode6Badge.setStrokeColor(Color.parseColor("#48315E"));
-                binding.tvMode6Badge.setTextColor(Color.parseColor("#C084FC"));
-
-                // Best score chips dark
-                int chipBgDark = Color.parseColor("#2A2F3B");
-                int chipTextDark = Color.parseColor("#FBBF24");
-                binding.tvBest4.setBackgroundColor(chipBgDark);
-                binding.tvBest4.setTextColor(chipTextDark);
-                binding.tvBest5.setBackgroundColor(chipBgDark);
-                binding.tvBest5.setTextColor(chipTextDark);
-                binding.tvBest6.setBackgroundColor(chipBgDark);
-                binding.tvBest6.setTextColor(chipTextDark);
-            } else {
-                // 4x4 badge light
-                binding.cardMode4Badge.setCardBackgroundColor(getColor(R.color.game_mode_4_bg));
-                binding.cardMode4Badge.setStrokeColor(Color.parseColor("#E3D8C8"));
-                binding.tvMode4Badge.setTextColor(getColor(R.color.game_mode_4_accent));
-
-                // 5x5 badge light
-                binding.cardMode5Badge.setCardBackgroundColor(getColor(R.color.game_mode_5_bg));
-                binding.cardMode5Badge.setStrokeColor(Color.parseColor("#D1DFEE"));
-                binding.tvMode5Badge.setTextColor(getColor(R.color.game_mode_5_accent));
-
-                // 6x6 badge light
-                binding.cardMode6Badge.setCardBackgroundColor(getColor(R.color.game_mode_6_bg));
-                binding.cardMode6Badge.setStrokeColor(Color.parseColor("#DFD3EB"));
-                binding.tvMode6Badge.setTextColor(getColor(R.color.game_mode_6_accent));
-
-                // Best score chips light
-                int chipBgLight = Color.parseColor("#FAF6EB");
-                int chipTextLight = Color.parseColor("#92400E");
-                binding.tvBest4.setBackgroundColor(chipBgLight);
-                binding.tvBest4.setTextColor(chipTextLight);
-                binding.tvBest5.setBackgroundColor(chipBgLight);
-                binding.tvBest5.setTextColor(chipTextLight);
-                binding.tvBest6.setBackgroundColor(chipBgLight);
-                binding.tvBest6.setTextColor(chipTextLight);
-            }
+            // Tabs & Dots
+            updateHeroTabsAndDots(theme);
 
             // Bottom Nav Buttons
             styleOutlinedNavButton(binding.btnHomeStats, theme);
@@ -204,6 +193,61 @@ public class HomeActivity extends AppCompatActivity {
         StatusBarHelper.updateSystemBars(this, theme.backgroundColor);
     }
 
+    private void selectMode(int size) {
+        currentSelectedSize = size;
+        if (binding != null) {
+            binding.previewHeroBoard.setGridSize(size);
+            binding.tvHeroGridSize.setText(size + " × " + size);
+            updateHeroTabsAndDots(themeManager.getCurrentTheme());
+        }
+    }
+
+    private void updateHeroTabsAndDots(Theme theme) {
+        if (binding == null) return;
+        float density = getResources().getDisplayMetrics().density;
+
+        // Tabs
+        setTabState(binding.tabHero4, binding.tvTabHero4, currentSelectedSize == 4, theme);
+        setTabState(binding.tabHero5, binding.tvTabHero5, currentSelectedSize == 5, theme);
+        setTabState(binding.tabHero6, binding.tvTabHero6, currentSelectedSize == 6, theme);
+
+        // Dots
+        setDotState(binding.dotHero4, currentSelectedSize == 4, theme, density);
+        setDotState(binding.dotHero5, currentSelectedSize == 5, theme, density);
+        setDotState(binding.dotHero6, currentSelectedSize == 6, theme, density);
+    }
+
+    private void setTabState(MaterialCardView card, TextView tv, boolean isSelected, Theme theme) {
+        if (isSelected) {
+            int activeBg = theme.isDark ? Color.parseColor("#323742") : Color.parseColor("#E5E1D8");
+            int activeStroke = theme.isDark ? Color.parseColor("#4B5363") : Color.parseColor("#C8C3B8");
+            card.setCardBackgroundColor(activeBg);
+            card.setStrokeColor(activeStroke);
+            tv.setTextColor(theme.textPrimaryColor);
+        } else {
+            card.setCardBackgroundColor(Color.TRANSPARENT);
+            card.setStrokeColor(Color.TRANSPARENT);
+            tv.setTextColor(theme.textSecondaryColor);
+        }
+    }
+
+    private void setDotState(View dot, boolean isActive, Theme theme, float density) {
+        ViewGroup.LayoutParams params = dot.getLayoutParams();
+        params.width = (int) ((isActive ? 20 : 6) * density);
+        params.height = (int) (6 * density);
+        dot.setLayoutParams(params);
+
+        GradientDrawable pill = new GradientDrawable();
+        pill.setShape(GradientDrawable.RECTANGLE);
+        pill.setCornerRadius(3 * density);
+        if (isActive) {
+            pill.setColor(theme.textPrimaryColor);
+        } else {
+            pill.setColor(theme.isDark ? Color.parseColor("#3F4450") : Color.parseColor("#D5D1C7"));
+        }
+        dot.setBackground(pill);
+    }
+
     private void styleOutlinedNavButton(View btn, Theme theme) {
         if (btn instanceof MaterialButton) {
             MaterialButton matBtn = (MaterialButton) btn;
@@ -211,29 +255,6 @@ public class HomeActivity extends AppCompatActivity {
             matBtn.setTextColor(theme.textPrimaryColor);
             matBtn.setStrokeColor(ColorStateList.valueOf(theme.btnStrokeColor));
         }
-    }
-
-    private void updateDashboard() {
-        binding.tvBest4.setText(getString(R.string.best_format, String.format(Locale.getDefault(), "%,d", prefs.getBestScore(4))));
-        binding.tvBest5.setText(getString(R.string.best_format, String.format(Locale.getDefault(), "%,d", prefs.getBestScore(5))));
-        binding.tvBest6.setText(getString(R.string.best_format, String.format(Locale.getDefault(), "%,d", prefs.getBestScore(6))));
-
-        // Check for active in-progress game
-        int lastSize = prefs.getLastPlayedSize();
-        String activeState = prefs.getActiveGame(lastSize);
-        if (activeState != null) {
-            try {
-                GameSnapshot snapshot = gson.fromJson(activeState, GameSnapshot.class);
-                if (snapshot != null && !snapshot.isOver) {
-                    int size = (snapshot.gridValues != null) ? snapshot.gridValues.length : lastSize;
-                    binding.cardHomeResume.setVisibility(View.VISIBLE);
-                    binding.tvHomeResumeBadge.setText(getString(R.string.active_run_format, size + "×" + size));
-                    binding.tvHomeResumeScore.setText(String.format(Locale.getDefault(), "%,d", snapshot.score));
-                    return;
-                }
-            } catch (Exception ignored) {}
-        }
-        binding.cardHomeResume.setVisibility(View.GONE);
     }
 
     private void onSelectMode(int size) {
