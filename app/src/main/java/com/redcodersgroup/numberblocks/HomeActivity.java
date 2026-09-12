@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -361,6 +362,9 @@ public class HomeActivity extends AppCompatActivity {
             themeManager.setTheme(themeKey);
             prefs.setTheme(themeKey);
             applyTheme();
+            soundManager.playMilestone();
+            hapticManager.heavyClick();
+            Toast.makeText(this, getString(R.string.theme_applied, themeManager.getCurrentTheme().name), Toast.LENGTH_SHORT).show();
             AnalyticsManager.getInstance(this).logThemeChanged(themeKey);
         });
     }

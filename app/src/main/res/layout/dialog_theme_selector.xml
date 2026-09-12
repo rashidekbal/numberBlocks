@@ -39,7 +39,7 @@
                 android:layout_marginTop="@dimen/dp_14"
                 android:orientation="vertical">
 
-                <!-- 1. Alabaster -->
+                <!-- 1. Golden Classic (Default) -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_theme_dark"
                     android:layout_width="match_parent"
@@ -65,17 +65,34 @@
                             android:backgroundTint="#F59E0B" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tv_title_theme_dark"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_12"
-                            android:text="Golden Arcade (Classic)"
+                            android:layout_weight="1"
+                            android:text="Golden Classic"
                             android:textColor="#1E2024"
                             android:textSize="@dimen/sp_14"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_badge_theme_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/pill_badge"
+                            android:backgroundTint="#EDE0C8"
+                            android:paddingStart="@dimen/dp_8"
+                            android:paddingTop="@dimen/dp_2"
+                            android:paddingEnd="@dimen/dp_8"
+                            android:paddingBottom="@dimen/dp_2"
+                            android:text="@string/theme_badge_default"
+                            android:textColor="#776E65"
+                            android:textSize="@dimen/sp_10"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- 2. Titanium -->
+                <!-- 2. Titanium Slate -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_theme_light"
                     android:layout_width="match_parent"
@@ -101,12 +118,29 @@
                             android:backgroundTint="#D9DCE3" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tv_title_theme_light"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_12"
-                            android:text="Titanium"
+                            android:layout_weight="1"
+                            android:text="Titanium Slate"
                             android:textColor="#191B1F"
                             android:textSize="@dimen/sp_14"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_badge_theme_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/pill_badge"
+                            android:backgroundTint="#FFF3E0"
+                            android:paddingStart="@dimen/dp_8"
+                            android:paddingTop="@dimen/dp_2"
+                            android:paddingEnd="@dimen/dp_8"
+                            android:paddingBottom="@dimen/dp_2"
+                            android:text="@string/theme_badge_ad"
+                            android:textColor="#E65100"
+                            android:textSize="@dimen/sp_10"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -137,17 +171,34 @@
                             android:backgroundTint="#E6E1D8" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tv_title_theme_neon"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_12"
-                            android:text="@string/theme_nordic_title"
+                            android:layout_weight="1"
+                            android:text="Nordic Clay"
                             android:textColor="#242220"
                             android:textSize="@dimen/sp_14"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_badge_theme_neon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/pill_badge"
+                            android:backgroundTint="#FFF3E0"
+                            android:paddingStart="@dimen/dp_8"
+                            android:paddingTop="@dimen/dp_2"
+                            android:paddingEnd="@dimen/dp_8"
+                            android:paddingBottom="@dimen/dp_2"
+                            android:text="@string/theme_badge_ad"
+                            android:textColor="#E65100"
+                            android:textSize="@dimen/sp_10"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- 4. Charcoal -->
+                <!-- 4. Charcoal Slate -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_theme_pastel"
                     android:layout_width="match_parent"
@@ -172,12 +223,29 @@
                             android:backgroundTint="#484B54" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tv_title_theme_pastel"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_12"
-                            android:text="Charcoal"
+                            android:layout_weight="1"
+                            android:text="Charcoal Slate"
                             android:textColor="#EDEDF0"
                             android:textSize="@dimen/sp_14"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_badge_theme_pastel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/pill_badge"
+                            android:backgroundTint="#FFF3E0"
+                            android:paddingStart="@dimen/dp_8"
+                            android:paddingTop="@dimen/dp_2"
+                            android:paddingEnd="@dimen/dp_8"
+                            android:paddingBottom="@dimen/dp_2"
+                            android:text="@string/theme_badge_ad"
+                            android:textColor="#E65100"
+                            android:textSize="@dimen/sp_10"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

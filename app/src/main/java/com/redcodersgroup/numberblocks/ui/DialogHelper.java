@@ -12,12 +12,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.redcodersgroup.numberblocks.R;
+import com.redcodersgroup.numberblocks.ads.AdsManager;
 import com.redcodersgroup.numberblocks.databinding.DialogCareerStatsBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogConfirmExitBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogFirstTimeInstructionBinding;
@@ -27,6 +29,7 @@ import com.redcodersgroup.numberblocks.databinding.DialogModeResumeBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogPauseMenuBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogRestartBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogSettingsBinding;
+import com.redcodersgroup.numberblocks.databinding.DialogThemeAdConfirmBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogThemeSelectorBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogTutorialBinding;
 import com.redcodersgroup.numberblocks.databinding.ItemTutorialSlideGoalBinding;
@@ -244,7 +247,8 @@ public class DialogHelper {
         DialogThemeSelectorBinding binding = DialogThemeSelectorBinding.inflate(activity.getLayoutInflater());
         Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
-        boolean isAlabaster = "alabaster".equalsIgnoreCase(currentTheme) || "light".equalsIgnoreCase(currentTheme) || "golden".equalsIgnoreCase(currentTheme);
+        boolean isAlabaster = "alabaster".equalsIgnoreCase(currentTheme) || "light".equalsIgnoreCase(currentTheme)
+                || "golden".equalsIgnoreCase(currentTheme) || "golden_classic".equalsIgnoreCase(currentTheme);
         boolean isTitanium = "titanium".equalsIgnoreCase(currentTheme) || "neon".equalsIgnoreCase(currentTheme);
         boolean isNordic = "nordic".equalsIgnoreCase(currentTheme) || "pastel".equalsIgnoreCase(currentTheme);
         boolean isGraphite = "graphite".equalsIgnoreCase(currentTheme) || "dark".equalsIgnoreCase(currentTheme) || "charcoal".equalsIgnoreCase(currentTheme);
@@ -267,29 +271,90 @@ public class DialogHelper {
         binding.cardThemePastel.setStrokeColor(isGraphite ? activeStrokeColor : inactiveStrokeColor);
         binding.cardThemePastel.setStrokeWidth(isGraphite ? activeWidth : inactiveWidth);
 
+        // Update Badges
+        updateThemeBadge(binding.tvBadgeThemeDark, isAlabaster, true, currentActiveTheme);
+        updateThemeBadge(binding.tvBadgeThemeLight, isTitanium, false, currentActiveTheme);
+        updateThemeBadge(binding.tvBadgeThemeNeon, isNordic, false, currentActiveTheme);
+        updateThemeBadge(binding.tvBadgeThemePastel, isGraphite, false, currentActiveTheme);
+
         binding.btnCloseTheme.setTextColor(currentActiveTheme.textPrimaryColor);
 
         binding.cardThemeDark.setOnClickListener(view -> {
+            if (isAlabaster) {
+                Toast.makeText(activity, activity.getString(R.string.theme_already_active, "Golden Classic"), Toast.LENGTH_SHORT).show();
+                return;
+            }
             dialog.dismiss();
             if (listener != null) listener.onThemeSelected("alabaster");
         });
+
         binding.cardThemeLight.setOnClickListener(view -> {
-            dialog.dismiss();
-            if (listener != null) listener.onThemeSelected("titanium");
+            if (isTitanium) {
+                Toast.makeText(activity, activity.getString(R.string.theme_already_active, "Titanium Slate"), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            promptThemeAd(activity, dialog, "Titanium Slate", "titanium", listener);
         });
+
         binding.cardThemeNeon.setOnClickListener(view -> {
-            dialog.dismiss();
-            if (listener != null) listener.onThemeSelected("nordic");
+            if (isNordic) {
+                Toast.makeText(activity, activity.getString(R.string.theme_already_active, "Nordic Clay"), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            promptThemeAd(activity, dialog, "Nordic Clay", "nordic", listener);
         });
+
         binding.cardThemePastel.setOnClickListener(view -> {
-            dialog.dismiss();
-            if (listener != null) listener.onThemeSelected("graphite");
+            if (isGraphite) {
+                Toast.makeText(activity, activity.getString(R.string.theme_already_active, "Charcoal Slate"), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            promptThemeAd(activity, dialog, "Charcoal Slate", "graphite", listener);
         });
 
         binding.btnCloseTheme.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;
+    }
+
+    private static void updateThemeBadge(TextView badgeView, boolean isActive, boolean isDefault, Theme currentActiveTheme) {
+        if (isActive) {
+            badgeView.setText(R.string.theme_badge_active);
+            badgeView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+            badgeView.setTextColor(Color.WHITE);
+        } else if (isDefault) {
+            badgeView.setText(R.string.theme_badge_default);
+            badgeView.setBackgroundTintList(ColorStateList.valueOf(currentActiveTheme.isDark ? Color.parseColor("#343845") : Color.parseColor("#EDE0C8")));
+            badgeView.setTextColor(currentActiveTheme.isDark ? Color.parseColor("#E0E3EA") : Color.parseColor("#776E65"));
+        } else {
+            badgeView.setText(R.string.theme_badge_ad);
+            badgeView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFF3E0")));
+            badgeView.setTextColor(Color.parseColor("#E65100"));
+        }
+    }
+
+    private static void promptThemeAd(Activity activity, Dialog parentDialog, String themeName, String themeKey, ThemeSelectListener listener) {
+        DialogThemeAdConfirmBinding confirmBinding = DialogThemeAdConfirmBinding.inflate(activity.getLayoutInflater());
+        Dialog confirmDialog = createBaseDialog(activity, confirmBinding.getRoot(), true);
+
+        confirmBinding.tvThemeConfirmMsg.setText(activity.getString(R.string.theme_change_msg, themeName));
+
+        confirmBinding.btnThemeConfirmWatch.setOnClickListener(v -> {
+            confirmDialog.dismiss();
+            if (parentDialog != null && parentDialog.isShowing()) {
+                parentDialog.dismiss();
+            }
+            AdsManager.getInstance().showRewarded(activity, rewardItem -> {
+                if (listener != null) {
+                    listener.onThemeSelected(themeKey);
+                }
+            });
+        });
+
+        confirmBinding.btnThemeConfirmCancel.setOnClickListener(v -> confirmDialog.dismiss());
+
+        confirmDialog.show();
     }
 
     public static Dialog showSettings(Activity activity, boolean soundEnabled, boolean hapticsEnabled, SettingsListener listener) {

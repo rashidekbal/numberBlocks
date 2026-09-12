@@ -41,7 +41,7 @@ public class ThemeManager {
         alabasterTiles.put(32768, Color.parseColor("#F59E0B"));
         alabasterTiles.put(65536, Color.parseColor("#EF4444"));
         alabasterTiles.put(131072, Color.parseColor("#8B5CF6"));
-        Theme goldenTheme = new Theme("alabaster", "Golden Arcade", false,
+        Theme goldenTheme = new Theme("alabaster", "Golden Classic", false,
                 Color.parseColor("#FAF8EF"), Color.parseColor("#BBADA0"),
                 Color.parseColor("#CDC1B4"), Color.parseColor("#EDE0C8"),
                 Color.parseColor("#FFFFFF"), Color.parseColor("#E8E2D2"),
@@ -49,6 +49,7 @@ public class ThemeManager {
                 Color.parseColor("#776E65"), Color.parseColor("#8F7A66"), alabasterTiles);
         themes.put("alabaster", goldenTheme);
         themes.put("golden", goldenTheme);
+        themes.put("golden_classic", goldenTheme);
 
         // 2. Titanium Slate (Cool Architectural Neutral)
         Map<Integer, Integer> titaniumTiles = new HashMap<>();

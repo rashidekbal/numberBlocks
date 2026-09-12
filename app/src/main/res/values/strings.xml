@@ -150,4 +150,11 @@
     <string name="support_url" translatable="false">https://rasidekbal.in/apps/number-blocks/support</string>
     <string name="portfolio_url" translatable="false">https://rasidekbal.in</string>
     <string name="developer_email" translatable="false">dev.rasid.ekbal@gmail.com</string>
+    <string name="theme_applied">Switched to %1$s!</string>
+    <string name="theme_already_active">%1$s is already active.</string>
+    <string name="theme_change_title">Change Theme</string>
+    <string name="theme_change_msg">Watch a short video ad to switch to %1$s?</string>
+    <string name="theme_badge_default">DEFAULT</string>
+    <string name="theme_badge_active">ACTIVE</string>
+    <string name="theme_badge_ad">AD 🎬</string>
 </resources>

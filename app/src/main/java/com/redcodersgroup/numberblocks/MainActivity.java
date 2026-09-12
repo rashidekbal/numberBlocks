@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.redcodersgroup.numberblocks.ads.AdsManager;
+import com.redcodersgroup.numberblocks.analytics.AnalyticsManager;
 import com.redcodersgroup.numberblocks.audio.HapticManager;
 import com.redcodersgroup.numberblocks.audio.SoundManager;
 import com.redcodersgroup.numberblocks.databinding.ActivityMainBinding;
@@ -423,6 +424,10 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             themeManager.setTheme(themeKey);
             prefs.setTheme(themeKey);
             applyTheme();
+            soundManager.playMilestone();
+            hapticManager.heavyClick();
+            Toast.makeText(this, getString(R.string.theme_applied, themeManager.getCurrentTheme().name), Toast.LENGTH_SHORT).show();
+            AnalyticsManager.getInstance(this).logThemeChanged(themeKey);
         });
     }
 
