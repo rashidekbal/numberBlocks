@@ -117,12 +117,15 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         btnPause = binding.btnPause;
         btnThemeToggle = binding.btnThemeToggle;
 
-        // Set Mode Badge
+        // Set Mode Badge & Target Max Number Title
         if (boardSize == 5) {
+            binding.tvTitle.setText(R.string.title_8192);
             tvModeBadge.setText(R.string.mode_5x5_badge);
         } else if (boardSize == 6) {
+            binding.tvTitle.setText(R.string.title_16384);
             tvModeBadge.setText(R.string.mode_6x6_badge);
         } else {
+            binding.tvTitle.setText(R.string.title_2048);
             tvModeBadge.setText(R.string.mode_4x4_badge);
         }
         tvModeBadge.setTextColor(themeManager.getCurrentTheme().textSecondaryColor);
@@ -551,7 +554,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         }
         tvCelebrationTile.setBackgroundTintList(ColorStateList.valueOf(getMilestoneColor(milestone)));
 
-        tvCelebrationTitle.setText(milestone >= 2048
+        tvCelebrationTitle.setText(milestone >= gameEngine.getTargetTile()
                 ? getString(R.string.tile_reached_format, milestone)
                 : getString(R.string.tile_unlocked_format, milestone));
 

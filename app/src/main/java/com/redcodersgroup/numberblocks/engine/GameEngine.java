@@ -109,7 +109,7 @@ public class GameEngine {
             int val = t.getValue();
             if (val >= 128 && !unlockedMilestones.contains(val)) {
                 unlockedMilestones.add(val);
-                if (val == 2048) isWon = true;
+                if (val == getTargetTile()) isWon = true;
                 if (listener != null) {
                     listener.onMilestoneReached(val);
                 }
@@ -254,6 +254,12 @@ public class GameEngine {
             }
         }
         return max;
+    }
+
+    public int getTargetTile() {
+        if (size == 5) return 8192;
+        if (size == 6) return 16384;
+        return 2048;
     }
 
     public Tile[][] getGrid() { return grid; }

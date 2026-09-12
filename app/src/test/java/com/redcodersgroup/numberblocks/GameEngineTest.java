@@ -204,4 +204,16 @@ public class GameEngineTest {
         MoveResult moveRes = engine.move(Direction.UP);
         assertTrue("Move must succeed now that space is opened", moveRes.isMoved());
     }
+
+    @Test
+    public void testTargetTileForDifferentBoardSizes() {
+        GameEngine engine4 = new GameEngine(4);
+        assertEquals(2048, engine4.getTargetTile());
+
+        GameEngine engine5 = new GameEngine(5);
+        assertEquals(8192, engine5.getTargetTile());
+
+        GameEngine engine6 = new GameEngine(6);
+        assertEquals(16384, engine6.getTargetTile());
+    }
 }
