@@ -24,8 +24,8 @@ public class Theme {
         this(id, name,
              ((0.299 * Color.red(backgroundColor) + 0.587 * Color.green(backgroundColor) + 0.114 * Color.blue(backgroundColor)) / 255.0) < 0.5,
              backgroundColor, boardColor, emptyCellColor, hudCardColor,
-             ((0.299 * Color.red(backgroundColor) + 0.587 * Color.green(backgroundColor) + 0.114 * Color.blue(backgroundColor)) / 255.0) < 0.5 ? Color.parseColor("#23262F") : Color.parseColor("#FFFFFF"),
-             ((0.299 * Color.red(backgroundColor) + 0.587 * Color.green(backgroundColor) + 0.114 * Color.blue(backgroundColor)) / 255.0) < 0.5 ? Color.parseColor("#343845") : Color.parseColor("#E4DFD7"),
+             ((0.299 * Color.red(backgroundColor) + 0.587 * Color.green(backgroundColor) + 0.114 * Color.blue(backgroundColor)) / 255.0) < 0.5 ? Color.parseColor("#343A48") : Color.parseColor("#FFFFFF"),
+             ((0.299 * Color.red(backgroundColor) + 0.587 * Color.green(backgroundColor) + 0.114 * Color.blue(backgroundColor)) / 255.0) < 0.5 ? Color.parseColor("#4A5266") : Color.parseColor("#E4DFD7"),
              ((0.299 * Color.red(backgroundColor) + 0.587 * Color.green(backgroundColor) + 0.114 * Color.blue(backgroundColor)) / 255.0) < 0.5 ? Color.parseColor("#2A2E38") : Color.parseColor("#F0EFEA"),
              ((0.299 * Color.red(backgroundColor) + 0.587 * Color.green(backgroundColor) + 0.114 * Color.blue(backgroundColor)) / 255.0) < 0.5 ? Color.parseColor("#3D4352") : Color.parseColor("#E3E1D8"),
              textPrimaryColor, textSecondaryColor, tileColors);

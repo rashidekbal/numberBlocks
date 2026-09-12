@@ -72,8 +72,8 @@ public class ThemeManager {
         titaniumTiles.put(131072, Color.parseColor("#2A1224"));
         Theme titaniumTheme = new Theme("titanium", "Titanium Slate", false,
                 Color.parseColor("#F2F3F5"), Color.parseColor("#DFE2E8"),
-                Color.parseColor("#CFD3DB"), Color.parseColor("#FFFFFF"),
-                Color.parseColor("#FFFFFF"), Color.parseColor("#E0E3EA"),
+                Color.parseColor("#CFD3DB"), Color.parseColor("#DFE2E8"),
+                Color.parseColor("#FFFFFF"), Color.parseColor("#CFD3DB"),
                 Color.parseColor("#E7E9ED"), Color.parseColor("#D6D9E0"),
                 Color.parseColor("#191B1F"), Color.parseColor("#717580"), titaniumTiles);
         themes.put("titanium", titaniumTheme);
@@ -99,8 +99,8 @@ public class ThemeManager {
         nordicTiles.put(131072, Color.parseColor("#3B1812"));
         Theme nordicTheme = new Theme("nordic", "Nordic Clay", false,
                 Color.parseColor("#F8F6F2"), Color.parseColor("#E4DDD2"),
-                Color.parseColor("#D6CDBD"), Color.parseColor("#FFFFFF"),
-                Color.parseColor("#FFFFFF"), Color.parseColor("#E5DFD6"),
+                Color.parseColor("#D6CDBD"), Color.parseColor("#E5DDD0"),
+                Color.parseColor("#FFFFFF"), Color.parseColor("#D6CDBD"),
                 Color.parseColor("#ECE7DF"), Color.parseColor("#DDD7CE"),
                 Color.parseColor("#242220"), Color.parseColor("#7A7570"), nordicTiles);
         themes.put("nordic", nordicTheme);
@@ -126,8 +126,8 @@ public class ThemeManager {
         graphiteTiles.put(131072, Color.parseColor("#FFFFFF")); // Pure starlight
         Theme graphiteTheme = new Theme("graphite", "Charcoal Slate", true,
                 Color.parseColor("#181A1F"), Color.parseColor("#20232B"),
-                Color.parseColor("#2A2E39"), Color.parseColor("#242730"),
-                Color.parseColor("#23262F"), Color.parseColor("#343845"),
+                Color.parseColor("#2A2E39"), Color.parseColor("#1F222A"),
+                Color.parseColor("#343A48"), Color.parseColor("#4A5266"),
                 Color.parseColor("#2A2E38"), Color.parseColor("#3D4352"),
                 Color.parseColor("#F1F3F7"), Color.parseColor("#9DA3B4"), graphiteTiles);
         themes.put("graphite", graphiteTheme);
@@ -152,8 +152,8 @@ public class ThemeManager {
         prismTiles.put(16384, Color.parseColor("#7209B7"));
         Theme prismTheme = new Theme("prism", "Prism Pop", true,
                 Color.parseColor("#0B0E17"), Color.parseColor("#171B2B"),
-                Color.parseColor("#252B42"), Color.parseColor("#171B2B"),
-                Color.parseColor("#171B2B"), Color.parseColor("#2B3250"),
+                Color.parseColor("#252B42"), Color.parseColor("#131624"),
+                Color.parseColor("#262D47"), Color.parseColor("#3F4B75"),
                 Color.parseColor("#1E2337"), Color.parseColor("#323B5C"),
                 Color.parseColor("#FFFFFF"), Color.parseColor("#A5B4FC"), prismTiles);
         themes.put("prism", prismTheme);

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -216,16 +217,23 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setTabState(MaterialCardView card, TextView tv, boolean isSelected, Theme theme) {
+        float density = getResources().getDisplayMetrics().density;
         if (isSelected) {
             card.setCardBackgroundColor(theme.cardBackgroundColor);
-            card.setStrokeColor(Color.TRANSPARENT);
-            card.setCardElevation(2 * getResources().getDisplayMetrics().density);
+            card.setStrokeColor(theme.cardStrokeColor != 0 ? theme.cardStrokeColor : Color.TRANSPARENT);
+            card.setStrokeWidth((int) (1 * density));
+            card.setCardElevation(2.5f * density);
             tv.setTextColor(theme.textPrimaryColor);
+            tv.setTypeface(null, Typeface.BOLD);
+            tv.setAlpha(1.0f);
         } else {
             card.setCardBackgroundColor(Color.TRANSPARENT);
             card.setStrokeColor(Color.TRANSPARENT);
+            card.setStrokeWidth(0);
             card.setCardElevation(0);
             tv.setTextColor(theme.textSecondaryColor);
+            tv.setTypeface(null, Typeface.NORMAL);
+            tv.setAlpha(0.70f);
         }
     }
 
