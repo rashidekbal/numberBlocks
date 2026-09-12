@@ -7,6 +7,8 @@
         <item name="android:navigationBarColor">@color/background</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="fontFamily">@font/game_font</item>
+        <item name="android:fontFamily">@font/game_font</item>
     </style>
 
     <style name="MiniTileStyle">
@@ -18,6 +20,8 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/sp_13</item>
         <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/game_font</item>
+        <item name="android:fontFamily">@font/game_font</item>
     </style>
 
     <style name="GameButton.Primary" parent="Widget.MaterialComponents.Button">
@@ -28,6 +32,8 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:letterSpacing">0.02</item>
+        <item name="fontFamily">@font/game_font</item>
+        <item name="android:fontFamily">@font/game_font</item>
     </style>
 
     <style name="GameButton.Secondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -39,6 +45,8 @@
         <item name="android:insetBottom">0dp</item>
         <item name="strokeColor">@color/border_subtle</item>
         <item name="strokeWidth">@dimen/dp_1</item>
+        <item name="fontFamily">@font/game_font</item>
+        <item name="android:fontFamily">@font/game_font</item>
     </style>
 
     <style name="GameButton.Text" parent="Widget.MaterialComponents.Button.TextButton">
@@ -48,5 +56,7 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:textColor">@color/text_secondary</item>
+        <item name="fontFamily">@font/game_font</item>
+        <item name="android:fontFamily">@font/game_font</item>
     </style>
 </resources>

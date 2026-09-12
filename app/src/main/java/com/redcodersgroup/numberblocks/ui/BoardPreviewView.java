@@ -10,6 +10,8 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
+import com.redcodersgroup.numberblocks.R;
 import com.redcodersgroup.numberblocks.theme.Theme;
 import com.redcodersgroup.numberblocks.theme.ThemeManager;
 
@@ -64,7 +66,16 @@ public class BoardPreviewView extends View {
 
     private void init() {
         textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        try {
+            Typeface tf = ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_sans_extrabold);
+            if (tf != null) {
+                textPaint.setTypeface(tf);
+            } else {
+                textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            }
+        } catch (Exception e) {
+            textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        }
     }
 
     public void setGridSize(int size) {

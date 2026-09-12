@@ -7,12 +7,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
+import com.redcodersgroup.numberblocks.R;
 import com.redcodersgroup.numberblocks.audio.HapticManager;
 import com.redcodersgroup.numberblocks.audio.SoundManager;
 import com.redcodersgroup.numberblocks.engine.Direction;
@@ -28,6 +31,7 @@ import java.util.Random;
 
 public class BoardView extends View {
     private GameEngine gameEngine;
+    private Typeface tileTypeface;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint strokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final RectF rectF = new RectF();
@@ -92,8 +96,17 @@ public class BoardView extends View {
     public BoardView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) { super(context, attrs, defStyleAttr); init(); }
 
     private void init() {
+        try {
+            tileTypeface = ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_sans_extrabold);
+        } catch (Exception e) {
+            tileTypeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD);
+        }
+
         paint.setStyle(Paint.Style.FILL);
         paint.setTextAlign(Paint.Align.CENTER);
+        if (tileTypeface != null) {
+            paint.setTypeface(tileTypeface);
+        }
 
         strokePaint.setStyle(Paint.Style.STROKE);
 
@@ -320,7 +333,12 @@ public class BoardView extends View {
 
                 // Precision Typography
                 paint.setColor(theme.getTextColor(tile.getValue()));
-                paint.setFakeBoldText(true);
+                if (tileTypeface != null) {
+                    paint.setTypeface(tileTypeface);
+                    paint.setFakeBoldText(false);
+                } else {
+                    paint.setFakeBoldText(true);
+                }
 
                 String text = String.valueOf(tile.getValue());
                 if (text.length() <= 2) {
@@ -367,7 +385,12 @@ public class BoardView extends View {
         if (!scoreFloaters.isEmpty()) {
             paint.setStyle(Paint.Style.FILL);
             paint.setTextAlign(Paint.Align.CENTER);
-            paint.setFakeBoldText(true);
+            if (tileTypeface != null) {
+                paint.setTypeface(tileTypeface);
+                paint.setFakeBoldText(false);
+            } else {
+                paint.setFakeBoldText(true);
+            }
             Iterator<ScoreFloater> fit = scoreFloaters.iterator();
             while (fit.hasNext()) {
                 ScoreFloater sf = fit.next();
