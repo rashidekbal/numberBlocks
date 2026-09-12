@@ -105,21 +105,8 @@ public class SplashActivity extends AppCompatActivity {
         binding.splashTile2048.animate()
                 .scaleX(1.0f).scaleY(1.0f).alpha(1.0f)
                 .setStartDelay(310)
-                .setDuration(350)
-                .setInterpolator(new OvershootInterpolator(1.5f))
-                .withEndAction(() -> {
-                    hapticManager.click();
-                    soundManager.playMove();
-                    // Radiant crown pulse
-                    binding.splashTile2048.animate()
-                            .scaleX(1.14f).scaleY(1.14f)
-                            .setDuration(150)
-                            .withEndAction(() -> binding.splashTile2048.animate()
-                                    .scaleX(1.0f).scaleY(1.0f)
-                                    .setDuration(160)
-                                    .start())
-                            .start();
-                })
+                .setDuration(300)
+                .setInterpolator(new OvershootInterpolator(1.4f))
                 .start();
 
         // 4. Title, Tagline Badge & Footer Fade-in
