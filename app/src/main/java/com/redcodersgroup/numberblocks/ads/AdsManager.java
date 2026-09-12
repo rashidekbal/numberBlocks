@@ -91,6 +91,18 @@ public class AdsManager {
         if (rewardedAd != null) {
             rewardedAd.show(activity, listener);
             loadRewarded(activity);
+        } else {
+            // If ad is not ready or offline, fulfill reward directly so player isn't left stuck in Game Over
+            if (listener != null) {
+                listener.onUserEarnedReward(new com.google.android.gms.ads.rewarded.RewardItem() {
+                    @Override
+                    public int getAmount() { return 1; }
+                    @NonNull
+                    @Override
+                    public String getType() { return "revive"; }
+                });
+            }
+            loadRewarded(activity);
         }
     }
 }

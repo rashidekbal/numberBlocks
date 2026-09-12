@@ -504,10 +504,15 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
                 () -> {
                     // Revive (Watch Rewarded Ad)
                     adsManager.showRewarded(this, reward -> {
-                        gameEngine.undo();
-                        boardView.invalidate();
-                        updateUI();
-                        saveCurrentGame();
+                        boolean revived = gameEngine.revive();
+                        if (revived) {
+                            boardView.invalidate();
+                            updateUI();
+                            saveCurrentGame();
+                            soundManager.playMilestone();
+                            hapticManager.heavyClick();
+                            android.widget.Toast.makeText(this, R.string.revive_success, android.widget.Toast.LENGTH_SHORT).show();
+                        }
                     });
                 },
                 () -> {

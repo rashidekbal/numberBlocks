@@ -25,6 +25,7 @@
     <string name="new_game">New Game</string>
     <string name="revive">REVIVE (WATCH AD)</string>
     <string name="revive_watch_ad">Revive (Watch Ad)</string>
+    <string name="revive_success">Revived! Lowest tiles cleared.</string>
     <string name="select_theme">Select Theme</string>
 
     <!-- Screen Headers & Mode Labels -->

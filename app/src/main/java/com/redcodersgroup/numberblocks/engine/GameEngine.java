@@ -154,6 +154,51 @@ public class GameEngine {
         return true;
     }
 
+    public boolean revive() {
+        this.isOver = false;
+
+        // Collect all non-empty tiles on the grid
+        List<Tile> tiles = new ArrayList<>();
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                if (grid[r][c] != null) {
+                    tiles.add(grid[r][c]);
+                }
+            }
+        }
+
+        if (tiles.isEmpty()) {
+            spawnSystem.spawnTile(grid);
+            spawnSystem.spawnTile(grid);
+            if (listener != null) {
+                listener.onScoreChanged(score, bestScore, combo);
+            }
+            return true;
+        }
+
+        // Sort tiles by value ascending (lowest value tiles first)
+        tiles.sort((a, b) -> Integer.compare(a.getValue(), b.getValue()));
+
+        // Clear lowest-tier tiles to guarantee open playable space
+        int tilesToClear = Math.min(tiles.size() - 2, Math.max(3, size));
+        for (int i = 0; i < tilesToClear; i++) {
+            Tile t = tiles.get(i);
+            grid[t.getRow()][t.getCol()] = null;
+        }
+
+        // Push revived state so undo is enabled
+        history.push(new BoardState(grid, score, combo, movesCount));
+        if (history.size() > 10) {
+            history.remove(0);
+        }
+
+        if (listener != null) {
+            listener.onScoreChanged(score, bestScore, combo);
+        }
+
+        return true;
+    }
+
     public GameSnapshot createSnapshot() {
         GameSnapshot s = new GameSnapshot();
         s.gridValues = new int[size][size];

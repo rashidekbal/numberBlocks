@@ -167,4 +167,41 @@ public class GameEngineTest {
         assertEquals("Merged value should be 8192", 8192, engine.getHighestTile());
         assertFalse("Game must continue and not be over after reaching 8192", engine.isOver());
     }
+
+    @Test
+    public void testReviveClearsLowestTilesAndEnablesMoves() {
+        GameEngine engine = new GameEngine(4);
+        Tile[][] grid = engine.getGrid();
+
+        // Fill grid completely with no adjacent merges
+        int val = 2;
+        for (int r = 0; r < 4; r++) {
+            for (int c = 0; c < 4; c++) {
+                grid[r][c] = new Tile(r, c, val);
+                val *= 2;
+            }
+        }
+
+        boolean revived = engine.revive();
+        assertTrue("Revive must return true", revived);
+        assertFalse("isOver must be false after revive", engine.isOver());
+
+        int emptyCount = 0;
+        for (int r = 0; r < 4; r++) {
+            for (int c = 0; c < 4; c++) {
+                if (grid[r][c] == null) emptyCount++;
+            }
+        }
+        assertEquals("4 lowest tiles must be cleared", 4, emptyCount);
+        assertNull("Tile 2 should be cleared", grid[0][0]);
+        assertNull("Tile 4 should be cleared", grid[0][1]);
+        assertNull("Tile 8 should be cleared", grid[0][2]);
+        assertNull("Tile 16 should be cleared", grid[0][3]);
+        assertNotNull("Tile 65536 should still exist", grid[3][3]);
+        assertEquals(65536, grid[3][3].getValue());
+
+        // Verify move is now fully possible
+        MoveResult moveRes = engine.move(Direction.UP);
+        assertTrue("Move must succeed now that space is opened", moveRes.isMoved());
+    }
 }
