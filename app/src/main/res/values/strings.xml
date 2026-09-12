@@ -157,4 +157,6 @@
     <string name="theme_badge_default">DEFAULT</string>
     <string name="theme_badge_active">ACTIVE</string>
     <string name="theme_badge_ad">AD 🎬</string>
+    <string name="powered_by">POWERED BY</string>
+    <string name="brand_red_coders_group">RED CODERS GROUP</string>
 </resources>

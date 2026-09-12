@@ -134,8 +134,7 @@
                         app:cardBackgroundColor="#F59E0B"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="5dp"
-                        app:strokeColor="#80FFFFFF"
-                        app:strokeWidth="1.5dp">
+                        app:strokeWidth="0dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -143,7 +142,7 @@
                             android:layout_gravity="center"
                             android:text="2048"
                             android:textColor="#FFFFFF"
-                            android:textSize="20sp"
+                            android:textSize="@dimen/sp_16"
                             android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
