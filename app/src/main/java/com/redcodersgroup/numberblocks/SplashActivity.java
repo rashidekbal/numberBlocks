@@ -69,7 +69,7 @@ public class SplashActivity extends AppCompatActivity {
         binding.splashTaglineBadge.setTranslationY(20f);
 
         binding.splashProgressTrack.setAlpha(0.0f);
-        binding.splashFooterContainer.setAlpha(0.0f);
+        binding.splashFooter.setAlpha(0.0f);
 
         // 2. Animate Board Well Pop
         binding.splashBoardWell.animate()
@@ -145,7 +145,7 @@ public class SplashActivity extends AppCompatActivity {
                 .setDuration(250)
                 .start();
 
-        binding.splashFooterContainer.animate()
+        binding.splashFooter.animate()
                 .alpha(1.0f)
                 .setStartDelay(540)
                 .setDuration(300)

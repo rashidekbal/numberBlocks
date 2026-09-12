@@ -159,4 +159,5 @@
     <string name="theme_badge_ad">AD 🎬</string>
     <string name="powered_by">POWERED BY</string>
     <string name="brand_red_coders_group">RED CODERS GROUP</string>
+    <string name="branding_powered_by_red_coders">POWERED BY\nRED CODERS GROUP</string>
 </resources>
