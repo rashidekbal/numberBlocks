@@ -42,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     private Dialog currentDialog;
     private int currentSelectedSize = 4;
     private GestureDetector gestureDetector;
+    private long lastModeSelectTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +92,8 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean onSingleTapConfirmed(MotionEvent e) {
-                onSelectMode(currentSelectedSize);
+            public boolean onSingleTapUp(MotionEvent e) {
+                binding.cardHeroBoard.performClick();
                 return true;
             }
 
@@ -124,15 +125,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         binding.cardHeroBoard.setOnClickListener(v -> onSelectMode(currentSelectedSize));
-        binding.cardHeroBoard.setOnTouchListener((v, event) -> {
-            if (gestureDetector.onTouchEvent(event)) {
-                return true;
-            }
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                v.performClick();
-            }
-            return true;
-        });
+        binding.cardHeroBoard.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
 
         selectMode(currentSelectedSize);
 
@@ -258,6 +251,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void onSelectMode(int size) {
+        long now = System.currentTimeMillis();
+        if (now - lastModeSelectTime < 500) {
+            return;
+        }
+        lastModeSelectTime = now;
+
+        if (currentDialog != null && currentDialog.isShowing()) {
+            currentDialog.dismiss();
+        }
+
         String activeState = prefs.getActiveGame(size);
         if (activeState != null) {
             try {
