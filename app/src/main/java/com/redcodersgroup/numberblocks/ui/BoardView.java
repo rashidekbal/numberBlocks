@@ -91,6 +91,42 @@ public class BoardView extends View {
         }
     }
 
+    private static class MergeShockwave {
+        float cx, cy, startRadius, maxRadius;
+        float progress;
+        int color;
+        float strokeWidth;
+
+        MergeShockwave(float cx, float cy, float radius, int color, float strokeWidth) {
+            this.cx = cx;
+            this.cy = cy;
+            this.startRadius = radius * 0.72f;
+            this.maxRadius = radius * 1.36f;
+            this.color = color;
+            this.strokeWidth = strokeWidth;
+            this.progress = 0f;
+        }
+
+        boolean update() {
+            progress += 0.055f;
+            return progress < 1.0f;
+        }
+
+        void draw(Canvas canvas, Paint strokePaint, RectF rect) {
+            float r = startRadius + (maxRadius - startRadius) * progress;
+            float alpha = (1.0f - progress) * 0.7f;
+            strokePaint.setStyle(Paint.Style.STROKE);
+            strokePaint.setColor(color);
+            strokePaint.setAlpha((int) (alpha * 255));
+            strokePaint.setStrokeWidth(strokeWidth * (1.0f - progress * 0.45f));
+            rect.set(cx - r, cy - r, cx + r, cy + r);
+            float corner = r * 0.32f;
+            canvas.drawRoundRect(rect, corner, corner, strokePaint);
+        }
+    }
+
+    private final List<MergeShockwave> shockwaves = new ArrayList<>();
+
     public BoardView(Context context) { super(context); init(); }
     public BoardView(Context context, @Nullable AttributeSet attrs) { super(context, attrs); init(); }
     public BoardView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) { super(context, attrs, defStyleAttr); init(); }
@@ -164,6 +200,7 @@ public class BoardView extends View {
                 for (Tile t : result.getMergedTiles()) {
                     spawnParticles(t);
                     spawnScoreFloater(t);
+                    spawnShockwave(t);
                 }
             } else {
                 SoundManager.getInstance().playMove();
@@ -184,7 +221,7 @@ public class BoardView extends View {
         }
         animationProgress = 0.0f;
         moveAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-        moveAnimator.setDuration(120);
+        moveAnimator.setDuration(140);
         moveAnimator.setInterpolator(new DecelerateInterpolator());
         moveAnimator.addUpdateListener(anim -> {
             animationProgress = (float) anim.getAnimatedValue();
@@ -210,6 +247,20 @@ public class BoardView extends View {
             float speed = 2.5f + random.nextFloat() * 5.0f;
             particles.add(new Particle(cx, cy, (float)(Math.cos(angle) * speed), (float)(Math.sin(angle) * speed), color));
         }
+    }
+
+    private void spawnShockwave(Tile tile) {
+        int width = getWidth();
+        int size = gameEngine != null ? gameEngine.getSize() : 4;
+        float padding = width * 0.035f;
+        float gap = width * 0.024f;
+        float cellSize = (width - padding * 2 - gap * (size - 1)) / size;
+        float cx = padding + tile.getCol() * (cellSize + gap) + cellSize / 2f;
+        float cy = padding + tile.getRow() * (cellSize + gap) + cellSize / 2f;
+
+        Theme theme = ThemeManager.getInstance().getCurrentTheme();
+        int color = theme.getTileColor(tile.getValue());
+        shockwaves.add(new MergeShockwave(cx, cy, cellSize / 2f, color, cellSize * 0.045f));
     }
 
     private void spawnScoreFloater(Tile tile) {
@@ -292,10 +343,18 @@ public class BoardView extends View {
                 float top = padding + currR * (cellSize + gap);
 
                 float scale = 1.0f;
-                if (tile.isMerged() && animationProgress > 0.5f) {
-                    scale = 1.0f + (float) Math.sin((animationProgress - 0.5f) * 2 * Math.PI) * 0.12f;
+                float tileAlpha = 1.0f;
+                if (tile.isMerged()) {
+                    if (animationProgress < 0.40f) {
+                        scale = 1.0f;
+                    } else {
+                        float phase = (animationProgress - 0.40f) / 0.60f;
+                        scale = 1.0f + (float) Math.sin(phase * Math.PI) * 0.18f;
+                    }
                 } else if (tile.isNew()) {
-                    scale = Math.min(1.0f, animationProgress * 1.15f);
+                    float t = animationProgress;
+                    scale = (float) (Math.sin(t * Math.PI * 0.5) + Math.sin(t * Math.PI) * 0.16f);
+                    tileAlpha = Math.min(1.0f, t * 1.35f);
                 }
 
                 float half = cellSize / 2f;
@@ -307,32 +366,36 @@ public class BoardView extends View {
 
                 int tileColor = theme.getTileColor(tile.getValue());
 
-                // Subtle Stone Shadow (clean, natural shadow, no glossy colors)
+                // Subtle Stone Shadow (clean, natural shadow with alpha)
                 paint.setStyle(Paint.Style.FILL);
-                paint.setColor(Color.argb(25, 0, 0, 0));
+                paint.setColor(Color.argb((int) (25 * tileAlpha), 0, 0, 0));
                 rectF.set(left, top + shadowOffset, left + cellSize, top + cellSize + shadowOffset);
                 canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
 
                 // Main Stone Tile Body
                 paint.setColor(tileColor);
+                paint.setAlpha((int) (255 * tileAlpha));
                 rectF.set(left, top, left + cellSize, top + cellSize);
                 canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
 
                 // Hairline Ambient Light Rim
-                strokePaint.setColor(Color.argb(35, 255, 255, 255));
+                strokePaint.setColor(Color.argb((int) (35 * tileAlpha), 255, 255, 255));
                 strokePaint.setStrokeWidth(Math.max(1.0f, cellSize * 0.018f));
                 rectF.set(left + 1f, top + 1f, left + cellSize - 1f, top + cellSize - 1f);
                 canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, strokePaint);
 
-                // Architectural Milestone Frame for 2048+
+                // Architectural Milestone Frame with gentle ambient breathing for 2048+
                 if (tile.getValue() >= 2048) {
-                    strokePaint.setColor(Color.argb(80, 255, 255, 255));
-                    strokePaint.setStrokeWidth(Math.max(1.5f, cellSize * 0.025f));
+                    long time = System.currentTimeMillis();
+                    float pulse = (float) (Math.sin(time / 280.0) * 0.5 + 0.5);
+                    strokePaint.setColor(Color.argb((int) ((50 + pulse * 70) * tileAlpha), 255, 255, 255));
+                    strokePaint.setStrokeWidth(Math.max(1.5f, cellSize * (0.024f + pulse * 0.016f)));
                     canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, strokePaint);
                 }
 
                 // Precision Typography
                 paint.setColor(theme.getTextColor(tile.getValue()));
+                paint.setAlpha((int) (255 * tileAlpha));
                 if (tileTypeface != null) {
                     paint.setTypeface(tileTypeface);
                     paint.setFakeBoldText(false);
@@ -381,7 +444,21 @@ public class BoardView extends View {
             needsInvalidate = true;
         }
 
-        // Minimalist Floater Score Popups
+        // Merge Shockwave Ripples
+        if (!shockwaves.isEmpty()) {
+            Iterator<MergeShockwave> sit = shockwaves.iterator();
+            while (sit.hasNext()) {
+                MergeShockwave sw = sit.next();
+                if (!sw.update()) {
+                    sit.remove();
+                } else {
+                    sw.draw(canvas, strokePaint, rectF);
+                }
+            }
+            needsInvalidate = true;
+        }
+
+        // Minimalist Floater Score Popups with spring scale
         if (!scoreFloaters.isEmpty()) {
             paint.setStyle(Paint.Style.FILL);
             paint.setTextAlign(Paint.Align.CENTER);
@@ -397,10 +474,14 @@ public class BoardView extends View {
                 if (!sf.update()) {
                     fit.remove();
                 } else {
+                    float popScale = 0.85f + (float) Math.sin(Math.min(1.0f, (1.0f - sf.alpha) * 2.0f) * Math.PI * 0.5f) * 0.32f;
+                    canvas.save();
+                    canvas.scale(popScale, popScale, sf.x, sf.y);
                     paint.setColor(sf.color);
                     paint.setAlpha((int) (sf.alpha * 255));
-                    paint.setTextSize(cellSize * 0.32f);
+                    paint.setTextSize(cellSize * 0.34f);
                     canvas.drawText(sf.text, sf.x, sf.y, paint);
+                    canvas.restore();
                 }
             }
             needsInvalidate = true;

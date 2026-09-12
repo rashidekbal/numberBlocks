@@ -74,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
     private int boardSize = 4;
     private Dialog currentDialog;
+    private int previousScore = -1;
+    private int previousBestScore = -1;
+    private int previousCombo = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,8 +281,38 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     }
 
     private void updateUI() {
-        tvScore.setText(String.format(Locale.getDefault(), "%,d", gameEngine.getScore()));
-        tvBest.setText(String.format(Locale.getDefault(), "%,d", gameEngine.getBestScore()));
+        int currentScore = gameEngine.getScore();
+        int currentBest = gameEngine.getBestScore();
+        int currentCombo = gameEngine.getCombo();
+
+        tvScore.setText(String.format(Locale.getDefault(), "%,d", currentScore));
+        tvBest.setText(String.format(Locale.getDefault(), "%,d", currentBest));
+
+        // Tactile micro-animation: Score punch on points earned
+        if (previousScore != -1 && currentScore > previousScore && cardScore != null) {
+            cardScore.animate().cancel();
+            cardScore.setScaleX(1.06f);
+            cardScore.setScaleY(1.06f);
+            cardScore.animate()
+                    .scaleX(1.0f)
+                    .scaleY(1.0f)
+                    .setDuration(160)
+                    .setInterpolator(new OvershootInterpolator(1.8f))
+                    .start();
+        }
+
+        // Tactile micro-animation: Best score record bump
+        if (previousBestScore != -1 && currentBest > previousBestScore && cardBest != null) {
+            cardBest.animate().cancel();
+            cardBest.setScaleX(1.06f);
+            cardBest.setScaleY(1.06f);
+            cardBest.animate()
+                    .scaleX(1.0f)
+                    .scaleY(1.0f)
+                    .setDuration(160)
+                    .setInterpolator(new OvershootInterpolator(1.8f))
+                    .start();
+        }
 
         int totalUndos = freeUndosRemaining + rewardedUndos;
         if (totalUndos > 0) {
@@ -289,13 +322,28 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         }
         btnUndo.setEnabled(gameEngine.canUndo());
 
-        if (gameEngine.getCombo() > 1) {
-            tvCombo.setText(getString(R.string.combo_format, gameEngine.getCombo()));
+        if (currentCombo > 1) {
+            tvCombo.setText(getString(R.string.combo_format, currentCombo));
             tvCombo.setTextColor(themeManager.getCurrentTheme().textPrimaryColor);
+            if (currentCombo != previousCombo) {
+                tvCombo.animate().cancel();
+                tvCombo.setScaleX(1.22f);
+                tvCombo.setScaleY(1.22f);
+                tvCombo.animate()
+                        .scaleX(1.0f)
+                        .scaleY(1.0f)
+                        .setDuration(180)
+                        .setInterpolator(new OvershootInterpolator(2.2f))
+                        .start();
+            }
         } else {
             tvCombo.setText(R.string.default_combo_message);
             tvCombo.setTextColor(themeManager.getCurrentTheme().textSecondaryColor);
         }
+
+        previousScore = currentScore;
+        previousBestScore = currentBest;
+        previousCombo = currentCombo;
 
         prefs.setBestScore(boardSize, gameEngine.getBestScore());
         prefs.recordHighestTile(gameEngine.getHighestTile());
