@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         setContentView(binding.getRoot());
 
         rootLayout = binding.getRoot();
+        StatusBarHelper.hideSystemBars(this);
         StatusBarHelper.applySystemBarInsets(rootLayout);
         boardView = binding.boardView;
         tvScore = binding.tvScore;
@@ -211,14 +212,16 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             if (savedState != null) {
                 try {
                     GameSnapshot snapshot = gson.fromJson(savedState, GameSnapshot.class);
-                    if (snapshot != null && !snapshot.isOver) {
+                    if (snapshot != null && !snapshot.isOver && snapshot.score > 0) {
                         gameEngine.restoreFromSnapshot(snapshot);
                         this.freeUndosRemaining = snapshot.freeUndos;
                         this.rewardedUndos = snapshot.rewardedUndos;
                     } else {
+                        prefs.clearActiveGame(boardSize);
                         startFreshGame();
                     }
                 } catch (Exception e) {
+                    prefs.clearActiveGame(boardSize);
                     startFreshGame();
                 }
             } else {
@@ -264,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     }
 
     private void saveCurrentGame() {
-        if (!gameEngine.isOver()) {
+        if (gameEngine != null && !gameEngine.isOver() && gameEngine.getScore() > 0) {
             GameSnapshot snapshot = gameEngine.createSnapshot();
             snapshot.freeUndos = this.freeUndosRemaining;
             snapshot.rewardedUndos = this.rewardedUndos;
@@ -278,6 +281,20 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     protected void onPause() {
         super.onPause();
         saveCurrentGame();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatusBarHelper.hideSystemBars(this);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            StatusBarHelper.hideSystemBars(this);
+        }
     }
 
     private void updateUI() {
@@ -315,12 +332,14 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         }
 
         int totalUndos = freeUndosRemaining + rewardedUndos;
+        boolean canUndo = gameEngine.canUndo();
         if (totalUndos > 0) {
             btnUndo.setText(getString(R.string.undo_format, totalUndos));
         } else {
             btnUndo.setText(R.string.undo_ad);
         }
-        btnUndo.setEnabled(gameEngine.canUndo());
+        btnUndo.setEnabled(canUndo || totalUndos == 0);
+        btnUndo.setAlpha(canUndo || totalUndos == 0 ? 1.0f : 0.5f);
 
         if (currentCombo > 1) {
             tvCombo.setText(getString(R.string.combo_format, currentCombo));
@@ -375,6 +394,20 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     private void performUndo() {
         hapticManager.click();
         soundManager.playMove();
+
+        // Game-like tactile spring press feedback
+        if (btnUndo != null) {
+            btnUndo.animate().cancel();
+            btnUndo.setScaleX(0.88f);
+            btnUndo.setScaleY(0.88f);
+            btnUndo.animate()
+                    .scaleX(1.0f)
+                    .scaleY(1.0f)
+                    .setDuration(180)
+                    .setInterpolator(new OvershootInterpolator(2.2f))
+                    .start();
+        }
+
         gameEngine.undo();
         boardView.invalidate();
         updateUI();
@@ -412,12 +445,13 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             btnPause.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
             btnThemeToggle.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
 
-            // Undo action button
+            // Undo action button (Game-like capsule styling)
             btnUndo.setTextColor(theme.textPrimaryColor);
             if (btnUndo instanceof com.google.android.material.button.MaterialButton) {
                 com.google.android.material.button.MaterialButton matBtn = (com.google.android.material.button.MaterialButton) btnUndo;
                 matBtn.setStrokeColor(ColorStateList.valueOf(theme.btnStrokeColor));
                 matBtn.setBackgroundColor(theme.btnSurfaceColor);
+                matBtn.setIconTint(ColorStateList.valueOf(theme.textPrimaryColor));
             }
         }
 

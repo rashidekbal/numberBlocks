@@ -31,6 +31,7 @@ public class SplashActivity extends AppCompatActivity {
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        StatusBarHelper.hideSystemBars(this);
         StatusBarHelper.applySystemBarInsets(binding.getRoot());
         StatusBarHelper.updateSystemBars(this, 0xFFFAF8EF);
 
@@ -173,6 +174,20 @@ public class SplashActivity extends AppCompatActivity {
             }
             finish();
         }, 1350);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatusBarHelper.hideSystemBars(this);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            StatusBarHelper.hideSystemBars(this);
+        }
     }
 
     @Override

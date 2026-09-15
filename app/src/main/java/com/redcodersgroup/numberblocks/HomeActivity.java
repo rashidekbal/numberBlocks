@@ -65,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         adsManager.init(this);
 
         // Apply system bar insets to prevent status/navigation bar overlap
+        StatusBarHelper.hideSystemBars(this);
         StatusBarHelper.applySystemBarInsets(binding.getRoot());
 
         int lastSize = prefs.getLastPlayedSize();
@@ -144,7 +145,16 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        StatusBarHelper.hideSystemBars(this);
         applyTheme();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            StatusBarHelper.hideSystemBars(this);
+        }
     }
 
     @Override
@@ -278,7 +288,7 @@ public class HomeActivity extends AppCompatActivity {
         if (activeState != null) {
             try {
                 GameSnapshot snapshot = gson.fromJson(activeState, GameSnapshot.class);
-                if (snapshot != null && !snapshot.isOver) {
+                if (snapshot != null && !snapshot.isOver && snapshot.score > 0) {
                     currentDialog = DialogHelper.showResumePrompt(this, size, snapshot.score,
                             () -> launchGame(size, true),
                             () -> {
@@ -286,8 +296,12 @@ public class HomeActivity extends AppCompatActivity {
                                 launchGame(size, false);
                             });
                     return;
+                } else if (snapshot != null && (snapshot.isOver || snapshot.score == 0)) {
+                    prefs.clearActiveGame(size);
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+                prefs.clearActiveGame(size);
+            }
         }
         launchGame(size, false);
     }

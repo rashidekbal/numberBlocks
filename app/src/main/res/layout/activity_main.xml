@@ -182,18 +182,26 @@
             android:textColor="#737680"
             android:textSize="@dimen/sp_12" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_undo"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_36"
+            android:layout_height="@dimen/dp_40"
+            android:paddingStart="@dimen/dp_14"
+            android:paddingEnd="@dimen/dp_14"
             android:text="@string/undo"
             android:textColor="#1E2024"
-            android:textSize="@dimen/sp_11"
-            android:paddingStart="@dimen/dp_12"
-            android:paddingEnd="@dimen/dp_12"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold"
+            app:icon="@drawable/ic_undo"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/dp_6"
+            app:iconSize="@dimen/dp_18"
+            app:iconTint="#1E2024"
             app:strokeColor="#D9D7CE"
-            app:cornerRadius="@dimen/dp_10" />
+            app:strokeWidth="@dimen/dp_1"
+            app:cornerRadius="@dimen/dp_14"
+            app:elevation="@dimen/dp_1" />
     </LinearLayout>
 
     <!-- Game Board Well -->

@@ -104,11 +104,23 @@ public class DialogHelper {
             ColorStateList bgTint = matBtn.getBackgroundTintList();
             int bgColor = bgTint != null ? bgTint.getDefaultColor() : 0;
             int textColor = matBtn.getCurrentTextColor();
+            int viewId = matBtn.getId();
+
+            boolean isTextOnlyButton = (strokeWidth == 0 && (
+                    viewId == R.id.btn_gameover_home ||
+                    viewId == R.id.btn_dialog_stay ||
+                    viewId == R.id.btn_dialog_restart_cancel ||
+                    viewId == R.id.btn_dialog_cancel ||
+                    viewId == R.id.btn_theme_confirm_cancel ||
+                    viewId == R.id.btn_dialog_new_game ||
+                    textColor == Color.parseColor("#737680") ||
+                    (bgColor == 0 || Color.alpha(bgColor) == 0)
+            ));
 
             // 1. Text buttons (GameButton.Text: transparent background, no stroke)
-            if (strokeWidth == 0 && (bgColor == 0 || Color.alpha(bgColor) == 0)) {
+            if (isTextOnlyButton) {
                 matBtn.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
-                matBtn.setTextColor(theme.textPrimaryColor);
+                matBtn.setTextColor(theme.textSecondaryColor);
             }
             // 2. Outlined / Secondary buttons (has stroke)
             else if (strokeWidth > 0) {
@@ -161,6 +173,9 @@ public class DialogHelper {
         } else if (view instanceof TextView && !(view instanceof Button)) {
             TextView tv = (TextView) view;
             if (isInsideViewPager(tv) && tv.getParent() instanceof android.widget.GridLayout) {
+                return;
+            }
+            if (tv.getId() == R.id.tv_gameover_highest_tile) {
                 return;
             }
             int currentColor = tv.getCurrentTextColor();
@@ -223,6 +238,21 @@ public class DialogHelper {
         binding.tvGameoverScore.setText(String.format(Locale.getDefault(), "%,d", score));
         binding.tvGameoverBest.setText(String.format(Locale.getDefault(), "%,d", bestScore));
         binding.tvGameoverHighestTile.setText(activity.getString(R.string.best_block_format, String.format(Locale.getDefault(), "%,d", highestTile)));
+
+        Theme theme = ThemeManager.getInstance().getCurrentTheme();
+        android.graphics.drawable.GradientDrawable highestTilePill = new android.graphics.drawable.GradientDrawable();
+        highestTilePill.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
+        highestTilePill.setCornerRadius(12 * activity.getResources().getDisplayMetrics().density);
+        if (theme.isDark) {
+            highestTilePill.setColor(theme.btnSurfaceColor);
+            highestTilePill.setStroke((int) (1 * activity.getResources().getDisplayMetrics().density), theme.btnStrokeColor);
+            binding.tvGameoverHighestTile.setTextColor(theme.textPrimaryColor);
+        } else {
+            highestTilePill.setColor(Color.parseColor("#FAF9F6"));
+            highestTilePill.setStroke((int) (1 * activity.getResources().getDisplayMetrics().density), Color.parseColor("#E3E1D8"));
+            binding.tvGameoverHighestTile.setTextColor(Color.parseColor("#1E2024"));
+        }
+        binding.tvGameoverHighestTile.setBackground(highestTilePill);
 
         binding.btnGameoverRetry.setOnClickListener(view -> {
             dialog.dismiss();

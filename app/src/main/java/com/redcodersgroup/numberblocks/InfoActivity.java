@@ -45,6 +45,7 @@ public class InfoActivity extends AppCompatActivity {
         soundManager = SoundManager.getInstance();
 
         // Apply system bar insets and theme styling
+        StatusBarHelper.hideSystemBars(this);
         StatusBarHelper.applySystemBarInsets(binding.getRoot());
         applyTheme();
 
@@ -162,6 +163,20 @@ public class InfoActivity extends AppCompatActivity {
             for (int i = 0; i < vg.getChildCount(); i++) {
                 applyThemeRecursive(vg.getChildAt(i), theme);
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatusBarHelper.hideSystemBars(this);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            StatusBarHelper.hideSystemBars(this);
         }
     }
 
