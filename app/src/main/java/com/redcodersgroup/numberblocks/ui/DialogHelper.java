@@ -107,7 +107,6 @@ public class DialogHelper {
             int viewId = matBtn.getId();
 
             boolean isTextOnlyButton = (strokeWidth == 0 && (
-                    viewId == R.id.btn_gameover_home ||
                     viewId == R.id.btn_dialog_stay ||
                     viewId == R.id.btn_dialog_restart_cancel ||
                     viewId == R.id.btn_dialog_cancel ||
@@ -240,19 +239,47 @@ public class DialogHelper {
         binding.tvGameoverHighestTile.setText(activity.getString(R.string.best_block_format, String.format(Locale.getDefault(), "%,d", highestTile)));
 
         Theme theme = ThemeManager.getInstance().getCurrentTheme();
+        float density = activity.getResources().getDisplayMetrics().density;
+
+        int cardBg = theme.isDark ? theme.btnSurfaceColor : theme.hudCardColor;
+        int cardStroke = theme.isDark ? theme.btnStrokeColor : theme.cardStrokeColor;
+
+        if (binding.cardGameoverScore != null) {
+            binding.cardGameoverScore.setCardBackgroundColor(cardBg);
+            binding.cardGameoverScore.setStrokeColor(cardStroke);
+        }
+        if (binding.cardGameoverBest != null) {
+            binding.cardGameoverBest.setCardBackgroundColor(cardBg);
+            binding.cardGameoverBest.setStrokeColor(cardStroke);
+        }
+        binding.tvGameoverScore.setTextColor(theme.textPrimaryColor);
+        binding.tvGameoverBest.setTextColor(theme.textPrimaryColor);
+
         android.graphics.drawable.GradientDrawable highestTilePill = new android.graphics.drawable.GradientDrawable();
         highestTilePill.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
-        highestTilePill.setCornerRadius(12 * activity.getResources().getDisplayMetrics().density);
-        if (theme.isDark) {
-            highestTilePill.setColor(theme.btnSurfaceColor);
-            highestTilePill.setStroke((int) (1 * activity.getResources().getDisplayMetrics().density), theme.btnStrokeColor);
-            binding.tvGameoverHighestTile.setTextColor(theme.textPrimaryColor);
-        } else {
-            highestTilePill.setColor(Color.parseColor("#FAF9F6"));
-            highestTilePill.setStroke((int) (1 * activity.getResources().getDisplayMetrics().density), Color.parseColor("#E3E1D8"));
-            binding.tvGameoverHighestTile.setTextColor(Color.parseColor("#1E2024"));
-        }
+        highestTilePill.setCornerRadius(14 * density);
+        highestTilePill.setColor(cardBg);
+        highestTilePill.setStroke((int) (1 * density), cardStroke);
+        binding.tvGameoverHighestTile.setTextColor(theme.textPrimaryColor);
         binding.tvGameoverHighestTile.setBackground(highestTilePill);
+
+        // Prominent Full-Width Revive Action Button (Radiant Amber Gold)
+        binding.btnGameoverRevive.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F59E0B")));
+        binding.btnGameoverRevive.setTextColor(Color.WHITE);
+
+        // Secondary Buttons: RETRY and HOME
+        int btnSurface = theme.btnSurfaceColor;
+        int btnStroke = theme.btnStrokeColor;
+
+        binding.btnGameoverRetry.setBackgroundTintList(ColorStateList.valueOf(btnSurface));
+        binding.btnGameoverRetry.setStrokeColor(ColorStateList.valueOf(btnStroke));
+        binding.btnGameoverRetry.setStrokeWidth((int) (1 * density));
+        binding.btnGameoverRetry.setTextColor(theme.textPrimaryColor);
+
+        binding.btnGameoverHome.setBackgroundTintList(ColorStateList.valueOf(btnSurface));
+        binding.btnGameoverHome.setStrokeColor(ColorStateList.valueOf(btnStroke));
+        binding.btnGameoverHome.setStrokeWidth((int) (1 * density));
+        binding.btnGameoverHome.setTextColor(theme.textPrimaryColor);
 
         binding.btnGameoverRetry.setOnClickListener(view -> {
             dialog.dismiss();

@@ -35,6 +35,7 @@ import com.redcodersgroup.numberblocks.storage.PreferencesManager;
 import com.redcodersgroup.numberblocks.theme.Theme;
 import com.redcodersgroup.numberblocks.theme.ThemeManager;
 import com.redcodersgroup.numberblocks.ui.BoardView;
+import com.redcodersgroup.numberblocks.ui.ComboBurstView;
 import com.redcodersgroup.numberblocks.ui.DialogHelper;
 import com.redcodersgroup.numberblocks.ui.StatusBarHelper;
 
@@ -46,11 +47,13 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     private ActivityMainBinding binding;
     private GameEngine gameEngine;
     private BoardView boardView;
+    private ComboBurstView comboBurstView;
     private TextView tvScore;
     private TextView tvBest;
     private TextView tvCombo;
     private TextView tvModeBadge;
-    private Button btnUndo;
+    private ImageButton btnUndo;
+    private TextView tvUndoBadge;
     private ViewGroup bannerContainer;
     private View rootLayout;
     private MaterialCardView cardScore, cardBest;
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     private TextView tvCelebrationTile;
     private TextView tvCelebrationTitle;
     private final Handler milestoneHandler = new Handler(Looper.getMainLooper());
+    private int testComboLevel = 3;
 
     private ImageButton btnPause;
     private ImageButton btnThemeToggle;
@@ -107,11 +111,13 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         StatusBarHelper.hideSystemBars(this);
         StatusBarHelper.applySystemBarInsets(rootLayout);
         boardView = binding.boardView;
+        comboBurstView = binding.comboBurstView;
         tvScore = binding.tvScore;
         tvBest = binding.tvBest;
         tvCombo = binding.tvCombo;
         tvModeBadge = binding.tvModeBadge;
         btnUndo = binding.btnUndo;
+        tvUndoBadge = binding.tvUndoBadge;
         bannerContainer = binding.bannerContainer;
         cardScore = binding.cardScore;
         cardBest = binding.cardBest;
@@ -143,9 +149,26 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         boardView.setOnMoveListener(result -> {
             updateUI();
             saveCurrentGame();
+            if (result != null && result.getCombo() >= 3) {
+                int combo = result.getCombo();
+                int bonusPts = (combo > 1) ? (result.getScoreEarned() * (combo - 1) / 4) : 0;
+                if (comboBurstView != null) {
+                    comboBurstView.showCombo(combo, bonusPts);
+                }
+            }
         });
 
+        if (tvCombo != null) {
+            tvCombo.setOnClickListener(v -> triggerTestCombo());
+        }
+
         btnUndo.setOnClickListener(v -> handleUndoClick());
+        if (tvUndoBadge != null) {
+            tvUndoBadge.setOnClickListener(v -> handleUndoClick());
+        }
+        if (binding.layoutUndoContainer != null) {
+            binding.layoutUndoContainer.setOnClickListener(v -> handleUndoClick());
+        }
 
         if (btnPause != null) {
             btnPause.setOnClickListener(v -> showPauseMenuDialog());
@@ -333,13 +356,32 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
         int totalUndos = freeUndosRemaining + rewardedUndos;
         boolean canUndo = gameEngine.canUndo();
-        if (totalUndos > 0) {
-            btnUndo.setText(getString(R.string.undo_format, totalUndos));
-        } else {
-            btnUndo.setText(R.string.undo_ad);
+        Theme theme = themeManager.getCurrentTheme();
+        float density = getResources().getDisplayMetrics().density;
+
+        if (tvUndoBadge != null) {
+            android.graphics.drawable.GradientDrawable badgeBg = new android.graphics.drawable.GradientDrawable();
+            badgeBg.setCornerRadius(10 * density);
+            badgeBg.setStroke((int) (1.5f * density), theme.backgroundColor);
+
+            if (totalUndos > 0) {
+                tvUndoBadge.setText(String.valueOf(totalUndos));
+                badgeBg.setColor(theme.textPrimaryColor);
+                tvUndoBadge.setTextColor(theme.backgroundColor);
+            } else {
+                tvUndoBadge.setText("+Ad");
+                badgeBg.setColor(android.graphics.Color.parseColor("#EDC22E"));
+                tvUndoBadge.setTextColor(android.graphics.Color.parseColor("#FFFFFF"));
+            }
+            tvUndoBadge.setBackground(badgeBg);
         }
-        btnUndo.setEnabled(canUndo || totalUndos == 0);
-        btnUndo.setAlpha(canUndo || totalUndos == 0 ? 1.0f : 0.5f);
+
+        btnUndo.setEnabled(true);
+        float undoAlpha = (canUndo || totalUndos == 0) ? 1.0f : 0.45f;
+        btnUndo.setAlpha(undoAlpha);
+        if (tvUndoBadge != null) {
+            tvUndoBadge.setAlpha(undoAlpha);
+        }
 
         if (currentCombo > 1) {
             tvCombo.setText(getString(R.string.combo_format, currentCombo));
@@ -396,10 +438,20 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         soundManager.playMove();
 
         // Game-like tactile spring press feedback
-        if (btnUndo != null) {
+        if (binding != null && binding.layoutUndoContainer != null) {
+            binding.layoutUndoContainer.animate().cancel();
+            binding.layoutUndoContainer.setScaleX(0.86f);
+            binding.layoutUndoContainer.setScaleY(0.86f);
+            binding.layoutUndoContainer.animate()
+                    .scaleX(1.0f)
+                    .scaleY(1.0f)
+                    .setDuration(180)
+                    .setInterpolator(new OvershootInterpolator(2.2f))
+                    .start();
+        } else if (btnUndo != null) {
             btnUndo.animate().cancel();
-            btnUndo.setScaleX(0.88f);
-            btnUndo.setScaleY(0.88f);
+            btnUndo.setScaleX(0.86f);
+            btnUndo.setScaleY(0.86f);
             btnUndo.animate()
                     .scaleX(1.0f)
                     .scaleY(1.0f)
@@ -431,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             cardBest.setCardBackgroundColor(theme.hudCardColor);
             cardBest.setStrokeColor(theme.cardStrokeColor);
 
-            // Circular header buttons (Pause & Theme toggle)
+            // Circular action buttons (Pause, Theme toggle & Undo)
             android.graphics.drawable.GradientDrawable circleBg = new android.graphics.drawable.GradientDrawable();
             circleBg.setShape(android.graphics.drawable.GradientDrawable.OVAL);
             circleBg.setColor(theme.btnSurfaceColor);
@@ -439,19 +491,30 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             btnPause.setBackground(circleBg);
             if (circleBg.getConstantState() != null) {
                 btnThemeToggle.setBackground(circleBg.getConstantState().newDrawable().mutate());
+                btnUndo.setBackground(circleBg.getConstantState().newDrawable().mutate());
             } else {
                 btnThemeToggle.setBackground(circleBg);
+                btnUndo.setBackground(circleBg);
             }
             btnPause.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
             btnThemeToggle.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
+            btnUndo.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
 
-            // Undo action button (Game-like capsule styling)
-            btnUndo.setTextColor(theme.textPrimaryColor);
-            if (btnUndo instanceof com.google.android.material.button.MaterialButton) {
-                com.google.android.material.button.MaterialButton matBtn = (com.google.android.material.button.MaterialButton) btnUndo;
-                matBtn.setStrokeColor(ColorStateList.valueOf(theme.btnStrokeColor));
-                matBtn.setBackgroundColor(theme.btnSurfaceColor);
-                matBtn.setIconTint(ColorStateList.valueOf(theme.textPrimaryColor));
+            // Undo Badge styling
+            if (tvUndoBadge != null) {
+                float density = getResources().getDisplayMetrics().density;
+                int totalUndos = freeUndosRemaining + rewardedUndos;
+                android.graphics.drawable.GradientDrawable badgeBg = new android.graphics.drawable.GradientDrawable();
+                badgeBg.setCornerRadius(10 * density);
+                badgeBg.setStroke((int) (1.5f * density), theme.backgroundColor);
+                if (totalUndos > 0) {
+                    badgeBg.setColor(theme.textPrimaryColor);
+                    tvUndoBadge.setTextColor(theme.backgroundColor);
+                } else {
+                    badgeBg.setColor(android.graphics.Color.parseColor("#EDC22E"));
+                    tvUndoBadge.setTextColor(android.graphics.Color.parseColor("#FFFFFF"));
+                }
+                tvUndoBadge.setBackground(badgeBg);
             }
         }
 
@@ -647,6 +710,10 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         cardMilestoneCelebration.setAlpha(0.0f);
         cardMilestoneCelebration.setTranslationY(30f);
 
+        if (comboBurstView != null) {
+            comboBurstView.showMilestoneBurst(getMilestoneColor(milestone));
+        }
+
         cardMilestoneCelebration.animate()
                 .scaleX(1.0f)
                 .scaleY(1.0f)
@@ -678,6 +745,31 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         });
     }
 
+    private void triggerTestCombo() {
+        int combo = testComboLevel;
+        int bonusPts = combo * 32;
+        if (comboBurstView != null) {
+            comboBurstView.showCombo(combo, bonusPts);
+        }
+        soundManager.playCombo(combo);
+        hapticManager.heavyClick();
+
+        if (tvCombo != null) {
+            tvCombo.setText(getString(R.string.combo_format, combo));
+            tvCombo.animate().cancel();
+            tvCombo.setScaleX(1.22f);
+            tvCombo.setScaleY(1.22f);
+            tvCombo.animate()
+                    .scaleX(1.0f)
+                    .scaleY(1.0f)
+                    .setDuration(180)
+                    .setInterpolator(new OvershootInterpolator(2.2f))
+                    .start();
+        }
+
+        testComboLevel = (testComboLevel >= 6) ? 3 : testComboLevel + 1;
+    }
+
     private int getMilestoneColor(int val) {
         switch (val) {
             case 128: return 0xFFEDCF72;
@@ -706,7 +798,8 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
         boolean overButtons = isTouchOverView(btnPause, rawX, rawY)
                 || isTouchOverView(btnThemeToggle, rawX, rawY)
-                || isTouchOverView(btnUndo, rawX, rawY)
+                || isTouchOverView(binding != null ? binding.layoutUndoContainer : btnUndo, rawX, rawY)
+                || isTouchOverView(tvCombo, rawX, rawY)
                 || isTouchOverView(bannerContainer, rawX, rawY);
 
         if (!overButtons && screenGestureDetector != null) {

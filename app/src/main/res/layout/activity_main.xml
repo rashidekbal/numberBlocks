@@ -165,43 +165,23 @@
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
-    <!-- Sub-bar: Consecutive Merges & Revert -->
+    <!-- Sub-bar: Consecutive Merges / Instruction -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="@dimen/dp_10">
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_2">
 
         <TextView
             android:id="@+id/tv_combo"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:gravity="center"
+            android:textAlignment="center"
             android:text="@string/default_instruction"
             android:textColor="#737680"
             android:textSize="@dimen/sp_12" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_undo"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_40"
-            android:paddingStart="@dimen/dp_14"
-            android:paddingEnd="@dimen/dp_14"
-            android:text="@string/undo"
-            android:textColor="#1E2024"
-            android:textSize="@dimen/sp_12"
-            android:textStyle="bold"
-            app:icon="@drawable/ic_undo"
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/dp_6"
-            app:iconSize="@dimen/dp_18"
-            app:iconTint="#1E2024"
-            app:strokeColor="#D9D7CE"
-            app:strokeWidth="@dimen/dp_1"
-            app:cornerRadius="@dimen/dp_14"
-            app:elevation="@dimen/dp_1" />
     </LinearLayout>
 
     <!-- Game Board Well -->
@@ -219,6 +199,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
+
+        <!-- Burst-Out Sprinkles Combo Popup Overlay (Unboxed Arcade Style) -->
+        <com.redcodersgroup.numberblocks.ui.ComboBurstView
+            android:id="@+id/combo_burst_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <!-- Floating Milestone Celebration Popup (No modal dialog window, no OK button) -->
         <com.google.android.material.card.MaterialCardView
@@ -282,6 +270,58 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+
+    <!-- Bottom Controls Area: Circular Undo Action -->
+    <FrameLayout
+        android:id="@+id/layout_bottom_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/dp_4"
+        android:paddingBottom="@dimen/dp_6">
+
+        <FrameLayout
+            android:id="@+id/layout_undo_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <ImageButton
+                android:id="@+id/btn_undo"
+                android:layout_width="@dimen/dp_52"
+                android:layout_height="@dimen/dp_52"
+                android:layout_marginStart="@dimen/dp_6"
+                android:layout_marginTop="@dimen/dp_6"
+                android:layout_marginEnd="@dimen/dp_6"
+                android:layout_marginBottom="@dimen/dp_6"
+                android:background="@drawable/btn_circle_surface"
+                android:contentDescription="@string/undo"
+                android:padding="@dimen/dp_13"
+                android:src="@drawable/ic_undo"
+                android:elevation="@dimen/dp_2"
+                app:tint="#1E2024" />
+
+            <TextView
+                android:id="@+id/tv_undo_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_20"
+                android:minWidth="@dimen/dp_20"
+                android:layout_gravity="top|end"
+                android:background="@drawable/pill_badge"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingStart="@dimen/dp_5"
+                android:paddingEnd="@dimen/dp_5"
+                android:text="5"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/sp_10"
+                android:textStyle="bold"
+                android:elevation="@dimen/dp_4" />
+        </FrameLayout>
     </FrameLayout>
 
     <!-- Ad Container -->

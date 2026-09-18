@@ -80,4 +80,14 @@ public class SoundManager {
         playTone(350.0, 100);
         handler.postDelayed(() -> playTone(280.0, 150), 110);
     }
+
+    public void playCombo(int combo) {
+        if (!enabled) return;
+        final double baseFreq = 520.0 * Math.pow(1.08, Math.min(8, combo));
+        playTone(baseFreq, 80);
+        handler.postDelayed(() -> playTone(baseFreq * 1.25, 80), 70);
+        if (combo >= 4) {
+            handler.postDelayed(() -> playTone(baseFreq * 1.5, 120), 140);
+        }
+    }
 }

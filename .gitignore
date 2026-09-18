@@ -12,3 +12,5 @@ build/
 app/build/
 *.apk
 *.aab
+app/release/
+lint_output.txt

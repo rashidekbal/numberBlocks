@@ -72,6 +72,7 @@
             android:paddingTop="@dimen/dp_4"
             android:paddingBottom="@dimen/dp_12">
 
+
             <!-- Unified Capsule Segmented Tab Selector -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/container_hero_tabs"
@@ -179,6 +180,7 @@
                 app:strokeColor="#E8E2D2"
                 app:strokeWidth="@dimen/dp_1">
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -235,6 +237,76 @@
                             android:layout_marginStart="@dimen/dp_4" />
                     </LinearLayout>
 
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <!-- Active Run Resume Card (shown when saved game exists) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_active_run"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_14"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="@dimen/dp_18"
+                app:cardElevation="@dimen/dp_2"
+                app:strokeColor="#E8E2D2"
+                app:cardUseCompatPadding="true"
+                app:strokeWidth="@dimen/dp_1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/dp_18"
+                    android:paddingTop="@dimen/dp_12"
+                    android:paddingEnd="@dimen/dp_16"
+                    android:paddingBottom="@dimen/dp_12">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_active_run_tag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.06"
+                            android:text="ACTIVE RUN • 4×4"
+                            android:textColor="#8F7A66"
+                            android:textSize="@dimen/sp_10"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_active_run_score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_2"
+                            android:text="0"
+                            android:textColor="#1E2024"
+                            android:textSize="@dimen/sp_22"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_active_run_resume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dp_38"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:paddingStart="@dimen/dp_18"
+                        android:paddingEnd="@dimen/dp_18"
+                        android:text="@string/resume"
+                        android:textColor="#FFFFFF"
+                        android:textSize="@dimen/sp_12"
+                        android:textStyle="bold"
+                        app:backgroundTint="#1E2024"
+                        app:cornerRadius="@dimen/dp_14"
+                        app:elevation="@dimen/dp_1" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

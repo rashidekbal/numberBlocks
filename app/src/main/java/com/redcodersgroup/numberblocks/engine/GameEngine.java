@@ -90,11 +90,7 @@ public class GameEngine {
 
         movesCount++;
 
-        if (!step.mergedTiles.isEmpty()) {
-            combo++;
-        } else {
-            combo = 0;
-        }
+        combo = step.mergedTiles.size();
 
         int comboBonus = (combo > 1) ? (step.scoreEarned * (combo - 1) / 4) : 0;
         int totalEarned = step.scoreEarned + comboBonus;

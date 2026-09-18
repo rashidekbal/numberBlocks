@@ -195,8 +195,13 @@ public class BoardView extends View {
         MoveResult result = gameEngine.move(direction);
         if (result.isMoved()) {
             if (!result.getMergedTiles().isEmpty()) {
-                SoundManager.getInstance().playMerge(result.getMergedTiles().get(0).getValue());
-                HapticManager.getInstance().heavyClick();
+                if (result.getCombo() >= 3) {
+                    SoundManager.getInstance().playCombo(result.getCombo());
+                    HapticManager.getInstance().heavyClick();
+                } else {
+                    SoundManager.getInstance().playMerge(result.getMergedTiles().get(0).getValue());
+                    HapticManager.getInstance().heavyClick();
+                }
                 for (Tile t : result.getMergedTiles()) {
                     spawnParticles(t);
                     spawnScoreFloater(t);

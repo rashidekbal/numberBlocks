@@ -132,6 +132,10 @@ public class HomeActivity extends AppCompatActivity {
 
         selectMode(currentSelectedSize);
 
+        // Active Run Resume Click Listeners
+        binding.cardActiveRun.setOnClickListener(v -> launchGame(currentSelectedSize, true));
+        binding.btnActiveRunResume.setOnClickListener(v -> launchGame(currentSelectedSize, true));
+
         // Quick Controls
         binding.btnHomeSettings.setOnClickListener(v -> showSettingsDialog());
         binding.btnHomeStats.setOnClickListener(v -> showStatsDialog());
@@ -147,6 +151,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
         StatusBarHelper.hideSystemBars(this);
         applyTheme();
+        updateActiveRunCard();
     }
 
     @Override
@@ -181,6 +186,19 @@ public class HomeActivity extends AppCompatActivity {
             binding.btnHomeSettings.setBackground(settingsCircle);
             binding.btnHomeSettings.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
 
+            // Active Run Resume Card
+            if (binding.cardActiveRun != null) {
+                binding.cardActiveRun.setCardBackgroundColor(theme.cardBackgroundColor);
+                binding.cardActiveRun.setStrokeColor(theme.cardStrokeColor);
+                binding.tvActiveRunTag.setTextColor(theme.textSecondaryColor);
+                binding.tvActiveRunScore.setTextColor(theme.textPrimaryColor);
+
+                int resumeBtnBg = theme.isDark ? theme.textPrimaryColor : Color.parseColor("#1E2024");
+                int resumeBtnText = theme.isDark ? theme.backgroundColor : Color.parseColor("#FFFFFF");
+                binding.btnActiveRunResume.setBackgroundTintList(ColorStateList.valueOf(resumeBtnBg));
+                binding.btnActiveRunResume.setTextColor(resumeBtnText);
+            }
+
             // Top Tabs Container
             binding.containerHeroTabs.setCardBackgroundColor(theme.hudCardColor);
             binding.containerHeroTabs.setStrokeColor(theme.btnStrokeColor);
@@ -208,7 +226,26 @@ public class HomeActivity extends AppCompatActivity {
             binding.previewHeroBoard.setGridSize(size);
             binding.tvHeroGridSize.setText(size + " × " + size);
             updateHeroTabsAndDots(themeManager.getCurrentTheme());
+            updateActiveRunCard();
         }
+    }
+
+    private void updateActiveRunCard() {
+        if (binding == null) return;
+
+        String activeState = prefs.getActiveGame(currentSelectedSize);
+        if (activeState != null) {
+            try {
+                GameSnapshot snapshot = gson.fromJson(activeState, GameSnapshot.class);
+                if (snapshot != null && !snapshot.isOver && snapshot.score > 0) {
+                    binding.cardActiveRun.setVisibility(View.VISIBLE);
+                    binding.tvActiveRunTag.setText(getString(R.string.active_run_format, currentSelectedSize + "×" + currentSelectedSize));
+                    binding.tvActiveRunScore.setText(String.format(Locale.getDefault(), "%,d", snapshot.score));
+                    return;
+                }
+            } catch (Exception ignored) {}
+        }
+        binding.cardActiveRun.setVisibility(View.GONE);
     }
 
     private void updateHeroTabsAndDots(Theme theme) {

@@ -53,12 +53,13 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_gameover_score"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="@dimen/dp_6"
                     app:cardBackgroundColor="#FAF9F6"
-                    app:cardCornerRadius="@dimen/dp_12"
+                    app:cardCornerRadius="@dimen/dp_16"
                     app:cardElevation="0dp"
                     app:strokeColor="#E3E1D8"
                     app:strokeWidth="@dimen/dp_1">
@@ -68,7 +69,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="@dimen/dp_10">
+                        android:padding="@dimen/dp_12">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -85,18 +86,19 @@
                             android:layout_marginTop="@dimen/dp_2"
                             android:text="4,820"
                             android:textColor="#1E2024"
-                            android:textSize="@dimen/sp_18"
+                            android:textSize="@dimen/sp_20"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_gameover_best"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="@dimen/dp_6"
                     app:cardBackgroundColor="#FAF9F6"
-                    app:cardCornerRadius="@dimen/dp_12"
+                    app:cardCornerRadius="@dimen/dp_16"
                     app:cardElevation="0dp"
                     app:strokeColor="#E3E1D8"
                     app:strokeWidth="@dimen/dp_1">
@@ -106,12 +108,12 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="@dimen/dp_10">
+                        android:padding="@dimen/dp_12">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="BEST"
+                            android:text="@string/best"
                             android:textColor="#737680"
                             android:textSize="@dimen/sp_10"
                             android:textStyle="bold" />
@@ -123,7 +125,7 @@
                             android:layout_marginTop="@dimen/dp_2"
                             android:text="18,460"
                             android:textColor="#1E2024"
-                            android:textSize="@dimen/sp_18"
+                            android:textSize="@dimen/sp_20"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -133,58 +135,81 @@
                 android:id="@+id/tv_gameover_highest_tile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_14"
                 android:background="#FAF9F6"
-                android:paddingStart="@dimen/dp_12"
-                android:paddingEnd="@dimen/dp_12"
-                android:paddingTop="@dimen/dp_4"
-                android:paddingBottom="@dimen/dp_4"
+                android:paddingStart="@dimen/dp_14"
+                android:paddingEnd="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_6"
+                android:paddingBottom="@dimen/dp_6"
                 android:text="Best Block: 512"
                 android:textColor="#1E2024"
                 android:textSize="@dimen/sp_12"
                 android:textStyle="bold" />
 
-            <!-- Action Buttons -->
+            <!-- Action Buttons Re-positioned per screenshot -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginTop="@dimen/dp_20"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btn_gameover_retry"
-                    style="@style/GameButton.Primary"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_54"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:backgroundTint="#1E2024"
-                    android:text="@string/play_again"
-                    android:textColor="#FFFFFF"
-                    android:textSize="@dimen/sp_15"
-                    android:textStyle="bold"
-                    app:cornerRadius="@dimen/dp_16" />
-
-                <Button
+                <!-- Top: Full-Width Radiant Revive Action Button -->
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_gameover_revive"
-                    style="@style/GameButton.Secondary"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_52"
-                    android:layout_marginBottom="@dimen/dp_6"
-                    android:text="Revive (+Ad)"
-                    android:textColor="#1E2024"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:backgroundTint="#F59E0B"
+                    android:text="⭐ REVIVE (WATCH AD)"
+                    android:textColor="#FFFFFF"
                     android:textSize="@dimen/sp_14"
                     android:textStyle="bold"
-                    app:strokeColor="#D9D7CE"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     app:cornerRadius="@dimen/dp_16" />
 
-                <Button
-                    android:id="@+id/btn_gameover_home"
-                    style="@style/GameButton.Text"
+                <!-- Bottom: Side-by-Side Secondary Buttons (Retry & Home) -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_48"
-                    android:text="Exit to Hub"
-                    android:textColor="#737680"
-                    android:textSize="@dimen/sp_14" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_gameover_retry"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_48"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="@dimen/dp_6"
+                        android:text="@string/retry"
+                        android:textColor="#1E2024"
+                        android:textSize="@dimen/sp_13"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:strokeColor="#D9D7CE"
+                        app:strokeWidth="@dimen/dp_1"
+                        app:cornerRadius="@dimen/dp_14" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_gameover_home"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_48"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/dp_6"
+                        android:text="@string/home"
+                        android:textColor="#1E2024"
+                        android:textSize="@dimen/sp_13"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:strokeColor="#D9D7CE"
+                        app:strokeWidth="@dimen/dp_1"
+                        app:cornerRadius="@dimen/dp_14" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

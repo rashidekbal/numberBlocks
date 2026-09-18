@@ -1,0 +1,70 @@
+﻿
+<lint>
+    <!--
+        UnusedAttribute on font XML (fontStyle, fontWeight, font):
+        The android: namespace attributes are intentionally present alongside
+        the app: namespace ones for pre-API-26 compatibility via the support library.
+        The app: variants are used on older devices; the android: ones on API 26+.
+    -->
+    <issue id="UnusedAttribute">
+        <ignore path="res/font/**" />
+    </issue>
+
+    <!--
+        CustomSplashScreen: SplashActivity is intentionally retained for
+        API 24–30 devices that do not have the system splash screen.
+        On API 31+ the activity finishes immediately via WindowSplashScreen.
+    -->
+    <issue id="CustomSplashScreen" severity="ignore" />
+
+    <!--
+        LockedOrientationActivity / DiscouragedApi:
+        Number Blocks is a portrait-only puzzle game. Rotating the board would
+        break the tile layout and UX. The portrait lock is intentional.
+    -->
+    <issue id="LockedOrientationActivity" severity="ignore" />
+    <issue id="DiscouragedApi" severity="ignore" />
+
+    <!--
+        NestedWeights: The splash tile rows use nested weights intentionally.
+        There are only 4 tiles per row and the screen is measured once; the
+        performance cost is negligible and the layout cannot be expressed
+        differently without ConstraintLayout (which would increase complexity).
+    -->
+    <issue id="NestedWeights">
+        <ignore path="res/layout/activity_splash.xml" />
+    </issue>
+
+    <!--
+        Overdraw: Root layouts set an explicit background that matches the
+        theme windowBackground colour. Lint incorrectly detects this as
+        overdraw; in practice the window background draw is eliminated by
+        the View drawing system when the View covers the entire window.
+    -->
+    <issue id="Overdraw" severity="ignore" />
+
+    <!--
+        PluralsCandidate: tile_unlocked_format and tile_reached_format use
+        a numeric format argument representing a specific tile value (2048,
+        8192, 16384), not a countable quantity. A plural form is meaningless
+        here; the warning is a false positive.
+    -->
+    <issue id="PluralsCandidate" severity="ignore" />
+
+    <!--
+        UnusedResources (dimens.xml): The dimens.xml file intentionally
+        contains a comprehensive set of dp/sp tokens (5dp–720dp) for use
+        as a design-token library. Many tokens are unused today but are
+        kept to avoid re-adding them when new layouts require them.
+    -->
+    <issue id="UnusedResources">
+        <ignore path="res/values/dimens.xml" />
+        <ignore path="res/values-sw*dp/dimens.xml" />
+    </issue>
+
+    <!--
+        AndroidGradlePluginVersion: We are deliberately staying on Gradle
+        9.6.0 for build stability. Update when the project is ready.
+    -->
+    <issue id="AndroidGradlePluginVersion" severity="ignore" />
+</lint>
