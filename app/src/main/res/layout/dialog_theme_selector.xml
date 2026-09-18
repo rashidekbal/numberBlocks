@@ -39,7 +39,60 @@
                 android:layout_marginTop="@dimen/dp_14"
                 android:orientation="vertical">
 
-                <!-- 1. Golden Classic (Default) -->
+                <!-- 1. Prism Pop (Default) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_theme_prism"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_8"
+                    app:cardBackgroundColor="#131624"
+                    app:cardCornerRadius="@dimen/dp_12"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#FF3366"
+                    app:strokeWidth="@dimen/dp_2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dp_12">
+
+                        <View
+                            android:layout_width="@dimen/dp_20"
+                            android:layout_height="@dimen/dp_20"
+                            android:background="@drawable/circle_badge"
+                            android:backgroundTint="#FF3366" />
+
+                        <TextView
+                            android:id="@+id/tv_title_theme_prism"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_12"
+                            android:layout_weight="1"
+                            android:text="@string/theme_prism_title"
+                            android:textColor="#FFFFFF"
+                            android:textSize="@dimen/sp_14"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_badge_theme_prism"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/pill_badge"
+                            android:backgroundTint="#262D47"
+                            android:paddingStart="@dimen/dp_8"
+                            android:paddingTop="@dimen/dp_2"
+                            android:paddingEnd="@dimen/dp_8"
+                            android:paddingBottom="@dimen/dp_2"
+                            android:text="@string/theme_badge_default"
+                            android:textColor="#A5B4FC"
+                            android:textSize="@dimen/sp_10"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 2. Golden Classic -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_theme_dark"
                     android:layout_width="match_parent"
@@ -48,8 +101,8 @@
                     app:cardBackgroundColor="#FAF9F6"
                     app:cardCornerRadius="@dimen/dp_12"
                     app:cardElevation="0dp"
-                    app:strokeColor="#1E2024"
-                    app:strokeWidth="@dimen/dp_2">
+                    app:strokeColor="#D9D7CE"
+                    app:strokeWidth="@dimen/dp_1">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -80,19 +133,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/pill_badge"
-                            android:backgroundTint="#EDE0C8"
+                            android:backgroundTint="#FFF3E0"
                             android:paddingStart="@dimen/dp_8"
                             android:paddingTop="@dimen/dp_2"
                             android:paddingEnd="@dimen/dp_8"
                             android:paddingBottom="@dimen/dp_2"
-                            android:text="@string/theme_badge_default"
-                            android:textColor="#776E65"
+                            android:text="@string/theme_badge_ad"
+                            android:textColor="#E65100"
                             android:textSize="@dimen/sp_10"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- 2. Titanium Slate -->
+                <!-- 3. Titanium Slate -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_theme_light"
                     android:layout_width="match_parent"

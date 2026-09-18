@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_layout"
+    android:id="@+id/main_root_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FAF9F6"
-    android:paddingStart="@dimen/dp_18"
-    android:paddingEnd="@dimen/dp_18"
-    android:paddingTop="@dimen/dp_10"
-    android:paddingBottom="@dimen/dp_8">
+    android:layout_height="match_parent">
+
+    <com.redcodersgroup.numberblocks.ui.HomeBackgroundView
+        android:id="@+id/game_background_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/transparent"
+        android:paddingStart="@dimen/dp_18"
+        android:paddingEnd="@dimen/dp_18"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_8">
 
     <!-- Top Bar: Navigation & Controls -->
     <RelativeLayout
@@ -331,3 +341,4 @@
         android:layout_height="@dimen/dp_50"
         android:layout_gravity="bottom|center_horizontal" />
 </LinearLayout>
+</FrameLayout>

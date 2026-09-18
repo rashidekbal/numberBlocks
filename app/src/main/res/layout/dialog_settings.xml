@@ -73,7 +73,46 @@
                 android:layout_marginBottom="@dimen/dp_14"
                 android:background="#ECEBE5" />
 
-            <!-- Setting 2: Haptics -->
+            <!-- Setting 2: Background Tone -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:src="@drawable/ic_music"
+                    android:contentDescription="@string/cd_music_icon"
+                    app:tint="#6E6E6E" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_14"
+                    android:layout_weight="1"
+                    android:text="@string/music"
+                    android:textColor="#1E2024"
+                    android:textSize="@dimen/sp_15"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="#00C853"
+                    app:trackTint="#A5D6A7" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_14"
+                android:layout_marginBottom="@dimen/dp_14"
+                android:background="#ECEBE5" />
+
+            <!-- Setting 3: Haptics -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

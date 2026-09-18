@@ -11,7 +11,7 @@ public class ThemeManager {
 
     private ThemeManager() {
         initThemes();
-        currentTheme = themes.get("alabaster");
+        currentTheme = themes.get("prism");
     }
 
     public static synchronized ThemeManager getInstance() {

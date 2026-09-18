@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/splash_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAF8EF"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:gravity="center">
+    android:background="#FAF8EF">
+
+    <com.redcodersgroup.numberblocks.ui.HomeBackgroundView
+        android:id="@+id/splash_background_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/splash_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:gravity="center">
 
     <!-- Center Content -->
     <LinearLayout
@@ -64,6 +75,7 @@
                         app:strokeWidth="0dp">
 
                         <TextView
+                            android:id="@+id/tv_splash_tile_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -91,6 +103,7 @@
                         app:strokeWidth="0dp">
 
                         <TextView
+                            android:id="@+id/tv_splash_tile_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -128,6 +141,7 @@
                         app:strokeWidth="0dp">
 
                         <TextView
+                            android:id="@+id/tv_splash_tile_8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -155,6 +169,7 @@
                         app:strokeWidth="0dp">
 
                         <TextView
+                            android:id="@+id/tv_splash_tile_2048"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -240,6 +255,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_splash_powered_by"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:letterSpacing="0.20"
@@ -249,6 +265,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_splash_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -259,4 +276,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</FrameLayout>

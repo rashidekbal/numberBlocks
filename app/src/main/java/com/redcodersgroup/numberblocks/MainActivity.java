@@ -25,6 +25,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.redcodersgroup.numberblocks.ads.AdsManager;
 import com.redcodersgroup.numberblocks.analytics.AnalyticsManager;
+import com.redcodersgroup.numberblocks.audio.AmbientMusicManager;
 import com.redcodersgroup.numberblocks.audio.HapticManager;
 import com.redcodersgroup.numberblocks.audio.SoundManager;
 import com.redcodersgroup.numberblocks.databinding.ActivityMainBinding;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
     private PreferencesManager prefs;
     private SoundManager soundManager;
+    private AmbientMusicManager ambientMusicManager;
     private HapticManager hapticManager;
     private AdsManager adsManager;
     private ThemeManager themeManager;
@@ -95,6 +97,11 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         prefs = PreferencesManager.getInstance(this);
         soundManager = SoundManager.getInstance();
         soundManager.setEnabled(prefs.isSoundEnabled());
+        ambientMusicManager = AmbientMusicManager.getInstance();
+        ambientMusicManager.setEnabled(prefs.isMusicEnabled());
+        if (prefs.isMusicEnabled()) {
+            ambientMusicManager.start();
+        }
         hapticManager = HapticManager.getInstance();
         hapticManager.init(this);
         hapticManager.setEnabled(prefs.isHapticsEnabled());
@@ -107,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        rootLayout = binding.getRoot();
+        rootLayout = binding.rootLayout;
         StatusBarHelper.hideSystemBars(this);
         StatusBarHelper.applySystemBarInsets(rootLayout);
         boardView = binding.boardView;
@@ -304,12 +311,29 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
     protected void onPause() {
         super.onPause();
         saveCurrentGame();
+        if (binding != null && binding.gameBackgroundView != null) {
+            binding.gameBackgroundView.pauseAnimation();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         StatusBarHelper.hideSystemBars(this);
+        if (binding != null && binding.gameBackgroundView != null) {
+            binding.gameBackgroundView.resumeAnimation();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (currentDialog != null && currentDialog.isShowing()) {
+            currentDialog.dismiss();
+        }
+        if (binding != null && binding.gameBackgroundView != null) {
+            binding.gameBackgroundView.pauseAnimation();
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -468,7 +492,8 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
     private void applyTheme() {
         Theme theme = themeManager.getCurrentTheme();
-        rootLayout.setBackgroundColor(theme.backgroundColor);
+        binding.mainRootContainer.setBackgroundColor(theme.backgroundColor);
+        binding.gameBackgroundView.setTheme(theme);
 
         if (binding != null) {
             binding.tvTitle.setTextColor(theme.textPrimaryColor);
@@ -534,12 +559,20 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
     private void showSettingsDialog() {
         hapticManager.click();
-        currentDialog = DialogHelper.showSettings(this, soundManager.isEnabled(), hapticManager.isEnabled(),
+        currentDialog = DialogHelper.showSettings(this, soundManager.isEnabled(), prefs.isMusicEnabled(), hapticManager.isEnabled(),
                 new DialogHelper.SettingsListener() {
                     @Override
                     public void onSoundToggled(boolean enabled) {
                         soundManager.setEnabled(enabled);
                         prefs.setSoundEnabled(enabled);
+                    }
+
+                    @Override
+                    public void onMusicToggled(boolean enabled) {
+                        prefs.setMusicEnabled(enabled);
+                        if (ambientMusicManager != null) {
+                            ambientMusicManager.setEnabled(enabled);
+                        }
                     }
 
                     @Override

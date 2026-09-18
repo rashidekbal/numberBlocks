@@ -28,11 +28,14 @@ public class PreferencesManager {
         }
     }
 
-    public String getTheme() { return prefs.getString("selected_theme", "alabaster"); }
+    public String getTheme() { return prefs.getString("selected_theme", "prism"); }
     public void setTheme(String theme) { prefs.edit().putString("selected_theme", theme).apply(); }
 
     public boolean isSoundEnabled() { return prefs.getBoolean("sound_enabled", true); }
     public void setSoundEnabled(boolean enabled) { prefs.edit().putBoolean("sound_enabled", enabled).apply(); }
+
+    public boolean isMusicEnabled() { return prefs.getBoolean("music_enabled", false); }
+    public void setMusicEnabled(boolean enabled) { prefs.edit().putBoolean("music_enabled", enabled).apply(); }
 
     public boolean isHapticsEnabled() { return prefs.getBoolean("haptics_enabled", true); }
     public void setHapticsEnabled(boolean enabled) { prefs.edit().putBoolean("haptics_enabled", enabled).apply(); }

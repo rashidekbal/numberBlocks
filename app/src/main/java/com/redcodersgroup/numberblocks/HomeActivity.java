@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -45,6 +46,8 @@ public class HomeActivity extends AppCompatActivity {
     private int currentSelectedSize = 4;
     private GestureDetector gestureDetector;
     private long lastModeSelectTime = 0;
+    private long backPressedTime = 0;
+    private Toast exitToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,31 @@ public class HomeActivity extends AppCompatActivity {
         applyTheme();
 
         AnalyticsManager.getInstance(this).logScreenView("Home");
+
+        // Double back press to exit
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (currentDialog != null && currentDialog.isShowing()) {
+                    currentDialog.dismiss();
+                    return;
+                }
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - backPressedTime < 2000) {
+                    if (exitToast != null) {
+                        exitToast.cancel();
+                    }
+                    finishAffinity();
+                } else {
+                    backPressedTime = currentTime;
+                    if (exitToast != null) {
+                        exitToast.cancel();
+                    }
+                    exitToast = Toast.makeText(HomeActivity.this, R.string.press_again_to_exit, Toast.LENGTH_SHORT);
+                    exitToast.show();
+                }
+            }
+        });
 
         // Mode switch tabs
         binding.tabHero4.setOnClickListener(v -> selectMode(4));
@@ -146,12 +174,28 @@ public class HomeActivity extends AppCompatActivity {
         adsManager.loadBanner(this, binding.homeBannerContainer);
     }
 
+    private float touchDownX = 0;
+    private float touchDownY = 0;
+    private long touchDownTime = 0;
+
     @Override
     protected void onResume() {
         super.onResume();
         StatusBarHelper.hideSystemBars(this);
+        if (binding != null && binding.homeBackgroundView != null) {
+            binding.homeBackgroundView.resumeAnimation();
+        }
         applyTheme();
+        updateHeroBoardPreview();
         updateActiveRunCard();
+    }
+
+    @Override
+    protected void onPause() {
+        if (binding != null && binding.homeBackgroundView != null) {
+            binding.homeBackgroundView.pauseAnimation();
+        }
+        super.onPause();
     }
 
     @Override
@@ -164,15 +208,83 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        if (exitToast != null) {
+            exitToast.cancel();
+        }
+        if (binding != null && binding.homeBackgroundView != null) {
+            binding.homeBackgroundView.pauseAnimation();
+        }
         if (currentDialog != null && currentDialog.isShowing()) {
             currentDialog.dismiss();
         }
         super.onDestroy();
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (binding != null && binding.homeBackgroundView != null) {
+            switch (ev.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    touchDownX = ev.getRawX();
+                    touchDownY = ev.getRawY();
+                    touchDownTime = System.currentTimeMillis();
+                    binding.homeBackgroundView.setCursorPosition(ev.getX(), ev.getY());
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    binding.homeBackgroundView.setCursorPosition(ev.getX(), ev.getY());
+                    break;
+                case MotionEvent.ACTION_UP:
+                    binding.homeBackgroundView.clearCursor();
+                    float dx = Math.abs(ev.getRawX() - touchDownX);
+                    float dy = Math.abs(ev.getRawY() - touchDownY);
+                    long duration = System.currentTimeMillis() - touchDownTime;
+                    float density = getResources().getDisplayMetrics().density;
+                    if (dx < 14 * density && dy < 14 * density && duration < 350) {
+                        if (!isTouchInsideInteractiveUI(ev.getRawX(), ev.getRawY())) {
+                            boolean hitBlock = binding.homeBackgroundView.handleTap(ev.getX(), ev.getY());
+                            if (hitBlock) {
+                                return true;
+                            }
+                        }
+                    }
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    binding.homeBackgroundView.clearCursor();
+                    break;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private boolean isTouchInsideView(View view, float rawX, float rawY) {
+        if (view == null || view.getVisibility() != View.VISIBLE) return false;
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        return (rawX >= x && rawX <= x + view.getWidth() &&
+                rawY >= y && rawY <= y + view.getHeight());
+    }
+
+    private boolean isTouchInsideInteractiveUI(float rawX, float rawY) {
+        if (binding == null) return false;
+        return isTouchInsideView(binding.btnHomeSettings, rawX, rawY) ||
+                isTouchInsideView(binding.containerHeroTabs, rawX, rawY) ||
+                isTouchInsideView(binding.cardHeroBoard, rawX, rawY) ||
+                isTouchInsideView(binding.cardActiveRun, rawX, rawY) ||
+                isTouchInsideView(binding.btnHomeStats, rawX, rawY) ||
+                isTouchInsideView(binding.btnHomeThemes, rawX, rawY) ||
+                isTouchInsideView(binding.btnHomeHelp, rawX, rawY) ||
+                isTouchInsideView(binding.homeBannerContainer, rawX, rawY);
+    }
+
     public void applyTheme() {
         Theme theme = themeManager.getCurrentTheme();
         if (binding != null) {
+            if (binding.homeBackgroundView != null) {
+                binding.homeBackgroundView.setTheme(theme);
+            }
+            binding.homeRoot.setBackgroundColor(Color.TRANSPARENT);
             binding.getRoot().setBackgroundColor(theme.backgroundColor);
 
             // Top Bar
@@ -226,8 +338,25 @@ public class HomeActivity extends AppCompatActivity {
             binding.previewHeroBoard.setGridSize(size);
             binding.tvHeroGridSize.setText(size + " × " + size);
             updateHeroTabsAndDots(themeManager.getCurrentTheme());
+            updateHeroBoardPreview();
             updateActiveRunCard();
         }
+    }
+
+    private void updateHeroBoardPreview() {
+        if (binding == null) return;
+        int size = currentSelectedSize;
+        String activeState = prefs.getActiveGame(size);
+        int[][] matrix = null;
+        if (activeState != null) {
+            try {
+                GameSnapshot snapshot = gson.fromJson(activeState, GameSnapshot.class);
+                if (snapshot != null && !snapshot.isOver && snapshot.score > 0 && snapshot.gridValues != null) {
+                    matrix = snapshot.gridValues;
+                }
+            } catch (Exception ignored) {}
+        }
+        binding.previewHeroBoard.setCustomMatrix(matrix);
     }
 
     private void updateActiveRunCard() {
@@ -375,12 +504,18 @@ public class HomeActivity extends AppCompatActivity {
 
     private void showSettingsDialog() {
         hapticManager.click();
-        currentDialog = DialogHelper.showSettings(this, soundManager.isEnabled(), hapticManager.isEnabled(),
+        currentDialog = DialogHelper.showSettings(this, soundManager.isEnabled(), prefs.isMusicEnabled(), hapticManager.isEnabled(),
                 new DialogHelper.SettingsListener() {
                     @Override
                     public void onSoundToggled(boolean enabled) {
                         soundManager.setEnabled(enabled);
                         prefs.setSoundEnabled(enabled);
+                    }
+
+                    @Override
+                    public void onMusicToggled(boolean enabled) {
+                        prefs.setMusicEnabled(enabled);
+                        com.redcodersgroup.numberblocks.audio.AmbientMusicManager.getInstance().setEnabled(enabled);
                     }
 
                     @Override

@@ -35,6 +35,7 @@ import com.redcodersgroup.numberblocks.databinding.DialogTutorialBinding;
 import com.redcodersgroup.numberblocks.databinding.ItemTutorialSlideGoalBinding;
 import com.redcodersgroup.numberblocks.databinding.ItemTutorialSlideLeftRightBinding;
 import com.redcodersgroup.numberblocks.databinding.ItemTutorialSlideTopDownBinding;
+import com.redcodersgroup.numberblocks.storage.PreferencesManager;
 import com.redcodersgroup.numberblocks.theme.Theme;
 import com.redcodersgroup.numberblocks.theme.ThemeManager;
 import java.util.Locale;
@@ -47,6 +48,7 @@ public class DialogHelper {
 
     public interface SettingsListener {
         void onSoundToggled(boolean enabled);
+        default void onMusicToggled(boolean enabled) {}
         void onHapticsToggled(boolean enabled);
         void onChangeThemeRequested();
         void onInfoClicked();
@@ -304,6 +306,7 @@ public class DialogHelper {
         DialogThemeSelectorBinding binding = DialogThemeSelectorBinding.inflate(activity.getLayoutInflater());
         Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
+        boolean isPrism = "prism".equalsIgnoreCase(currentTheme) || "colorful".equalsIgnoreCase(currentTheme);
         boolean isAlabaster = "alabaster".equalsIgnoreCase(currentTheme) || "light".equalsIgnoreCase(currentTheme)
                 || "golden".equalsIgnoreCase(currentTheme) || "golden_classic".equalsIgnoreCase(currentTheme);
         boolean isTitanium = "titanium".equalsIgnoreCase(currentTheme) || "neon".equalsIgnoreCase(currentTheme);
@@ -315,6 +318,9 @@ public class DialogHelper {
         int inactiveStrokeColor = currentActiveTheme.isDark ? Color.parseColor("#353942") : Color.parseColor("#D9D7CE");
         int activeWidth = (int) (2 * activity.getResources().getDisplayMetrics().density);
         int inactiveWidth = (int) (1 * activity.getResources().getDisplayMetrics().density);
+
+        binding.cardThemePrism.setStrokeColor(isPrism ? activeStrokeColor : inactiveStrokeColor);
+        binding.cardThemePrism.setStrokeWidth(isPrism ? activeWidth : inactiveWidth);
 
         binding.cardThemeDark.setStrokeColor(isAlabaster ? activeStrokeColor : inactiveStrokeColor);
         binding.cardThemeDark.setStrokeWidth(isAlabaster ? activeWidth : inactiveWidth);
@@ -328,21 +334,30 @@ public class DialogHelper {
         binding.cardThemePastel.setStrokeColor(isGraphite ? activeStrokeColor : inactiveStrokeColor);
         binding.cardThemePastel.setStrokeWidth(isGraphite ? activeWidth : inactiveWidth);
 
-        // Update Badges
-        updateThemeBadge(binding.tvBadgeThemeDark, isAlabaster, true, currentActiveTheme);
+        // Update Badges - only Prism Pop is the default theme
+        updateThemeBadge(binding.tvBadgeThemePrism, isPrism, true, currentActiveTheme);
+        updateThemeBadge(binding.tvBadgeThemeDark, isAlabaster, false, currentActiveTheme);
         updateThemeBadge(binding.tvBadgeThemeLight, isTitanium, false, currentActiveTheme);
         updateThemeBadge(binding.tvBadgeThemeNeon, isNordic, false, currentActiveTheme);
         updateThemeBadge(binding.tvBadgeThemePastel, isGraphite, false, currentActiveTheme);
 
         binding.btnCloseTheme.setTextColor(currentActiveTheme.textPrimaryColor);
 
+        binding.cardThemePrism.setOnClickListener(view -> {
+            if (isPrism) {
+                Toast.makeText(activity, activity.getString(R.string.theme_already_active, "Prism Pop"), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            dialog.dismiss();
+            if (listener != null) listener.onThemeSelected("prism");
+        });
+
         binding.cardThemeDark.setOnClickListener(view -> {
             if (isAlabaster) {
                 Toast.makeText(activity, activity.getString(R.string.theme_already_active, "Golden Classic"), Toast.LENGTH_SHORT).show();
                 return;
             }
-            dialog.dismiss();
-            if (listener != null) listener.onThemeSelected("alabaster");
+            promptThemeAd(activity, dialog, "Golden Classic", "alabaster", listener);
         });
 
         binding.cardThemeLight.setOnClickListener(view -> {
@@ -415,10 +430,21 @@ public class DialogHelper {
     }
 
     public static Dialog showSettings(Activity activity, boolean soundEnabled, boolean hapticsEnabled, SettingsListener listener) {
+        boolean musicEnabled = PreferencesManager.getInstance(activity).isMusicEnabled();
+        return showSettings(activity, soundEnabled, musicEnabled, hapticsEnabled, listener);
+    }
+
+    public static Dialog showSettings(Activity activity, boolean soundEnabled, boolean musicEnabled, boolean hapticsEnabled, SettingsListener listener) {
         DialogSettingsBinding binding = DialogSettingsBinding.inflate(activity.getLayoutInflater());
         Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
 
         binding.switchSound.setChecked(soundEnabled);
+        if (binding.switchMusic != null) {
+            binding.switchMusic.setChecked(musicEnabled);
+            binding.switchMusic.setOnCheckedChangeListener((btn, isChecked) -> {
+                if (listener != null) listener.onMusicToggled(isChecked);
+            });
+        }
         binding.switchHaptics.setChecked(hapticsEnabled);
 
         binding.switchSound.setOnCheckedChangeListener((btn, isChecked) -> {

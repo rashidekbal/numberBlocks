@@ -17,6 +17,7 @@ import com.redcodersgroup.numberblocks.theme.ThemeManager;
 
 public class BoardPreviewView extends View {
     private int gridSize = 4;
+    private int[][] customMatrix = null;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final RectF rectF = new RectF();
@@ -90,6 +91,15 @@ public class BoardPreviewView extends View {
         return gridSize;
     }
 
+    public void setCustomMatrix(int[][] matrix) {
+        this.customMatrix = matrix;
+        invalidate();
+    }
+
+    public int[][] getCustomMatrix() {
+        return customMatrix;
+    }
+
     public void setTheme(Theme theme) {
         invalidate();
     }
@@ -126,9 +136,14 @@ public class BoardPreviewView extends View {
         if (size <= 0) return;
 
         int gridDim = gridSize;
-        int matrixIdx = gridDim - 4;
-        if (matrixIdx < 0 || matrixIdx >= PREVIEW_MATRICES.length) matrixIdx = 0;
-        int[][] matrix = PREVIEW_MATRICES[matrixIdx];
+        int[][] matrix;
+        if (customMatrix != null && customMatrix.length == gridDim && customMatrix[0].length == gridDim) {
+            matrix = customMatrix;
+        } else {
+            int matrixIdx = gridDim - 4;
+            if (matrixIdx < 0 || matrixIdx >= PREVIEW_MATRICES.length) matrixIdx = 0;
+            matrix = PREVIEW_MATRICES[matrixIdx];
+        }
 
         float padding = size * (10f / 220f);
         float gap = size * (gridDim == 4 ? (7f / 220f) : gridDim == 5 ? (5f / 220f) : (4f / 220f));

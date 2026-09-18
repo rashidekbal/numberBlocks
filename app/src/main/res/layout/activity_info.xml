@@ -52,66 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <!-- Hero Branding Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_14"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="@dimen/dp_18"
-                app:cardElevation="@dimen/dp_2"
-                app:cardUseCompatPadding="true"
-                app:strokeColor="#D9D7CE"
-                app:strokeWidth="@dimen/dp_1">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:padding="@dimen/dp_20">
-
-                    <!-- Tile Icon -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="@dimen/dp_64"
-                        android:layout_height="@dimen/dp_64"
-                        app:cardBackgroundColor="#2C2B28"
-                        app:cardCornerRadius="@dimen/dp_16"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="0dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="@string/title_2048"
-                            android:textColor="#FAF9F6"
-                            android:textSize="@dimen/sp_20"
-                            android:textStyle="bold" />
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:text="@string/info_app_title"
-                        android:textColor="#1E2024"
-                        android:textSize="@dimen/sp_20"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:letterSpacing="0.04"
-                        android:text="@string/info_app_subtitle"
-                        android:textColor="#737680"
-                        android:textSize="@dimen/sp_11"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
+            
             <!-- Rules & Endless Mode Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
