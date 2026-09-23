@@ -32,6 +32,7 @@ import com.redcodersgroup.numberblocks.databinding.ActivityMainBinding;
 import com.redcodersgroup.numberblocks.engine.Direction;
 import com.redcodersgroup.numberblocks.engine.GameEngine;
 import com.redcodersgroup.numberblocks.engine.GameSnapshot;
+import com.redcodersgroup.numberblocks.games.PlayGamesManager;
 import com.redcodersgroup.numberblocks.storage.PreferencesManager;
 import com.redcodersgroup.numberblocks.theme.Theme;
 import com.redcodersgroup.numberblocks.theme.ThemeManager;
@@ -230,10 +231,12 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
         applyTheme();
 
-        // First launch instruction check
+        // First launch instruction check & Play Games sign-in
         if (isFirstLaunch || prefs.isFirstLaunch()) {
             prefs.setFirstLaunch(false);
             showFirstTimeTutorial();
+        } else {
+            PlayGamesManager.getInstance().promptFirstLaunchSignIn(this);
         }
 
         // Check if resuming active game
@@ -433,6 +436,10 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
 
         prefs.setBestScore(boardSize, gameEngine.getBestScore());
         prefs.recordHighestTile(gameEngine.getHighestTile());
+
+        if (previousBestScore != -1 && currentBest > previousBestScore) {
+            PlayGamesManager.getInstance().submitScore(this, boardSize, currentBest);
+        }
     }
 
     private void handleUndoClick() {
@@ -665,8 +672,13 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             currentDialog.dismiss();
         }
         currentDialog = DialogHelper.showFirstTimeInstruction(this, () -> {
-            // User confirmed "Let's play!"
+            PlayGamesManager.getInstance().promptFirstLaunchSignIn(MainActivity.this);
         });
+        if (currentDialog != null) {
+            currentDialog.setOnDismissListener(dialog -> {
+                PlayGamesManager.getInstance().promptFirstLaunchSignIn(MainActivity.this);
+            });
+        }
     }
 
     @Override
@@ -680,6 +692,8 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         hapticManager.heavyClick();
         adsManager.showInterstitial(this);
         prefs.clearActiveGame(boardSize);
+
+        PlayGamesManager.getInstance().submitScore(this, boardSize, Math.max(finalScore, bestScore));
 
         currentDialog = DialogHelper.showGameOver(this, boardSize, finalScore, bestScore, highestTile,
                 () -> {

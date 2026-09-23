@@ -1,0 +1,78 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Outer Gold Ring -->
+    <path
+        android:pathData="M24,2 A22,22 0 1,0 24,46 A22,22 0 1,0 24,2 Z"
+        android:fillColor="#F59E0B" />
+
+    <!-- Inner Background Circle (Royal Violet) -->
+    <path
+        android:pathData="M24,3.5 A20.5,20.5 0 1,0 24,44.5 A20.5,20.5 0 1,0 24,3.5 Z"
+        android:fillColor="#4F46E5" />
+    <path
+        android:pathData="M24,4 A19,19 0 1,0 24,42 A19,19 0 1,0 24,4 Z"
+        android:fillColor="#818CF8" />
+
+    <!-- Fox Ears Outer (Orange with Black Tips) -->
+    <path
+        android:pathData="M11,18 L16,7 L23,17 Z"
+        android:fillColor="#EA580C" />
+    <path
+        android:pathData="M37,18 L32,7 L25,17 Z"
+        android:fillColor="#EA580C" />
+    <!-- Fox Ear Black Tips -->
+    <path
+        android:pathData="M14.5,10.5 L16,7 L18.5,11 Z"
+        android:fillColor="#1E293B" />
+    <path
+        android:pathData="M33.5,10.5 L32,7 L29.5,11 Z"
+        android:fillColor="#1E293B" />
+    <!-- Fox Ear Inner Cream -->
+    <path
+        android:pathData="M13.5,17 L16,11.5 L20.5,16.5 Z"
+        android:fillColor="#FEF3C7" />
+    <path
+        android:pathData="M34.5,17 L32,11.5 L27.5,16.5 Z"
+        android:fillColor="#FEF3C7" />
+
+    <!-- Fox Face Main (Orange Red) -->
+    <path
+        android:pathData="M24,14 C12,14 10,24 10,30 C10,35 14,39 24,42 C34,39 38,35 38,30 C38,24 36,14 24,14 Z"
+        android:fillColor="#F97316" />
+
+    <!-- White Cheek Tufts & Muzzle -->
+    <path
+        android:pathData="M10,30 C10,36 15,40 24,42 C33,40 38,36 38,30 C34,32 29,31 24,25 C19,31 14,32 10,30 Z"
+        android:fillColor="#FFFFFF" />
+
+    <!-- Black Nose -->
+    <path
+        android:pathData="M22.5,37 C22.5,36 25.5,36 25.5,37 C25.5,39 22.5,39 22.5,37 Z"
+        android:fillColor="#0F172A" />
+
+    <!-- Fox Eyes (Clever Tilted Amber/Dark Eyes) -->
+    <path
+        android:pathData="M16.5,23 C19.5,22 21.5,25 20.5,27 C19.5,29 16.5,27 16.5,23 Z"
+        android:fillColor="#1E293B" />
+    <path
+        android:pathData="M31.5,23 C28.5,22 26.5,25 27.5,27 C28.5,29 31.5,27 31.5,23 Z"
+        android:fillColor="#1E293B" />
+    <!-- Eye Glints -->
+    <path
+        android:pathData="M18,24 A0.9,0.9 0 1,0 18,25.8 A0.9,0.9 0 1,0 18,24 Z"
+        android:fillColor="#FFFFFF" />
+    <path
+        android:pathData="M30,24 A0.9,0.9 0 1,0 30,25.8 A0.9,0.9 0 1,0 30,24 Z"
+        android:fillColor="#FFFFFF" />
+
+    <!-- Cute Whiskers -->
+    <path
+        android:pathData="M14,33 L8,33 M14,36 L9,38 M34,33 L40,33 M34,36 L39,38"
+        android:strokeColor="#78350F"
+        android:strokeWidth="1.1"
+        android:strokeLineCap="round" />
+</vector>

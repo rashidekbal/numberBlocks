@@ -3,6 +3,7 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary_variant</item>
         <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:navigationBarColor">@color/background</item>
         <item name="android:windowBackground">@color/background</item>
@@ -28,6 +29,8 @@
         <item name="android:layout_height">@dimen/dp_54</item>
         <item name="android:textSize">@dimen/sp_15</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">#1E2024</item>
         <item name="cornerRadius">@dimen/dp_16</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>

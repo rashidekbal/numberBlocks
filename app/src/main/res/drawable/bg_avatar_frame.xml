@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Bottom Shadow -->
+    <item
+        android:left="0dp"
+        android:right="0dp"
+        android:top="3dp"
+        android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="14dp" />
+            <solid android:color="#40000000" />
+        </shape>
+    </item>
+
+    <!-- Orange Outer Bevel -->
+    <item
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp"
+        android:bottom="3dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="14dp" />
+            <gradient
+                android:angle="270"
+                android:startColor="#FB923C"
+                android:endColor="#EA580C" />
+            <stroke
+                android:width="2.5dp"
+                android:color="#FED7AA" />
+        </shape>
+    </item>
+
+    <!-- Inner Background -->
+    <item
+        android:left="4dp"
+        android:right="4dp"
+        android:top="4dp"
+        android:bottom="7dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp" />
+            <solid android:color="#38BDF8" />
+        </shape>
+    </item>
+</layer-list>

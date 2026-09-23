@@ -13,14 +13,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Typeface;
+import android.net.Uri;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.redcodersgroup.numberblocks.R;
 import com.redcodersgroup.numberblocks.ads.AdsManager;
+import com.redcodersgroup.numberblocks.databinding.DialogEditProfileBinding;
+import com.redcodersgroup.numberblocks.games.LeaderboardEntry;
+import com.redcodersgroup.numberblocks.games.PlayGamesManager;
+import com.redcodersgroup.numberblocks.profile.AvatarManager;
 import com.redcodersgroup.numberblocks.databinding.DialogCareerStatsBinding;
+import com.redcodersgroup.numberblocks.databinding.DialogLeaderboardBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogConfirmExitBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogFirstTimeInstructionBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogGameOverBinding;
@@ -112,10 +121,11 @@ public class DialogHelper {
                     viewId == R.id.btn_dialog_stay ||
                     viewId == R.id.btn_dialog_restart_cancel ||
                     viewId == R.id.btn_dialog_cancel ||
+                    viewId == R.id.btn_cancel_profile ||
                     viewId == R.id.btn_theme_confirm_cancel ||
                     viewId == R.id.btn_dialog_new_game ||
-                    textColor == Color.parseColor("#737680") ||
-                    (bgColor == 0 || Color.alpha(bgColor) == 0)
+                    (textColor == Color.parseColor("#737680") && viewId != R.id.btn_save_profile) ||
+                    ((bgColor == 0 || Color.alpha(bgColor) == 0) && viewId != R.id.btn_save_profile && viewId != R.id.btn_view_leaderboards)
             ));
 
             // 1. Text buttons (GameButton.Text: transparent background, no stroke)
@@ -465,6 +475,35 @@ public class DialogHelper {
             if (listener != null) listener.onInfoClicked();
         });
 
+        // Player Profile Card
+        PreferencesManager prefs = PreferencesManager.getInstance(activity);
+        if (binding.cardSettingsProfile != null) {
+            String currentName = prefs.isUsingGoogleProfile() && prefs.getGooglePlayerName() != null
+                    ? prefs.getGooglePlayerName()
+                    : prefs.getPlayerName();
+            String currentAvatarId = prefs.isUsingGoogleProfile()
+                    ? AvatarManager.GOOGLE_AVATAR_ID
+                    : prefs.getAvatarId();
+
+            binding.tvSettingsPlayerName.setText(currentName);
+            AvatarManager.loadAvatar(activity, binding.ivSettingsAvatar, currentAvatarId);
+
+            Theme theme = ThemeManager.getInstance().getCurrentTheme();
+            int profileCardBg = theme.isDark ? theme.backgroundColor : Color.parseColor("#FAF9F6");
+            int profileCardStroke = theme.isDark ? theme.btnStrokeColor : Color.parseColor("#E3E1D8");
+            binding.cardSettingsProfile.setCardBackgroundColor(profileCardBg);
+            binding.cardSettingsProfile.setStrokeColor(profileCardStroke);
+            binding.tvSettingsPlayerName.setTextColor(theme.textPrimaryColor);
+            binding.tvSettingsProfileHint.setTextColor(theme.textSecondaryColor);
+
+            binding.cardSettingsProfile.setOnClickListener(view -> {
+                showEditProfileDialog(activity, (newName, newAvatarId, isGoogle) -> {
+                    binding.tvSettingsPlayerName.setText(newName);
+                    AvatarManager.loadAvatar(activity, binding.ivSettingsAvatar, newAvatarId);
+                });
+            });
+        }
+
         binding.btnCloseSettings.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
@@ -481,7 +520,326 @@ public class DialogHelper {
         binding.tvStatsBest5.setText(String.format(Locale.getDefault(), "%,d", best5));
         binding.tvStatsBest6.setText(String.format(Locale.getDefault(), "%,d", best6));
 
+        if (binding.btnViewLeaderboards != null) {
+            binding.btnViewLeaderboards.setOnClickListener(view -> {
+                dialog.dismiss();
+                showLeaderboardDialog(activity, 4);
+            });
+        }
+
         binding.btnCloseStats.setOnClickListener(view -> dialog.dismiss());
+
+        dialog.show();
+        return dialog;
+    }
+
+    public static Dialog showLeaderboardDialog(Activity activity, int initialSize) {
+        DialogLeaderboardBinding binding = DialogLeaderboardBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
+
+        Theme theme = ThemeManager.getInstance().getCurrentTheme();
+        float density = activity.getResources().getDisplayMetrics().density;
+
+        // Apply theme styling
+        int cardBg = theme.isDark ? theme.btnSurfaceColor : Color.parseColor("#FFFFFF");
+        int cardStroke = theme.isDark ? theme.btnStrokeColor : Color.parseColor("#D9D7CE");
+        binding.cardLeaderboardDialogRoot.setCardBackgroundColor(cardBg);
+        binding.cardLeaderboardDialogRoot.setStrokeColor(cardStroke);
+
+        binding.tvLbTitle.setTextColor(theme.textPrimaryColor);
+        binding.tvLbSubtitle.setTextColor(theme.textSecondaryColor);
+
+        // Segmented tabs container
+        binding.containerLbTabs.setCardBackgroundColor(theme.hudCardColor);
+        binding.containerLbTabs.setStrokeColor(theme.btnStrokeColor);
+
+        // Standing card
+        int standingCardBg = theme.isDark ? theme.backgroundColor : Color.parseColor("#FAF9F6");
+        binding.cardPlayerStanding.setCardBackgroundColor(standingCardBg);
+        binding.cardPlayerStanding.setStrokeColor(cardStroke);
+        binding.tvStandingName.setTextColor(theme.textPrimaryColor);
+        binding.tvStandingRank.setTextColor(theme.textSecondaryColor);
+        binding.tvStandingScore.setTextColor(theme.textPrimaryColor);
+
+        // Action buttons styling
+        binding.btnCloseLb.setTextColor(theme.textPrimaryColor);
+        binding.btnOpenFullLb.setTextColor(theme.textPrimaryColor);
+        binding.btnOpenFullLb.setStrokeColor(ColorStateList.valueOf(theme.cardStrokeColor != 0 ? theme.cardStrokeColor : cardStroke));
+
+        // RecyclerView setup
+        LeaderboardAdapter adapter = new LeaderboardAdapter();
+        binding.rvLbScores.setLayoutManager(new LinearLayoutManager(activity));
+        binding.rvLbScores.setAdapter(adapter);
+
+        final int[] currentSize = {initialSize >= 4 && initialSize <= 6 ? initialSize : 4};
+
+        Runnable updateTabsVisuals = () -> {
+            setDialogTabState(binding.tabLb4, binding.tvTabLb4, currentSize[0] == 4, theme, density);
+            setDialogTabState(binding.tabLb5, binding.tvTabLb5, currentSize[0] == 5, theme, density);
+            setDialogTabState(binding.tabLb6, binding.tvTabLb6, currentSize[0] == 6, theme, density);
+        };
+
+        interface LoadAction {
+            void execute(int size);
+        }
+
+        LoadAction loadAction = new LoadAction() {
+            @Override
+            public void execute(int size) {
+                currentSize[0] = size;
+                updateTabsVisuals.run();
+
+                // Show local score immediately
+                int localBest = PreferencesManager.getInstance(activity).getBestScore(size);
+                binding.tvStandingScore.setText(String.format(Locale.getDefault(), "%,d", localBest));
+                binding.tvStandingRank.setText("Personal Record");
+
+                binding.pbLbLoading.setVisibility(View.VISIBLE);
+                binding.tvLbEmpty.setVisibility(View.GONE);
+                binding.rvLbScores.setVisibility(View.GONE);
+
+                PlayGamesManager.getInstance().loadScores(activity, size, new PlayGamesManager.LeaderboardCallback() {
+                    @Override
+                    public void onScoresLoaded(java.util.List<LeaderboardEntry> entries, LeaderboardEntry currentPlayerStanding) {
+                        if (activity.isFinishing() || activity.isDestroyed()) return;
+                        activity.runOnUiThread(() -> {
+                            binding.pbLbLoading.setVisibility(View.GONE);
+                            if (currentPlayerStanding != null) {
+                                binding.tvStandingScore.setText(currentPlayerStanding.getFormattedScore());
+                                String rankText = "-".equals(currentPlayerStanding.getRank()) ? "Unranked" : "#" + currentPlayerStanding.getRank();
+                                binding.tvStandingRank.setText("Rank: " + rankText);
+                            } else {
+                                binding.tvStandingRank.setText("Personal Record");
+                            }
+
+                            if (entries == null || entries.isEmpty()) {
+                                binding.tvLbEmpty.setVisibility(View.VISIBLE);
+                                binding.rvLbScores.setVisibility(View.GONE);
+                            } else {
+                                binding.tvLbEmpty.setVisibility(View.GONE);
+                                binding.rvLbScores.setVisibility(View.VISIBLE);
+                                adapter.setItems(entries);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailed(String errorMessage) {
+                        if (activity.isFinishing() || activity.isDestroyed()) return;
+                        activity.runOnUiThread(() -> {
+                            binding.pbLbLoading.setVisibility(View.GONE);
+                            binding.tvLbEmpty.setVisibility(View.VISIBLE);
+                            binding.rvLbScores.setVisibility(View.GONE);
+                        });
+                    }
+                });
+            }
+        };
+
+        // Bind profile avatar & name in standing card
+        PreferencesManager prefs = PreferencesManager.getInstance(activity);
+        String standingName = prefs.isUsingGoogleProfile() && prefs.getGooglePlayerName() != null
+                ? prefs.getGooglePlayerName()
+                : prefs.getPlayerName();
+        String standingAvatar = prefs.isUsingGoogleProfile()
+                ? AvatarManager.GOOGLE_AVATAR_ID
+                : prefs.getAvatarId();
+        binding.tvStandingName.setText(standingName);
+        AvatarManager.loadAvatar(activity, binding.ivStandingAvatar, standingAvatar);
+
+        binding.cardPlayerStanding.setOnClickListener(v -> {
+            showEditProfileDialog(activity, (newName, newAvatarId, isGoogle) -> {
+                binding.tvStandingName.setText(newName);
+                AvatarManager.loadAvatar(activity, binding.ivStandingAvatar, newAvatarId);
+            });
+        });
+
+        binding.tabLb4.setOnClickListener(v -> loadAction.execute(4));
+        binding.tabLb5.setOnClickListener(v -> loadAction.execute(5));
+        binding.tabLb6.setOnClickListener(v -> loadAction.execute(6));
+
+        binding.btnOpenFullLb.setOnClickListener(v -> {
+            PlayGamesManager.getInstance().showLeaderboard(activity, currentSize[0]);
+        });
+
+        binding.btnCloseLbIcon.setOnClickListener(v -> dialog.dismiss());
+        binding.btnCloseLb.setOnClickListener(v -> dialog.dismiss());
+
+        loadAction.execute(currentSize[0]);
+
+        dialog.show();
+        return dialog;
+    }
+
+    private static void setDialogTabState(MaterialCardView card, TextView tv, boolean isSelected, Theme theme, float density) {
+        if (isSelected) {
+            card.setCardBackgroundColor(theme.cardBackgroundColor);
+            card.setStrokeColor(theme.cardStrokeColor != 0 ? theme.cardStrokeColor : Color.TRANSPARENT);
+            card.setStrokeWidth((int) (1 * density));
+            card.setCardElevation(2.5f * density);
+            tv.setTextColor(theme.textPrimaryColor);
+            tv.setTypeface(null, Typeface.BOLD);
+            tv.setAlpha(1.0f);
+        } else {
+            card.setCardBackgroundColor(Color.TRANSPARENT);
+            card.setStrokeColor(Color.TRANSPARENT);
+            card.setStrokeWidth(0);
+            card.setCardElevation(0);
+            tv.setTextColor(theme.textSecondaryColor);
+            tv.setTypeface(null, Typeface.NORMAL);
+            tv.setAlpha(0.70f);
+        }
+    }
+
+    public interface ProfileUpdateListener {
+        void onProfileUpdated(String newName, String newAvatarId, boolean isGoogle);
+    }
+
+    public static Dialog showEditProfileDialog(Activity activity, ProfileUpdateListener listener) {
+        DialogEditProfileBinding binding = DialogEditProfileBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
+
+        PreferencesManager prefs = PreferencesManager.getInstance(activity);
+        Theme theme = ThemeManager.getInstance().getCurrentTheme();
+
+        // Theme colors
+        int cardBg = theme.isDark ? theme.btnSurfaceColor : Color.parseColor("#FFFFFF");
+        int cardStroke = theme.isDark ? theme.btnStrokeColor : Color.parseColor("#D9D7CE");
+        binding.cardProfileDialogRoot.setCardBackgroundColor(cardBg);
+        binding.cardProfileDialogRoot.setStrokeColor(cardStroke);
+
+        binding.tvProfileDialogTitle.setTextColor(theme.textPrimaryColor);
+        binding.tvProfileDialogSubtitle.setTextColor(theme.textSecondaryColor);
+
+        int inputBg = theme.isDark ? theme.backgroundColor : Color.parseColor("#FAF9F6");
+        binding.cardNameInput.setCardBackgroundColor(inputBg);
+        binding.cardNameInput.setStrokeColor(cardStroke);
+        binding.etPlayerName.setTextColor(theme.textPrimaryColor);
+        binding.etPlayerName.setHintTextColor(theme.textSecondaryColor);
+
+        binding.cardGoogleProfileToggle.setCardBackgroundColor(inputBg);
+        binding.cardGoogleProfileToggle.setStrokeColor(cardStroke);
+        binding.tvGoogleToggleTitle.setTextColor(theme.textPrimaryColor);
+        binding.tvGoogleToggleSubtitle.setTextColor(theme.textSecondaryColor);
+
+        binding.cardSelectedAvatarPreview.setCardBackgroundColor(inputBg);
+        binding.btnSaveProfile.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F59E0B")));
+        binding.btnSaveProfile.setTextColor(Color.parseColor("#181A1F"));
+        binding.btnCancelProfile.setTextColor(theme.textSecondaryColor);
+
+        // Prepopulate current state
+        String currentName = prefs.getPlayerName();
+        String currentAvatarId = prefs.getAvatarId();
+        boolean isGoogleProfile = prefs.isUsingGoogleProfile();
+
+        if (isGoogleProfile) {
+            String googleName = prefs.getGooglePlayerName();
+            binding.etPlayerName.setText(googleName != null && !googleName.isEmpty() ? googleName : currentName);
+            AvatarManager.loadAvatar(activity, binding.ivSelectedAvatarPreview, AvatarManager.GOOGLE_AVATAR_ID);
+        } else {
+            binding.etPlayerName.setText(currentName);
+            AvatarManager.loadAvatar(activity, binding.ivSelectedAvatarPreview, currentAvatarId);
+        }
+        binding.switchUseGoogleProfile.setChecked(isGoogleProfile);
+
+        // Avatars Grid Setup (12 avatars)
+        binding.rvAvatarChoices.setLayoutManager(new GridLayoutManager(activity, 4));
+        AvatarChoiceAdapter adapter = new AvatarChoiceAdapter(
+                AvatarManager.getPredefinedAvatars(),
+                isGoogleProfile ? AvatarManager.GOOGLE_AVATAR_ID : currentAvatarId,
+                item -> {
+                    binding.switchUseGoogleProfile.setChecked(false);
+                    AvatarManager.loadAvatar(activity, binding.ivSelectedAvatarPreview, item.id);
+                }
+        );
+        binding.rvAvatarChoices.setAdapter(adapter);
+
+        // Google Profile Switch logic
+        binding.switchUseGoogleProfile.setOnCheckedChangeListener((btn, isChecked) -> {
+            if (isChecked) {
+                PlayGamesManager.getInstance().loadCurrentPlayerProfile(activity, new PlayGamesManager.PlayerProfileCallback() {
+                    @Override
+                    public void onProfileLoaded(String displayName, Uri iconUri) {
+                        if (activity.isFinishing() || activity.isDestroyed()) return;
+                        activity.runOnUiThread(() -> {
+                            if (displayName != null && !displayName.isEmpty()) {
+                                binding.etPlayerName.setText(displayName);
+                            }
+                            if (iconUri != null) {
+                                PlayGamesManager.getInstance().loadPlayerImage(activity, binding.ivSelectedAvatarPreview, iconUri, R.drawable.ic_avatar_hero);
+                            }
+                            adapter.setSelectedAvatarId(AvatarManager.GOOGLE_AVATAR_ID);
+                        });
+                    }
+
+                    @Override
+                    public void onFailed(String errorMessage) {
+                        if (activity.isFinishing() || activity.isDestroyed()) return;
+                        activity.runOnUiThread(() -> {
+                            PlayGamesManager.getInstance().ensureSignedIn(activity, success -> {
+                                if (activity.isFinishing() || activity.isDestroyed()) return;
+                                activity.runOnUiThread(() -> {
+                                    if (success) {
+                                        PlayGamesManager.getInstance().loadCurrentPlayerProfile(activity, new PlayGamesManager.PlayerProfileCallback() {
+                                            @Override
+                                            public void onProfileLoaded(String displayName, Uri iconUri) {
+                                                if (activity.isFinishing() || activity.isDestroyed()) return;
+                                                activity.runOnUiThread(() -> {
+                                                    if (displayName != null && !displayName.isEmpty()) {
+                                                        binding.etPlayerName.setText(displayName);
+                                                    }
+                                                    if (iconUri != null) {
+                                                        PlayGamesManager.getInstance().loadPlayerImage(activity, binding.ivSelectedAvatarPreview, iconUri, R.drawable.ic_avatar_hero);
+                                                    }
+                                                    adapter.setSelectedAvatarId(AvatarManager.GOOGLE_AVATAR_ID);
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onFailed(String err) {
+                                                if (activity.isFinishing() || activity.isDestroyed()) return;
+                                                activity.runOnUiThread(() -> binding.switchUseGoogleProfile.setChecked(false));
+                                            }
+                                        });
+                                    } else {
+                                        binding.switchUseGoogleProfile.setChecked(false);
+                                    }
+                                });
+                            });
+                        });
+                    }
+                });
+            } else {
+                String selected = adapter.getSelectedAvatarId();
+                if (AvatarManager.GOOGLE_AVATAR_ID.equals(selected)) {
+                    selected = AvatarManager.DEFAULT_AVATAR_ID;
+                    adapter.setSelectedAvatarId(selected);
+                }
+                AvatarManager.loadAvatar(activity, binding.ivSelectedAvatarPreview, selected);
+            }
+        });
+
+        binding.btnSaveProfile.setOnClickListener(v -> {
+            String newName = binding.etPlayerName.getText().toString().trim();
+            if (newName.isEmpty()) {
+                newName = "Player";
+            }
+            boolean useGoogle = binding.switchUseGoogleProfile.isChecked();
+            String newAvatar = useGoogle ? AvatarManager.GOOGLE_AVATAR_ID : adapter.getSelectedAvatarId();
+
+            prefs.setPlayerName(newName);
+            prefs.setAvatarId(newAvatar);
+            prefs.setUsingGoogleProfile(useGoogle);
+
+            dialog.dismiss();
+            if (listener != null) {
+                listener.onProfileUpdated(newName, newAvatar, useGoogle);
+            }
+            Toast.makeText(activity, "Profile updated!", Toast.LENGTH_SHORT).show();
+        });
+
+        binding.btnCloseProfileIcon.setOnClickListener(v -> dialog.dismiss());
+        binding.btnCancelProfile.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
         return dialog;

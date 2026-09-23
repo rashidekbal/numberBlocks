@@ -76,4 +76,53 @@ public class PreferencesManager {
     public void setFirstLaunch(boolean isFirstLaunch) {
         prefs.edit().putBoolean("is_first_launch", isFirstLaunch).apply();
     }
+
+    public boolean hasAttemptedPlayGamesFirstSignIn() {
+        return prefs.getBoolean("has_attempted_pg_first_sign_in", false);
+    }
+
+    public void setAttemptedPlayGamesFirstSignIn(boolean attempted) {
+        prefs.edit().putBoolean("has_attempted_pg_first_sign_in", attempted).apply();
+    }
+
+    // Player Custom Profile
+    public String getPlayerName() {
+        return prefs.getString("player_display_name", "Player");
+    }
+
+    public void setPlayerName(String name) {
+        prefs.edit().putString("player_display_name", name != null ? name.trim() : "Player").apply();
+    }
+
+    public String getAvatarId() {
+        return prefs.getString("player_avatar_id", "avatar_hero");
+    }
+
+    public void setAvatarId(String avatarId) {
+        prefs.edit().putString("player_avatar_id", avatarId).apply();
+    }
+
+    public boolean isUsingGoogleProfile() {
+        return prefs.getBoolean("use_google_profile", false);
+    }
+
+    public void setUsingGoogleProfile(boolean useGoogle) {
+        prefs.edit().putBoolean("use_google_profile", useGoogle).apply();
+    }
+
+    public String getGooglePlayerName() {
+        return prefs.getString("google_player_name", null);
+    }
+
+    public void setGooglePlayerName(String name) {
+        prefs.edit().putString("google_player_name", name).apply();
+    }
+
+    public String getGoogleAvatarUri() {
+        return prefs.getString("google_avatar_uri", null);
+    }
+
+    public void setGoogleAvatarUri(String uri) {
+        prefs.edit().putString("google_avatar_uri", uri).apply();
+    }
 }

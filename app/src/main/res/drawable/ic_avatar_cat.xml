@@ -1,0 +1,93 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Outer Gold Ring -->
+    <path
+        android:pathData="M24,2 A22,22 0 1,0 24,46 A22,22 0 1,0 24,2 Z"
+        android:fillColor="#F59E0B" />
+
+    <!-- Inner Background Circle (Amber/Gold) -->
+    <path
+        android:pathData="M24,3.5 A20.5,20.5 0 1,0 24,44.5 A20.5,20.5 0 1,0 24,3.5 Z"
+        android:fillColor="#D97706" />
+    <path
+        android:pathData="M24,4 A19,19 0 1,0 24,42 A19,19 0 1,0 24,4 Z"
+        android:fillColor="#F59E0B" />
+
+    <!-- Cat Ears Outer (Pointy Kitty Ears) -->
+    <path
+        android:pathData="M11,18 L16,8 L22,17 Z"
+        android:fillColor="#EA580C" />
+    <path
+        android:pathData="M37,18 L32,8 L26,17 Z"
+        android:fillColor="#EA580C" />
+
+    <!-- Cat Ears Inner (Pink) -->
+    <path
+        android:pathData="M13,17 L16,10.5 L20,16.5 Z"
+        android:fillColor="#F472B6" />
+    <path
+        android:pathData="M35,17 L32,10.5 L28,16.5 Z"
+        android:fillColor="#F472B6" />
+
+    <!-- Cat Head Round (Ginger Coat) -->
+    <path
+        android:pathData="M24,15 C13,15 11,26 11,31 C11,38 18,42 24,42 C30,42 37,38 37,31 C37,26 35,15 24,15 Z"
+        android:fillColor="#FB923C" />
+
+    <!-- Forehead Fur Stripes -->
+    <path
+        android:pathData="M24,16 L24,20 M21,17 L22,20 M27,17 L26,20"
+        android:strokeColor="#C2410C"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round" />
+
+    <!-- White Muzzle Cheeks -->
+    <path
+        android:pathData="M24,30 C20,30 18,34 18,37 C18,39 21,40 24,40 C27,40 30,39 30,37 C30,34 28,30 24,30 Z"
+        android:fillColor="#FFFFFF" />
+
+    <!-- Cute Pink Nose -->
+    <path
+        android:pathData="M22.5,31 L25.5,31 L24,33 Z"
+        android:fillColor="#F43F5E" />
+
+    <!-- Kitty Mouth (:3 shape) -->
+    <path
+        android:pathData="M24,33 L24,35 M24,35 Q21.5,37.5 19.5,35.5 M24,35 Q26.5,37.5 28.5,35.5"
+        android:strokeColor="#78350F"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round" />
+
+    <!-- Whiskers -->
+    <path
+        android:pathData="M16,32 L9,30 M16,34 L8,34 M16,36 L9,38 M32,32 L39,30 M32,34 L40,34 M32,36 L39,38"
+        android:strokeColor="#78350F"
+        android:strokeWidth="1.1"
+        android:strokeLineCap="round" />
+
+    <!-- Eyes (Big Emerald Cat Eyes) -->
+    <path
+        android:pathData="M18.5,24 A2.4,3.2 0 1,0 18.5,30.4 A2.4,3.2 0 1,0 18.5,24 Z"
+        android:fillColor="#047857" />
+    <path
+        android:pathData="M29.5,24 A2.4,3.2 0 1,0 29.5,30.4 A2.4,3.2 0 1,0 29.5,24 Z"
+        android:fillColor="#047857" />
+    <!-- Pupils -->
+    <path
+        android:pathData="M18.5,24.5 A1.6,2.7 0 1,0 18.5,29.9 A1.6,2.7 0 1,0 18.5,24.5 Z"
+        android:fillColor="#064E3B" />
+    <path
+        android:pathData="M29.5,24.5 A1.6,2.7 0 1,0 29.5,29.9 A1.6,2.7 0 1,0 29.5,24.5 Z"
+        android:fillColor="#064E3B" />
+    <!-- Eye Glints -->
+    <path
+        android:pathData="M17.7,25.2 A1,1 0 1,0 17.7,27.2 A1,1 0 1,0 17.7,25.2 Z"
+        android:fillColor="#FFFFFF" />
+    <path
+        android:pathData="M28.7,25.2 A1,1 0 1,0 28.7,27.2 A1,1 0 1,0 28.7,25.2 Z"
+        android:fillColor="#FFFFFF" />
+</vector>

@@ -20,8 +20,8 @@ android {
 
     buildTypes {
         release {
-
-
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -50,6 +50,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:33.9.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
+
+    implementation "com.google.android.gms:play-services-games-v2:+"
 
     testImplementation 'junit:junit:4.13.2'
 

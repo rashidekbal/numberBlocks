@@ -236,12 +236,22 @@
 
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_view_leaderboards"
+                style="@style/GameButton.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:layout_marginTop="@dimen/dp_14"
+                android:text="@string/btn_view_leaderboards"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold" />
+
             <Button
                 android:id="@+id/btn_close_stats"
                 style="@style/GameButton.Text"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_48"
-                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_6"
                 android:text="@string/close"
                 android:textColor="#1E2024"
                 android:textSize="@dimen/sp_14"

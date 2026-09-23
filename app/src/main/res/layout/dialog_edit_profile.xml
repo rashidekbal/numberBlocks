@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_20">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_profile_dialog_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="@dimen/dp_20"
+        app:cardElevation="@dimen/dp_3"
+        app:cardUseCompatPadding="true"
+        app:strokeColor="#D9D7CE"
+        app:strokeWidth="@dimen/dp_1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_20">
+
+            <!-- Top Header -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_14">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_profile_dialog_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PLAYER PROFILE"
+                        android:textColor="#1E2024"
+                        android:textSize="@dimen/sp_18"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_dialog_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Customize your name and avatar"
+                        android:textColor="#737680"
+                        android:textSize="@dimen/sp_11" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/btn_close_profile_icon"
+                    android:layout_width="@dimen/dp_36"
+                    android:layout_height="@dimen/dp_36"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/btn_circle_surface"
+                    android:contentDescription="@string/close"
+                    android:padding="@dimen/dp_8"
+                    android:src="@drawable/ic_close"
+                    app:tint="#737680" />
+            </RelativeLayout>
+
+            <!-- Profile Info: Avatar Preview & Name Input -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/dp_12">
+
+                <!-- Avatar Preview -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_selected_avatar_preview"
+                    android:layout_width="@dimen/dp_64"
+                    android:layout_height="@dimen/dp_64"
+                    app:cardBackgroundColor="#FAF9F6"
+                    app:cardCornerRadius="@dimen/dp_20"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#F59E0B"
+                    app:strokeWidth="@dimen/dp_2">
+
+                    <ImageView
+                        android:id="@+id/iv_selected_avatar_preview"
+                        android:layout_width="@dimen/dp_48"
+                        android:layout_height="@dimen/dp_48"
+                        android:layout_gravity="center"
+                        android:contentDescription="Avatar Preview"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_avatar_hero" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Name Input Box -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_14"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_nickname_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PLAYER NICKNAME"
+                        android:textColor="#737680"
+                        android:textSize="@dimen/sp_10"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_name_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_44"
+                        android:layout_marginTop="@dimen/dp_4"
+                        app:cardBackgroundColor="#FAF9F6"
+                        app:cardCornerRadius="@dimen/dp_12"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#E3E1D8"
+                        app:strokeWidth="@dimen/dp_1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="@dimen/dp_12"
+                            android:paddingEnd="@dimen/dp_12">
+
+                            <EditText
+                                android:id="@+id/et_player_name"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:hint="Enter Name"
+                                android:imeOptions="actionDone"
+                                android:inputType="textPersonName"
+                                android:maxLength="16"
+                                android:singleLine="true"
+                                android:textColor="#1E2024"
+                                android:textSize="@dimen/sp_14"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="✏️"
+                                android:textSize="@dimen/sp_14" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Google Play Games Sync Option Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_google_profile_toggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_14"
+                app:cardBackgroundColor="#FAF9F6"
+                app:cardCornerRadius="@dimen/dp_14"
+                app:cardElevation="0dp"
+                app:strokeColor="#E3E1D8"
+                app:strokeWidth="@dimen/dp_1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/dp_12"
+                    android:paddingEnd="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10">
+
+                    <ImageView
+                        android:id="@+id/iv_google_profile_icon"
+                        android:layout_width="@dimen/dp_26"
+                        android:layout_height="@dimen/dp_26"
+                        android:src="@drawable/ic_trophy"
+                        app:tint="#F59E0B" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_google_toggle_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Use Google Play Profile"
+                            android:textColor="#1E2024"
+                            android:textSize="@dimen/sp_13"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_google_toggle_subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Syncs with your Google Gamer Tag &amp; picture"
+                            android:textColor="#737680"
+                            android:textSize="@dimen/sp_10" />
+                    </LinearLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch_use_google_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="#F59E0B"
+                        app:trackTint="#FFE082" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Choose Avatar Grid Section -->
+            <TextView
+                android:id="@+id/tv_choose_avatar_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:text="CHOOSE AVATAR (12 CHOICES)"
+                android:textColor="#737680"
+                android:textSize="@dimen/sp_10"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_avatar_choices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_14"
+                android:clipToPadding="false"
+                android:overScrollMode="never" />
+
+            <!-- Save & Cancel Buttons -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_profile"
+                style="@style/GameButton.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:backgroundTint="#F59E0B"
+                android:text="Save Profile"
+                android:textColor="#181A1F"
+                android:textSize="@dimen/sp_15"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/dp_14" />
+
+            <Button
+                android:id="@+id/btn_cancel_profile"
+                style="@style/GameButton.Text"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_44"
+                android:layout_marginTop="@dimen/dp_4"
+                android:text="@string/cancel"
+                android:textColor="#737680"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

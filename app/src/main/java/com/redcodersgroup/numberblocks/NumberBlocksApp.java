@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.games.PlayGamesSdk;
 import com.redcodersgroup.numberblocks.audio.AmbientMusicManager;
 import com.redcodersgroup.numberblocks.storage.PreferencesManager;
 
@@ -32,6 +34,7 @@ public class NumberBlocksApp extends Application implements Application.Activity
         if (prefs.isMusicEnabled()) {
             musicManager.start();
         }
+        PlayGamesSdk.initialize(this);
     }
 
     @Override

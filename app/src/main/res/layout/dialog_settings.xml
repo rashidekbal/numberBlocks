@@ -33,6 +33,80 @@
                 android:textSize="@dimen/sp_18"
                 android:textStyle="bold" />
 
+            <!-- Player Profile Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_settings_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_14"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#FAF9F6"
+                app:cardCornerRadius="@dimen/dp_14"
+                app:cardElevation="0dp"
+                app:strokeColor="#E3E1D8"
+                app:strokeWidth="@dimen/dp_1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_10">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="@dimen/dp_44"
+                        android:layout_height="@dimen/dp_44"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardCornerRadius="@dimen/dp_22"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#F59E0B"
+                        app:strokeWidth="@dimen/dp_1">
+
+                        <ImageView
+                            android:id="@+id/iv_settings_avatar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_avatar_hero" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_settings_player_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="Player"
+                            android:textColor="#1E2024"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_settings_profile_hint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tap to change avatar &amp; nickname"
+                            android:textColor="#737680"
+                            android:textSize="@dimen/sp_11" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_18"
+                        android:layout_height="@dimen/dp_18"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="#737680" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Setting 1: Sound -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -184,16 +258,25 @@
                 app:cornerRadius="@dimen/dp_16"
                 app:strokeColor="#D9D7CE" />
 
-            <Button
-                android:id="@+id/btn_close_settings"
-                style="@style/GameButton.Text"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_48"
+                android:layout_height="wrap_content"
+                app:strokeColor="#D9D7CE"
+                app:strokeWidth="1dp"
+                app:cardCornerRadius="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_8"
-                android:text="@string/done"
-                android:textColor="#1E2024"
-                android:textSize="@dimen/sp_14"
-                android:textStyle="bold" />
+                >
+                <Button
+                    android:id="@+id/btn_close_settings"
+                    style="@style/GameButton.Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_48"
+
+                    android:text="@string/done"
+                    android:textColor="#1E2024"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

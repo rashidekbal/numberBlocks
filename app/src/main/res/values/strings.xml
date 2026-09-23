@@ -7,6 +7,14 @@
     <string name="admob_interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="admob_rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
 
+    <string translatable="false"  name="game_services_project_id">397181249333</string>
+
+    <!-- Play Games Services Leaderboard IDs (Replace with IDs from Google Play Console) -->
+    <string translatable="false" name="leaderboard_4x4_id">CgkItc7jzscLEAIQAQ</string>
+    <string translatable="false" name="leaderboard_5x5_id">CgkItc7jzscLEAIQAg</string>
+    <string translatable="false" name="leaderboard_6x6_id">CgkItc7jzscLEAIQAw</string>
+    <string name="btn_view_leaderboards">View Leaderboards</string>
+
     <!-- Navigation & Common Actions -->
     <string name="play_btn">▶  PLAY</string>
     <string name="back">Back</string>

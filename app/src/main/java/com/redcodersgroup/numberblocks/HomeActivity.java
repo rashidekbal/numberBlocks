@@ -26,6 +26,7 @@ import com.redcodersgroup.numberblocks.audio.HapticManager;
 import com.redcodersgroup.numberblocks.audio.SoundManager;
 import com.redcodersgroup.numberblocks.databinding.ActivityHomeBinding;
 import com.redcodersgroup.numberblocks.engine.GameSnapshot;
+import com.redcodersgroup.numberblocks.games.PlayGamesManager;
 import com.redcodersgroup.numberblocks.storage.PreferencesManager;
 import com.redcodersgroup.numberblocks.theme.Theme;
 import com.redcodersgroup.numberblocks.theme.ThemeManager;
@@ -165,6 +166,7 @@ public class HomeActivity extends AppCompatActivity {
         binding.btnActiveRunResume.setOnClickListener(v -> launchGame(currentSelectedSize, true));
 
         // Quick Controls
+        binding.btnHomeLeaderboard.setOnClickListener(v -> showLeaderboardsDialog());
         binding.btnHomeSettings.setOnClickListener(v -> showSettingsDialog());
         binding.btnHomeStats.setOnClickListener(v -> showStatsDialog());
         binding.btnHomeThemes.setOnClickListener(v -> showThemeDialog());
@@ -172,6 +174,10 @@ public class HomeActivity extends AppCompatActivity {
 
         // Load banner
         adsManager.loadBanner(this, binding.homeBannerContainer);
+
+        // Auto-prompt Play Games sign-in on first launch and sync historical high scores
+        PlayGamesManager.getInstance().promptFirstLaunchSignIn(this);
+        PlayGamesManager.getInstance().syncLocalScores(this);
     }
 
     private float touchDownX = 0;
@@ -268,7 +274,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private boolean isTouchInsideInteractiveUI(float rawX, float rawY) {
         if (binding == null) return false;
-        return isTouchInsideView(binding.btnHomeSettings, rawX, rawY) ||
+        return isTouchInsideView(binding.btnHomeLeaderboard, rawX, rawY) ||
+                isTouchInsideView(binding.btnHomeSettings, rawX, rawY) ||
                 isTouchInsideView(binding.containerHeroTabs, rawX, rawY) ||
                 isTouchInsideView(binding.cardHeroBoard, rawX, rawY) ||
                 isTouchInsideView(binding.cardActiveRun, rawX, rawY) ||
@@ -297,6 +304,15 @@ public class HomeActivity extends AppCompatActivity {
             settingsCircle.setStroke((int) (1 * getResources().getDisplayMetrics().density), theme.btnStrokeColor);
             binding.btnHomeSettings.setBackground(settingsCircle);
             binding.btnHomeSettings.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
+
+            if (binding.btnHomeLeaderboard != null) {
+                GradientDrawable lbCircle = new GradientDrawable();
+                lbCircle.setShape(GradientDrawable.OVAL);
+                lbCircle.setColor(theme.btnSurfaceColor);
+                lbCircle.setStroke((int) (1 * getResources().getDisplayMetrics().density), theme.btnStrokeColor);
+                binding.btnHomeLeaderboard.setBackground(lbCircle);
+                binding.btnHomeLeaderboard.setImageTintList(ColorStateList.valueOf(theme.textPrimaryColor));
+            }
 
             // Active Run Resume Card
             if (binding.cardActiveRun != null) {
@@ -542,6 +558,11 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void showLeaderboardsDialog() {
+        hapticManager.click();
+        currentDialog = DialogHelper.showLeaderboardDialog(this, currentSelectedSize);
     }
 
     private void showStatsDialog() {

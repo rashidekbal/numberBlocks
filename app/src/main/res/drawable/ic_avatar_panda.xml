@@ -1,0 +1,75 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Outer Gold Ring -->
+    <path
+        android:pathData="M24,2 A22,22 0 1,0 24,46 A22,22 0 1,0 24,2 Z"
+        android:fillColor="#F59E0B" />
+
+    <!-- Inner Background Circle (Bamboo Emerald) -->
+    <path
+        android:pathData="M24,3.5 A20.5,20.5 0 1,0 24,44.5 A20.5,20.5 0 1,0 24,3.5 Z"
+        android:fillColor="#059669" />
+    <path
+        android:pathData="M24,4 A19,19 0 1,0 24,42 A19,19 0 1,0 24,4 Z"
+        android:fillColor="#34D399" />
+
+    <!-- Panda Black Ears -->
+    <path
+        android:pathData="M13,11 A5,5 0 1,0 13,21 A5,5 0 1,0 13,11 Z"
+        android:fillColor="#1E293B" />
+    <path
+        android:pathData="M35,11 A5,5 0 1,0 35,21 A5,5 0 1,0 35,11 Z"
+        android:fillColor="#1E293B" />
+
+    <!-- Panda White Head -->
+    <path
+        android:pathData="M24,14 C13,14 12,24 12,31 C12,38 18,42 24,42 C30,42 36,38 36,31 C36,24 35,14 24,14 Z"
+        android:fillColor="#FFFFFF" />
+
+    <!-- Panda Black Eye Patches (Angled Ovals) -->
+    <path
+        android:pathData="M18.5,22 C16,23 15,28 17,30 C19,32 21.5,29 21,25 C20.8,23 19.5,21.5 18.5,22 Z"
+        android:fillColor="#1E293B" />
+    <path
+        android:pathData="M29.5,22 C32,23 33,28 31,30 C29,32 26.5,29 27,25 C27.2,23 28.5,21.5 29.5,22 Z"
+        android:fillColor="#1E293B" />
+
+    <!-- Eyes (Inside Patches) -->
+    <path
+        android:pathData="M18.5,24.5 A1.6,1.6 0 1,0 18.5,27.7 A1.6,1.6 0 1,0 18.5,24.5 Z"
+        android:fillColor="#FFFFFF" />
+    <path
+        android:pathData="M29.5,24.5 A1.6,1.6 0 1,0 29.5,27.7 A1.6,1.6 0 1,0 29.5,24.5 Z"
+        android:fillColor="#FFFFFF" />
+    <!-- Pupils -->
+    <path
+        android:pathData="M18.7,25.3 A0.9,0.9 0 1,0 18.7,27.1 A0.9,0.9 0 1,0 18.7,25.3 Z"
+        android:fillColor="#0F172A" />
+    <path
+        android:pathData="M29.3,25.3 A0.9,0.9 0 1,0 29.3,27.1 A0.9,0.9 0 1,0 29.3,25.3 Z"
+        android:fillColor="#0F172A" />
+
+    <!-- Rosy Cheeks -->
+    <path
+        android:pathData="M14.5,31 A2,1.4 0 1,0 14.5,33.8 A2,1.4 0 1,0 14.5,31 Z"
+        android:fillColor="#F472B6" />
+    <path
+        android:pathData="M33.5,31 A2,1.4 0 1,0 33.5,33.8 A2,1.4 0 1,0 33.5,31 Z"
+        android:fillColor="#F472B6" />
+
+    <!-- Panda Nose -->
+    <path
+        android:pathData="M22.5,30 C22.5,29.5 25.5,29.5 25.5,30 C25.5,31.5 22.5,31.5 22.5,30 Z"
+        android:fillColor="#0F172A" />
+
+    <!-- Panda Smile -->
+    <path
+        android:pathData="M24,31 L24,33 M24,33 Q22,35.5 20,33.5 M24,33 Q26,35.5 28,33.5"
+        android:strokeColor="#0F172A"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round" />
+</vector>

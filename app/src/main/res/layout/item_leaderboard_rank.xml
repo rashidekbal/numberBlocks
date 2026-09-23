@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_leaderboard_row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_6"
+    app:cardBackgroundColor="#FAF9F6"
+    app:cardCornerRadius="@dimen/dp_12"
+    app:cardElevation="0dp"
+    app:strokeColor="#E3E1D8"
+    app:strokeWidth="@dimen/dp_1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_14"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10">
+
+        <!-- Rank Badge -->
+        <FrameLayout
+            android:id="@+id/layout_rank_badge"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"
+            android:background="@drawable/circle_badge">
+
+            <TextView
+                android:id="@+id/tv_item_rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="1"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/sp_12"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!-- Player Name + (You) indicator -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_item_player_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Player Name"
+                android:textColor="#1E2024"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_item_you_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="YOU"
+                android:textColor="#F59E0B"
+                android:textSize="@dimen/sp_10"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Score -->
+        <TextView
+            android:id="@+id/tv_item_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2,048"
+            android:textColor="#1E2024"
+            android:textSize="@dimen/sp_15"
+            android:textStyle="bold" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

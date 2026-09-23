@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:clipChildren="false"
+    android:padding="@dimen/dp_6">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_avatar_item"
+        android:layout_width="@dimen/dp_56"
+        android:layout_height="@dimen/dp_56"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#FAF9F6"
+        app:cardCornerRadius="@dimen/dp_16"
+        app:cardElevation="0dp"
+        app:strokeColor="#E3E1D8"
+        app:strokeWidth="@dimen/dp_1">
+
+        <ImageView
+            android:id="@+id/iv_avatar_icon"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="center"
+            android:contentDescription="Avatar"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_avatar_hero" />
+
+        <!-- Checkmark Badge -->
+        <FrameLayout
+            android:id="@+id/layout_avatar_check"
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_18"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_2"
+            android:background="@drawable/circle_badge"
+            android:backgroundTint="#F59E0B"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="✓"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/sp_10"
+                android:textStyle="bold" />
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>
