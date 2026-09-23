@@ -76,6 +76,24 @@
 # ViewBinding classes
 -keep class com.redcodersgroup.numberblocks.databinding.** { *; }
 
+# WorkManager, Room Database & App Startup (required by Google Mobile Ads)
+-keep class androidx.work.** { *; }
+-keep class androidx.work.impl.** { *; }
+-keep class * extends androidx.work.Worker { *; }
+-keep class * extends androidx.work.ListenableWorker { *; }
+-keep class * extends androidx.work.InputMerger { *; }
+-keep class androidx.work.impl.WorkDatabase_Impl { *; }
+-keep class * extends androidx.work.impl.WorkDatabase { *; }
+-keep class * extends androidx.room.RoomDatabase { *; }
+-keep class androidx.room.** { *; }
+-dontwarn androidx.work.**
+-dontwarn androidx.room.**
+
+-keep class androidx.startup.** { *; }
+-keep class * extends androidx.startup.Initializer { *; }
+-keep class * implements androidx.startup.Initializer { *; }
+-dontwarn androidx.startup.**
+
 # ------------------------------------------------------------------------------
 # 7. Custom Views & View Components (Inflated via XML)
 # ------------------------------------------------------------------------------
