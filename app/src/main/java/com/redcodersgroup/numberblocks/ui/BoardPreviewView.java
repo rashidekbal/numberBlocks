@@ -145,6 +145,9 @@ public class BoardPreviewView extends View {
             matrix = PREVIEW_MATRICES[matrixIdx];
         }
 
+        float offsetX = (width - size) / 2f;
+        float offsetY = (height - size) / 2f;
+
         float padding = size * (10f / 220f);
         float gap = size * (gridDim == 4 ? (7f / 220f) : gridDim == 5 ? (5f / 220f) : (4f / 220f));
         float cellSize = (size - padding * 2 - gap * (gridDim - 1)) / gridDim;
@@ -154,15 +157,15 @@ public class BoardPreviewView extends View {
         // 1. Board Well Base
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(theme.boardColor);
-        rectF.set(0, 0, size, size);
+        rectF.set(offsetX, offsetY, offsetX + size, offsetY + size);
         canvas.drawRoundRect(rectF, boardRadius, boardRadius, paint);
 
         // 2. Empty Matrix Cells
         paint.setColor(theme.emptyCellColor);
         for (int r = 0; r < gridDim; r++) {
             for (int c = 0; c < gridDim; c++) {
-                float left = padding + c * (cellSize + gap);
-                float top = padding + r * (cellSize + gap);
+                float left = offsetX + padding + c * (cellSize + gap);
+                float top = offsetY + padding + r * (cellSize + gap);
                 rectF.set(left, top, left + cellSize, top + cellSize);
                 canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
             }
@@ -175,8 +178,8 @@ public class BoardPreviewView extends View {
                 int val = matrix[r][c];
                 if (val <= 0) continue;
 
-                float left = padding + c * (cellSize + gap);
-                float top = padding + r * (cellSize + gap);
+                float left = offsetX + padding + c * (cellSize + gap);
+                float top = offsetY + padding + r * (cellSize + gap);
 
                 // Subtle Tile Shadow
                 paint.setColor(Color.argb(40, 0, 0, 0));

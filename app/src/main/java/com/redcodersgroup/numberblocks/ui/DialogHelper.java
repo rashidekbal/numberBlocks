@@ -31,6 +31,7 @@ import com.redcodersgroup.numberblocks.profile.AvatarManager;
 import com.redcodersgroup.numberblocks.databinding.DialogCareerStatsBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogLeaderboardBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogConfirmExitBinding;
+import com.redcodersgroup.numberblocks.databinding.DialogConfirmNewGameBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogFirstTimeInstructionBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogGameOverBinding;
 import com.redcodersgroup.numberblocks.databinding.DialogMilestoneBinding;
@@ -124,6 +125,7 @@ public class DialogHelper {
                     viewId == R.id.btn_cancel_profile ||
                     viewId == R.id.btn_theme_confirm_cancel ||
                     viewId == R.id.btn_dialog_new_game ||
+                    viewId == R.id.btn_dialog_confirm_cancel ||
                     (textColor == Color.parseColor("#737680") && viewId != R.id.btn_save_profile) ||
                     ((bgColor == 0 || Color.alpha(bgColor) == 0) && viewId != R.id.btn_save_profile && viewId != R.id.btn_view_leaderboards)
             ));
@@ -880,10 +882,25 @@ public class DialogHelper {
 
         binding.btnDialogNewGame.setOnClickListener(view -> {
             dialog.dismiss();
-            if (onNewGame != null) onNewGame.run();
+            showConfirmNewGame(activity, onNewGame);
         });
 
         binding.btnDialogCancel.setOnClickListener(view -> dialog.dismiss());
+
+        dialog.show();
+        return dialog;
+    }
+
+    public static Dialog showConfirmNewGame(Activity activity, Runnable onProceed) {
+        DialogConfirmNewGameBinding binding = DialogConfirmNewGameBinding.inflate(activity.getLayoutInflater());
+        Dialog dialog = createBaseDialog(activity, binding.getRoot(), true);
+
+        binding.btnDialogConfirmProceed.setOnClickListener(view -> {
+            dialog.dismiss();
+            if (onProceed != null) onProceed.run();
+        });
+
+        binding.btnDialogConfirmCancel.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
         return dialog;

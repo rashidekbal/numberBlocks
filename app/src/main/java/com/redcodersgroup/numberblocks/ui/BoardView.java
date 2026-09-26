@@ -237,12 +237,17 @@ public class BoardView extends View {
 
     private void spawnParticles(Tile tile) {
         int width = getWidth();
+        int height = getHeight();
+        int boardDimension = Math.min(width, height);
+        if (boardDimension <= 0) return;
+        float offsetX = (width - boardDimension) / 2f;
+        float offsetY = (height - boardDimension) / 2f;
         int size = gameEngine != null ? gameEngine.getSize() : 4;
-        float padding = width * 0.035f;
-        float gap = width * 0.024f;
-        float cellSize = (width - padding * 2 - gap * (size - 1)) / size;
-        float cx = padding + tile.getCol() * (cellSize + gap) + cellSize / 2;
-        float cy = padding + tile.getRow() * (cellSize + gap) + cellSize / 2;
+        float padding = boardDimension * 0.035f;
+        float gap = boardDimension * 0.024f;
+        float cellSize = (boardDimension - padding * 2 - gap * (size - 1)) / size;
+        float cx = offsetX + padding + tile.getCol() * (cellSize + gap) + cellSize / 2f;
+        float cy = offsetY + padding + tile.getRow() * (cellSize + gap) + cellSize / 2f;
 
         Theme theme = ThemeManager.getInstance().getCurrentTheme();
         int color = theme.getTileColor(tile.getValue());
@@ -256,12 +261,17 @@ public class BoardView extends View {
 
     private void spawnShockwave(Tile tile) {
         int width = getWidth();
+        int height = getHeight();
+        int boardDimension = Math.min(width, height);
+        if (boardDimension <= 0) return;
+        float offsetX = (width - boardDimension) / 2f;
+        float offsetY = (height - boardDimension) / 2f;
         int size = gameEngine != null ? gameEngine.getSize() : 4;
-        float padding = width * 0.035f;
-        float gap = width * 0.024f;
-        float cellSize = (width - padding * 2 - gap * (size - 1)) / size;
-        float cx = padding + tile.getCol() * (cellSize + gap) + cellSize / 2f;
-        float cy = padding + tile.getRow() * (cellSize + gap) + cellSize / 2f;
+        float padding = boardDimension * 0.035f;
+        float gap = boardDimension * 0.024f;
+        float cellSize = (boardDimension - padding * 2 - gap * (size - 1)) / size;
+        float cx = offsetX + padding + tile.getCol() * (cellSize + gap) + cellSize / 2f;
+        float cy = offsetY + padding + tile.getRow() * (cellSize + gap) + cellSize / 2f;
 
         Theme theme = ThemeManager.getInstance().getCurrentTheme();
         int color = theme.getTileColor(tile.getValue());
@@ -270,12 +280,17 @@ public class BoardView extends View {
 
     private void spawnScoreFloater(Tile tile) {
         int width = getWidth();
+        int height = getHeight();
+        int boardDimension = Math.min(width, height);
+        if (boardDimension <= 0) return;
+        float offsetX = (width - boardDimension) / 2f;
+        float offsetY = (height - boardDimension) / 2f;
         int size = gameEngine != null ? gameEngine.getSize() : 4;
-        float padding = width * 0.035f;
-        float gap = width * 0.024f;
-        float cellSize = (width - padding * 2 - gap * (size - 1)) / size;
-        float cx = padding + tile.getCol() * (cellSize + gap) + cellSize / 2f;
-        float cy = padding + tile.getRow() * (cellSize + gap) + cellSize / 2f;
+        float padding = boardDimension * 0.035f;
+        float gap = boardDimension * 0.024f;
+        float cellSize = (boardDimension - padding * 2 - gap * (size - 1)) / size;
+        float cx = offsetX + padding + tile.getCol() * (cellSize + gap) + cellSize / 2f;
+        float cy = offsetY + padding + tile.getRow() * (cellSize + gap) + cellSize / 2f;
 
         Theme theme = ThemeManager.getInstance().getCurrentTheme();
         scoreFloaters.add(new ScoreFloater(cx, cy - cellSize * 0.22f, "+" + tile.getValue(), theme.textPrimaryColor));
@@ -298,8 +313,35 @@ public class BoardView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        setMeasuredDimension(width, width);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        int size;
+        if (widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY) {
+            size = Math.min(widthSize, heightSize);
+        } else if (widthMode == MeasureSpec.EXACTLY) {
+            size = widthSize;
+            if (heightMode != MeasureSpec.UNSPECIFIED && heightSize > 0) {
+                size = Math.min(size, heightSize);
+            }
+        } else if (heightMode == MeasureSpec.EXACTLY) {
+            size = heightSize;
+            if (widthMode != MeasureSpec.UNSPECIFIED && widthSize > 0) {
+                size = Math.min(size, widthSize);
+            }
+        } else if (widthMode != MeasureSpec.UNSPECIFIED && heightMode != MeasureSpec.UNSPECIFIED) {
+            size = Math.min(widthSize, heightSize);
+        } else if (widthMode != MeasureSpec.UNSPECIFIED) {
+            size = widthSize;
+        } else if (heightMode != MeasureSpec.UNSPECIFIED) {
+            size = heightSize;
+        } else {
+            size = (int) (320 * getResources().getDisplayMetrics().density);
+        }
+
+        setMeasuredDimension(size, size);
     }
 
     @Override
@@ -309,26 +351,32 @@ public class BoardView extends View {
 
         Theme theme = ThemeManager.getInstance().getCurrentTheme();
         int width = getWidth();
+        int height = getHeight();
+        int boardDimension = Math.min(width, height);
+        if (boardDimension <= 0) return;
+
+        float offsetX = (width - boardDimension) / 2f;
+        float offsetY = (height - boardDimension) / 2f;
         int size = gameEngine.getSize();
 
-        float padding = width * 0.035f;
-        float gap = width * 0.024f;
-        float cellSize = (width - padding * 2 - gap * (size - 1)) / size;
+        float padding = boardDimension * 0.035f;
+        float gap = boardDimension * 0.024f;
+        float cellSize = (boardDimension - padding * 2 - gap * (size - 1)) / size;
         float cornerRadius = cellSize * 0.18f;
         float shadowOffset = cellSize * 0.03f;
 
         // 1. Board Well Base (Architectural matte surface)
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(theme.boardColor);
-        rectF.set(0, 0, width, width);
+        rectF.set(offsetX, offsetY, offsetX + boardDimension, offsetY + boardDimension);
         canvas.drawRoundRect(rectF, cornerRadius * 1.4f, cornerRadius * 1.4f, paint);
 
         // 2. Empty Matrix Cells
         paint.setColor(theme.emptyCellColor);
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < size; c++) {
-                float left = padding + c * (cellSize + gap);
-                float top = padding + r * (cellSize + gap);
+                float left = offsetX + padding + c * (cellSize + gap);
+                float top = offsetY + padding + r * (cellSize + gap);
                 rectF.set(left, top, left + cellSize, top + cellSize);
                 canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
             }
@@ -344,8 +392,8 @@ public class BoardView extends View {
                 float currR = tile.getPrevRow() + (tile.getRow() - tile.getPrevRow()) * animationProgress;
                 float currC = tile.getPrevCol() + (tile.getCol() - tile.getPrevCol()) * animationProgress;
 
-                float left = padding + currC * (cellSize + gap);
-                float top = padding + currR * (cellSize + gap);
+                float left = offsetX + padding + currC * (cellSize + gap);
+                float top = offsetY + padding + currR * (cellSize + gap);
 
                 float scale = 1.0f;
                 float tileAlpha = 1.0f;

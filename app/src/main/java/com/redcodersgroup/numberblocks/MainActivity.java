@@ -118,6 +118,15 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
         rootLayout = binding.rootLayout;
         StatusBarHelper.hideSystemBars(this);
         StatusBarHelper.applySystemBarInsets(rootLayout);
+
+        // Responsive tablet/foldable width centering
+        android.util.DisplayMetrics dm = getResources().getDisplayMetrics();
+        int screenWidth = dm.widthPixels;
+        int maxContentWidth = (int) (520 * dm.density);
+        if (screenWidth > maxContentWidth) {
+            int extraPadding = (screenWidth - maxContentWidth) / 2;
+            rootLayout.setPadding(extraPadding, rootLayout.getPaddingTop(), extraPadding, rootLayout.getPaddingBottom());
+        }
         boardView = binding.boardView;
         comboBurstView = binding.comboBurstView;
         tvScore = binding.tvScore;

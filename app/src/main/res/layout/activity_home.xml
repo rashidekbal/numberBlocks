@@ -105,8 +105,8 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/container_hero_tabs"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_46"
-                android:layout_marginBottom="@dimen/dp_18"
+                android:layout_height="@dimen/dp_44"
+                android:layout_marginBottom="@dimen/dp_12"
                 app:cardBackgroundColor="#EDE0C8"
                 app:cardCornerRadius="@dimen/dp_16"
                 app:cardElevation="0dp"
@@ -208,22 +208,21 @@
                 app:strokeColor="#E8E2D2"
                 app:strokeWidth="@dimen/dp_1">
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingStart="@dimen/dp_20"
-                    android:paddingTop="@dimen/dp_24"
-                    android:paddingEnd="@dimen/dp_20"
-                    android:paddingBottom="@dimen/dp_20">
+                    android:paddingStart="@dimen/dp_16"
+                    android:paddingTop="@dimen/dp_16"
+                    android:paddingEnd="@dimen/dp_16"
+                    android:paddingBottom="@dimen/dp_16">
 
                     <!-- Visual Board Preview -->
                     <com.redcodersgroup.numberblocks.ui.BoardPreviewView
                         android:id="@+id/preview_hero_board"
-                        android:layout_width="@dimen/dp_220"
-                        android:layout_height="@dimen/dp_220"
+                        android:layout_width="@dimen/dp_200"
+                        android:layout_height="@dimen/dp_200"
                         android:layout_gravity="center" />
 
                     <!-- Grid Size Label Directly Below Board -->
@@ -231,17 +230,17 @@
                         android:id="@+id/tv_hero_grid_size"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:text="4 × 4"
                         android:textColor="#776E65"
-                        android:textSize="@dimen/sp_28"
+                        android:textSize="@dimen/sp_24"
                         android:textStyle="bold" />
 
                     <!-- Indicator Dots -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_14"
+                        android:layout_marginTop="@dimen/dp_8"
                         android:gravity="center"
                         android:orientation="horizontal">
 

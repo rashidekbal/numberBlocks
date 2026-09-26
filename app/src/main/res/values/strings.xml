@@ -2,10 +2,10 @@
     <string name="app_name">Number Blocks Merge</string>
 
     <!-- AdMob App & Ad Unit IDs (replace with your production IDs) -->
-    <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admob_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="admob_interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="admob_rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-9058932172366374~5423345858</string>
+    <string name="admob_banner_id" translatable="false">ca-app-pub-9058932172366374/2506372629</string>
+    <string name="admob_interstitial_id" translatable="false">ca-app-pub-9058932172366374/6867366020</string>
+    <string name="admob_rewarded_id" translatable="false">ca-app-pub-9058932172366374/5802444792</string>
 
     <string translatable="false"  name="game_services_project_id">397181249333</string>
 
@@ -31,6 +31,9 @@
     <string name="confirm_restart">Restart Game</string>
     <string name="cancel">Cancel</string>
     <string name="new_game">New Game</string>
+    <string name="start_new_game_title">Start New Game?</string>
+    <string name="lose_progress_warning">You will lose the progress so far.</string>
+    <string name="proceed">Proceed</string>
     <string name="revive">REVIVE (WATCH AD)</string>
     <string name="revive_watch_ad">Revive (Watch Ad)</string>
     <string name="revive_success">Revived! Lowest tiles cleared.</string>

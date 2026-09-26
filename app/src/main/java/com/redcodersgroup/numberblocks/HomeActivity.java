@@ -72,6 +72,15 @@ public class HomeActivity extends AppCompatActivity {
         StatusBarHelper.hideSystemBars(this);
         StatusBarHelper.applySystemBarInsets(binding.getRoot());
 
+        // Responsive tablet/foldable width centering
+        android.util.DisplayMetrics dm = getResources().getDisplayMetrics();
+        int screenWidth = dm.widthPixels;
+        int maxContentWidth = (int) (480 * dm.density);
+        if (screenWidth > maxContentWidth) {
+            int extraPadding = (screenWidth - maxContentWidth) / 2;
+            binding.homeRoot.setPadding(extraPadding, binding.homeRoot.getPaddingTop(), extraPadding, binding.homeRoot.getPaddingBottom());
+        }
+
         int lastSize = prefs.getLastPlayedSize();
         if (lastSize >= 4 && lastSize <= 6) {
             currentSelectedSize = lastSize;
