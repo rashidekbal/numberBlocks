@@ -38,6 +38,11 @@ public class AdsManager {
 
     public void init(Context context) {
         try {
+            RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
+                    .setMaxAdContentRating(RequestConfiguration.MAX_AD_CONTENT_RATING_G)
+                    .build();
+            MobileAds.setRequestConfiguration(requestConfiguration);
+
             MobileAds.initialize(context, initializationStatus -> {});
             loadInterstitial(context);
             loadRewarded(context);

@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Number Blocks Merge</string>
 
-    <!-- AdMob App & Ad Unit IDs (replace with your production IDs) -->
-    <string name="admob_app_id" translatable="false">ca-app-pub-9058932172366374~5423345858</string>
-    <string name="admob_banner_id" translatable="false">ca-app-pub-9058932172366374/2506372629</string>
-    <string name="admob_interstitial_id" translatable="false">ca-app-pub-9058932172366374/6867366020</string>
-    <string name="admob_rewarded_id" translatable="false">ca-app-pub-9058932172366374/5802444792</string>
+    <!-- AdMob App & Ad Unit IDs -->
+    <string name="admob_app_id" translatable="false">ca-app-pub-1147620738869495~5773135570</string>
+    <string name="admob_banner_id" translatable="false">ca-app-pub-1147620738869495/5258130250</string>
+    <string name="admob_interstitial_id" translatable="false">ca-app-pub-1147620738869495/3091131917</string>
+    <string name="admob_rewarded_id" translatable="false">ca-app-pub-1147620738869495/6734863450</string>
 
     <string translatable="false"  name="game_services_project_id">397181249333</string>
 
@@ -34,9 +34,12 @@
     <string name="start_new_game_title">Start New Game?</string>
     <string name="lose_progress_warning">You will lose the progress so far.</string>
     <string name="proceed">Proceed</string>
-    <string name="revive">REVIVE (WATCH AD)</string>
-    <string name="revive_watch_ad">Revive (Watch Ad)</string>
+    <string name="revive">[AD] WATCH VIDEO TO REVIVE 🎬</string>
+    <string name="revive_watch_ad">[AD] Watch Video to Revive 🎬</string>
     <string name="revive_success">Revived! Lowest tiles cleared.</string>
+    <string name="undo_ad_title">Watch Ad to Undo?</string>
+    <string name="undo_ad_desc">You are out of free undos. Watch a short video ad to undo your last move?</string>
+    <string name="ad_watch_video_btn">[AD] WATCH VIDEO 🎬</string>
     <string name="select_theme">Select Theme</string>
     <string name="press_again_to_exit">Press back again to exit</string>
 

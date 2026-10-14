@@ -12,7 +12,32 @@
           "package_name": "com.redcodersgroup.numberblocks"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "397181249333-1d76kktg9mrmgaenklapfv5fv496ip5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.redcodersgroup.numberblocks",
+            "certificate_hash": "1d288dd778f45546a5569a145fd48dc513bffd42"
+          }
+        },
+        {
+          "client_id": "397181249333-8miljlrsq0spl1haark20c14fug0m0vb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.redcodersgroup.numberblocks",
+            "certificate_hash": "99659349f033c53b5bc5b3ed33a438c261570c6a"
+          }
+        },
+        {
+          "client_id": "397181249333-rp1dh6dt44q9tc5k5mugdp7qtsd0tie8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.redcodersgroup.numberblocks",
+            "certificate_hash": "7842fa4625c9da3e73734fc33a204cebd391ff0e"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDf1NW85DitowHrvMTamGQZBK80ZkNCHEE"

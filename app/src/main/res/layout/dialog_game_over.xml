@@ -153,16 +153,16 @@
                 android:layout_marginTop="@dimen/dp_20"
                 android:orientation="vertical">
 
-                <!-- Top: Full-Width Radiant Revive Action Button -->
+                <!-- Top: Full-Width Radiant Revive Action Button with explicit [AD] mark -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_gameover_revive"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_50"
                     android:layout_marginBottom="@dimen/dp_10"
                     android:backgroundTint="#F59E0B"
-                    android:text="⭐ REVIVE (WATCH AD)"
+                    android:text="@string/revive"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/sp_14"
+                    android:textSize="@dimen/sp_13"
                     android:textStyle="bold"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"

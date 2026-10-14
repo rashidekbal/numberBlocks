@@ -334,7 +334,12 @@
         </FrameLayout>
     </FrameLayout>
 
-    <!-- Ad Container -->
+    <!-- Ad Container with distinct boundary -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#14000000" />
+
     <FrameLayout
         android:id="@+id/banner_container"
         android:layout_width="match_parent"

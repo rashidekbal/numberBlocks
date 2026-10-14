@@ -441,6 +441,27 @@ public class DialogHelper {
         confirmDialog.show();
     }
 
+    public static Dialog showUndoAdConfirm(Activity activity, Runnable onConfirm) {
+        DialogThemeAdConfirmBinding confirmBinding = DialogThemeAdConfirmBinding.inflate(activity.getLayoutInflater());
+        Dialog confirmDialog = createBaseDialog(activity, confirmBinding.getRoot(), true);
+
+        confirmBinding.tvThemeConfirmTitle.setText(R.string.undo_ad_title);
+        confirmBinding.tvThemeConfirmMsg.setText(R.string.undo_ad_desc);
+        confirmBinding.btnThemeConfirmWatch.setText(R.string.ad_watch_video_btn);
+
+        confirmBinding.btnThemeConfirmWatch.setOnClickListener(v -> {
+            confirmDialog.dismiss();
+            if (onConfirm != null) {
+                onConfirm.run();
+            }
+        });
+
+        confirmBinding.btnThemeConfirmCancel.setOnClickListener(v -> confirmDialog.dismiss());
+
+        confirmDialog.show();
+        return confirmDialog;
+    }
+
     public static Dialog showSettings(Activity activity, boolean soundEnabled, boolean hapticsEnabled, SettingsListener listener) {
         boolean musicEnabled = PreferencesManager.getInstance(activity).isMusicEnabled();
         return showSettings(activity, soundEnabled, musicEnabled, hapticsEnabled, listener);

@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_54"
                     android:backgroundTint="#F59E0B"
-                    android:text="WATCH AD 🎬"
+                    android:text="@string/ad_watch_video_btn"
                     android:textColor="#181A1F"
                     android:textSize="@dimen/sp_15"
                     android:textStyle="bold"

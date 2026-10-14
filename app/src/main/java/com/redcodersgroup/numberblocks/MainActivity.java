@@ -466,9 +466,10 @@ public class MainActivity extends AppCompatActivity implements GameEngine.Listen
             }
             performUndo();
         } else {
-            Toast.makeText(this, R.string.watch_ad_undo, Toast.LENGTH_SHORT).show();
-            adsManager.showRewarded(this, reward -> {
-                performUndo();
+            DialogHelper.showUndoAdConfirm(this, () -> {
+                adsManager.showRewarded(this, reward -> {
+                    performUndo();
+                });
             });
         }
     }

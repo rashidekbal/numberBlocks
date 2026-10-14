@@ -392,7 +392,12 @@
             app:strokeColor="#CDC1B4" />
     </LinearLayout>
 
-    <!-- Bottom Banner Container -->
+    <!-- Bottom Banner Container with distinct boundary -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#14000000" />
+
     <FrameLayout
         android:id="@+id/home_banner_container"
         android:layout_width="match_parent"
